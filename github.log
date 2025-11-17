@@ -1,0 +1,165 @@
+build_site	Set up job	﻿2025-11-17T05:16:30.8134282Z Current runner version: '2.329.0'
+build_site	Set up job	2025-11-17T05:16:30.8158400Z ##[group]Runner Image Provisioner
+build_site	Set up job	2025-11-17T05:16:30.8159258Z Hosted Compute Agent
+build_site	Set up job	2025-11-17T05:16:30.8159865Z Version: 20251016.436
+build_site	Set up job	2025-11-17T05:16:30.8160511Z Commit: 8ab8ac8bfd662a3739dab9fe09456aba92132568
+build_site	Set up job	2025-11-17T05:16:30.8161208Z Build Date: 2025-10-15T20:44:12Z
+build_site	Set up job	2025-11-17T05:16:30.8161857Z ##[endgroup]
+build_site	Set up job	2025-11-17T05:16:30.8162692Z ##[group]Operating System
+build_site	Set up job	2025-11-17T05:16:30.8163265Z Ubuntu
+build_site	Set up job	2025-11-17T05:16:30.8163834Z 24.04.3
+build_site	Set up job	2025-11-17T05:16:30.8164317Z LTS
+build_site	Set up job	2025-11-17T05:16:30.8164801Z ##[endgroup]
+build_site	Set up job	2025-11-17T05:16:30.8165272Z ##[group]Runner Image
+build_site	Set up job	2025-11-17T05:16:30.8165936Z Image: ubuntu-24.04
+build_site	Set up job	2025-11-17T05:16:30.8166442Z Version: 20251112.124.1
+build_site	Set up job	2025-11-17T05:16:30.8167450Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251112.124/images/ubuntu/Ubuntu2404-Readme.md
+build_site	Set up job	2025-11-17T05:16:30.8168873Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251112.124
+build_site	Set up job	2025-11-17T05:16:30.8170048Z ##[endgroup]
+build_site	Set up job	2025-11-17T05:16:30.8171164Z ##[group]GITHUB_TOKEN Permissions
+build_site	Set up job	2025-11-17T05:16:30.8173127Z Contents: read
+build_site	Set up job	2025-11-17T05:16:30.8173815Z Metadata: read
+build_site	Set up job	2025-11-17T05:16:30.8174340Z Packages: read
+build_site	Set up job	2025-11-17T05:16:30.8174827Z ##[endgroup]
+build_site	Set up job	2025-11-17T05:16:30.8176940Z Secret source: Actions
+build_site	Set up job	2025-11-17T05:16:30.8177636Z Prepare workflow directory
+build_site	Set up job	2025-11-17T05:16:30.8558256Z Prepare all required actions
+build_site	Set up job	2025-11-17T05:16:30.8596806Z Getting action download info
+build_site	Set up job	2025-11-17T05:16:31.3224402Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+build_site	Set up job	2025-11-17T05:16:31.4900494Z Download action repository 'pnpm/action-setup@v3' (SHA:a3252b78c470c02df07e9d59298aecedc3ccdd6d)
+build_site	Set up job	2025-11-17T05:16:32.1721419Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+build_site	Set up job	2025-11-17T05:16:32.2632151Z Download action repository 'actions/upload-pages-artifact@v3' (SHA:56afc609e74202658d3ffba0e8f6dda462b719fa)
+build_site	Set up job	2025-11-17T05:16:32.7797562Z Getting action download info
+build_site	Set up job	2025-11-17T05:16:32.9334369Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build_site	Set up job	2025-11-17T05:16:33.0728745Z Complete job name: build_site
+build_site	Checkout	﻿2025-11-17T05:16:33.1485378Z ##[group]Run actions/checkout@v4
+build_site	Checkout	2025-11-17T05:16:33.1486933Z with:
+build_site	Checkout	2025-11-17T05:16:33.1487740Z   repository: martinprad0/calicapitalfest
+build_site	Checkout	2025-11-17T05:16:33.1488948Z   token: ***
+build_site	Checkout	2025-11-17T05:16:33.1489611Z   ssh-strict: true
+build_site	Checkout	2025-11-17T05:16:33.1490349Z   ssh-user: git
+build_site	Checkout	2025-11-17T05:16:33.1491068Z   persist-credentials: true
+build_site	Checkout	2025-11-17T05:16:33.1491873Z   clean: true
+build_site	Checkout	2025-11-17T05:16:33.1492740Z   sparse-checkout-cone-mode: true
+build_site	Checkout	2025-11-17T05:16:33.1493636Z   fetch-depth: 1
+build_site	Checkout	2025-11-17T05:16:33.1494349Z   fetch-tags: false
+build_site	Checkout	2025-11-17T05:16:33.1495069Z   show-progress: true
+build_site	Checkout	2025-11-17T05:16:33.1495788Z   lfs: false
+build_site	Checkout	2025-11-17T05:16:33.1496452Z   submodules: false
+build_site	Checkout	2025-11-17T05:16:33.1497191Z   set-safe-directory: true
+build_site	Checkout	2025-11-17T05:16:33.1498276Z ##[endgroup]
+build_site	Checkout	2025-11-17T05:16:33.2576373Z Syncing repository: martinprad0/calicapitalfest
+build_site	Checkout	2025-11-17T05:16:33.2578902Z ##[group]Getting Git version info
+build_site	Checkout	2025-11-17T05:16:33.2580309Z Working directory is '/home/runner/work/calicapitalfest/calicapitalfest'
+build_site	Checkout	2025-11-17T05:16:33.2582289Z [command]/usr/bin/git version
+build_site	Checkout	2025-11-17T05:16:33.2641936Z git version 2.51.2
+build_site	Checkout	2025-11-17T05:16:33.2668144Z ##[endgroup]
+build_site	Checkout	2025-11-17T05:16:33.2682949Z Temporarily overriding HOME='/home/runner/work/_temp/f8797c02-33de-40a0-9226-944a8cf84a76' before making global git config changes
+build_site	Checkout	2025-11-17T05:16:33.2686061Z Adding repository directory to the temporary git global config as a safe directory
+build_site	Checkout	2025-11-17T05:16:33.2695385Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/calicapitalfest/calicapitalfest
+build_site	Checkout	2025-11-17T05:16:33.2730383Z Deleting the contents of '/home/runner/work/calicapitalfest/calicapitalfest'
+build_site	Checkout	2025-11-17T05:16:33.2733992Z ##[group]Initializing the repository
+build_site	Checkout	2025-11-17T05:16:33.2737926Z [command]/usr/bin/git init /home/runner/work/calicapitalfest/calicapitalfest
+build_site	Checkout	2025-11-17T05:16:33.2847789Z hint: Using 'master' as the name for the initial branch. This default branch name
+build_site	Checkout	2025-11-17T05:16:33.2849608Z hint: is subject to change. To configure the initial branch name to use in all
+build_site	Checkout	2025-11-17T05:16:33.2851978Z hint: of your new repositories, which will suppress this warning, call:
+build_site	Checkout	2025-11-17T05:16:33.2854113Z hint:
+build_site	Checkout	2025-11-17T05:16:33.2854990Z hint: 	git config --global init.defaultBranch <name>
+build_site	Checkout	2025-11-17T05:16:33.2856393Z hint:
+build_site	Checkout	2025-11-17T05:16:33.2857567Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build_site	Checkout	2025-11-17T05:16:33.2859233Z hint: 'development'. The just-created branch can be renamed via this command:
+build_site	Checkout	2025-11-17T05:16:33.2860530Z hint:
+build_site	Checkout	2025-11-17T05:16:33.2861294Z hint: 	git branch -m <name>
+build_site	Checkout	2025-11-17T05:16:33.2862629Z hint:
+build_site	Checkout	2025-11-17T05:16:33.2863803Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build_site	Checkout	2025-11-17T05:16:33.2865805Z Initialized empty Git repository in /home/runner/work/calicapitalfest/calicapitalfest/.git/
+build_site	Checkout	2025-11-17T05:16:33.2868877Z [command]/usr/bin/git remote add origin https://github.com/martinprad0/calicapitalfest
+build_site	Checkout	2025-11-17T05:16:33.2897425Z ##[endgroup]
+build_site	Checkout	2025-11-17T05:16:33.2898718Z ##[group]Disabling automatic garbage collection
+build_site	Checkout	2025-11-17T05:16:33.2900953Z [command]/usr/bin/git config --local gc.auto 0
+build_site	Checkout	2025-11-17T05:16:33.2929767Z ##[endgroup]
+build_site	Checkout	2025-11-17T05:16:33.2930936Z ##[group]Setting up auth
+build_site	Checkout	2025-11-17T05:16:33.2937162Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build_site	Checkout	2025-11-17T05:16:33.2966999Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build_site	Checkout	2025-11-17T05:16:33.3279855Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build_site	Checkout	2025-11-17T05:16:33.3308242Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build_site	Checkout	2025-11-17T05:16:33.3528134Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build_site	Checkout	2025-11-17T05:16:33.3605574Z ##[endgroup]
+build_site	Checkout	2025-11-17T05:16:33.3608238Z ##[group]Fetching the repository
+build_site	Checkout	2025-11-17T05:16:33.3617595Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8c57dd56bec53adbdfacf8cf76c410be05833853:refs/remotes/origin/main
+build_site	Checkout	2025-11-17T05:16:33.7489922Z From https://github.com/martinprad0/calicapitalfest
+build_site	Checkout	2025-11-17T05:16:33.7491511Z  * [new ref]         8c57dd56bec53adbdfacf8cf76c410be05833853 -> origin/main
+build_site	Checkout	2025-11-17T05:16:33.7520616Z ##[endgroup]
+build_site	Checkout	2025-11-17T05:16:33.7521072Z ##[group]Determining the checkout info
+build_site	Checkout	2025-11-17T05:16:33.7523602Z ##[endgroup]
+build_site	Checkout	2025-11-17T05:16:33.7529369Z [command]/usr/bin/git sparse-checkout disable
+build_site	Checkout	2025-11-17T05:16:33.7569211Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build_site	Checkout	2025-11-17T05:16:33.7596272Z ##[group]Checking out the ref
+build_site	Checkout	2025-11-17T05:16:33.7600651Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build_site	Checkout	2025-11-17T05:16:33.7659117Z Switched to a new branch 'main'
+build_site	Checkout	2025-11-17T05:16:33.7662057Z branch 'main' set up to track 'origin/main'.
+build_site	Checkout	2025-11-17T05:16:33.7667636Z ##[endgroup]
+build_site	Checkout	2025-11-17T05:16:33.7700075Z [command]/usr/bin/git log -1 --format=%H
+build_site	Checkout	2025-11-17T05:16:33.7721766Z 8c57dd56bec53adbdfacf8cf76c410be05833853
+build_site	Install pnpm	﻿2025-11-17T05:16:33.7911002Z ##[group]Run pnpm/action-setup@v3
+build_site	Install pnpm	2025-11-17T05:16:33.7911376Z with:
+build_site	Install pnpm	2025-11-17T05:16:33.7911586Z   version: 8
+build_site	Install pnpm	2025-11-17T05:16:33.7911795Z   dest: ~/setup-pnpm
+build_site	Install pnpm	2025-11-17T05:16:33.7912025Z   run_install: null
+build_site	Install pnpm	2025-11-17T05:16:33.7912255Z   package_json_file: package.json
+build_site	Install pnpm	2025-11-17T05:16:33.7912724Z   standalone: false
+build_site	Install pnpm	2025-11-17T05:16:33.7912944Z ##[endgroup]
+build_site	Install pnpm	2025-11-17T05:16:33.8760348Z ##[group]Running self-installer...
+build_site	Install pnpm	2025-11-17T05:16:34.4939234Z Progress: resolved 1, reused 0, downloaded 0, added 0
+build_site	Install pnpm	2025-11-17T05:16:34.5061109Z Packages: +1
+build_site	Install pnpm	2025-11-17T05:16:34.5062709Z +
+build_site	Install pnpm	2025-11-17T05:16:34.8854380Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+build_site	Install pnpm	2025-11-17T05:16:34.9123103Z 
+build_site	Install pnpm	2025-11-17T05:16:34.9123740Z dependencies:
+build_site	Install pnpm	2025-11-17T05:16:34.9124141Z + pnpm 8.15.9 (10.22.0 is available)
+build_site	Install pnpm	2025-11-17T05:16:34.9124424Z 
+build_site	Install pnpm	2025-11-17T05:16:34.9166524Z Done in 876ms
+build_site	Install pnpm	2025-11-17T05:16:34.9352006Z ##[endgroup]
+build_site	Install pnpm	2025-11-17T05:16:34.9356570Z Installation Completed!
+build_site	Install Node.js	﻿2025-11-17T05:16:34.9565183Z ##[group]Run actions/setup-node@v4
+build_site	Install Node.js	2025-11-17T05:16:34.9565471Z with:
+build_site	Install Node.js	2025-11-17T05:16:34.9565644Z   node-version: 20
+build_site	Install Node.js	2025-11-17T05:16:34.9565829Z   cache: pnpm
+build_site	Install Node.js	2025-11-17T05:16:34.9566002Z   always-auth: false
+build_site	Install Node.js	2025-11-17T05:16:34.9566201Z   check-latest: false
+build_site	Install Node.js	2025-11-17T05:16:34.9566516Z   token: ***
+build_site	Install Node.js	2025-11-17T05:16:34.9566723Z env:
+build_site	Install Node.js	2025-11-17T05:16:34.9566941Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+build_site	Install Node.js	2025-11-17T05:16:34.9567224Z ##[endgroup]
+build_site	Install Node.js	2025-11-17T05:16:35.1334154Z Found in cache @ /opt/hostedtoolcache/node/20.19.5/x64
+build_site	Install Node.js	2025-11-17T05:16:35.1339842Z ##[group]Environment details
+build_site	Install Node.js	2025-11-17T05:16:35.4932940Z node: v20.19.5
+build_site	Install Node.js	2025-11-17T05:16:35.4933356Z npm: 10.8.2
+build_site	Install Node.js	2025-11-17T05:16:35.4933634Z yarn: 1.22.22
+build_site	Install Node.js	2025-11-17T05:16:35.4934496Z ##[endgroup]
+build_site	Install Node.js	2025-11-17T05:16:35.4959970Z [command]/home/runner/setup-pnpm/node_modules/.bin/pnpm store path --silent
+build_site	Install Node.js	2025-11-17T05:16:35.8855284Z /home/runner/setup-pnpm/node_modules/.bin/store/v3
+build_site	Install Node.js	2025-11-17T05:16:36.1235753Z pnpm cache is not found
+build_site	Install dependencies	﻿2025-11-17T05:16:36.1336617Z ##[group]Run pnpm install
+build_site	Install dependencies	2025-11-17T05:16:36.1336930Z [36;1mpnpm install[0m
+build_site	Install dependencies	2025-11-17T05:16:36.1379798Z shell: /usr/bin/bash -e {0}
+build_site	Install dependencies	2025-11-17T05:16:36.1380047Z env:
+build_site	Install dependencies	2025-11-17T05:16:36.1380279Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+build_site	Install dependencies	2025-11-17T05:16:36.1380584Z ##[endgroup]
+build_site	Install dependencies	2025-11-17T05:16:36.5259381Z  ERR_PNPM_INVALID_WORKSPACE_CONFIGURATION  packages field missing or empty
+build_site	Install dependencies	2025-11-17T05:16:36.5465331Z ##[error]Process completed with exit code 1.
+build_site	Post Install pnpm	﻿2025-11-17T05:16:36.5528246Z Post job cleanup.
+build_site	Post Install pnpm	2025-11-17T05:16:36.6375984Z Pruning is unnecessary.
+build_site	Post Checkout	﻿2025-11-17T05:16:36.6479079Z Post job cleanup.
+build_site	Post Checkout	2025-11-17T05:16:36.7423591Z [command]/usr/bin/git version
+build_site	Post Checkout	2025-11-17T05:16:36.7462271Z git version 2.51.2
+build_site	Post Checkout	2025-11-17T05:16:36.7508105Z Temporarily overriding HOME='/home/runner/work/_temp/b9a92d6b-0d10-4b54-b495-148ee3aa8bee' before making global git config changes
+build_site	Post Checkout	2025-11-17T05:16:36.7509583Z Adding repository directory to the temporary git global config as a safe directory
+build_site	Post Checkout	2025-11-17T05:16:36.7515019Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/calicapitalfest/calicapitalfest
+build_site	Post Checkout	2025-11-17T05:16:36.7553477Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build_site	Post Checkout	2025-11-17T05:16:36.7587182Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build_site	Post Checkout	2025-11-17T05:16:36.7818589Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build_site	Post Checkout	2025-11-17T05:16:36.7839783Z http.https://github.com/.extraheader
+build_site	Post Checkout	2025-11-17T05:16:36.7853296Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build_site	Post Checkout	2025-11-17T05:16:36.7884944Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build_site	Complete job	﻿2025-11-17T05:16:36.8208703Z Cleaning up orphan processes
