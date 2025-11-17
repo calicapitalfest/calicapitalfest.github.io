@@ -1,36 +1,35 @@
 <script lang="ts">
 	import "../app.css";
+	import Header from "$lib/components/Header.svelte";
+
 	import { onMount } from "svelte";
 
 	let vantaContainer: HTMLDivElement;
 
 	onMount(() => {
 		// @ts-ignore
-		const effect = window.VANTA.WAVES({
+		const effect = window.VANTA.FOG({
 			el: vantaContainer,
 			mouseControls: true,
 			touchControls: true,
 			gyroControls: false,
 			minHeight: 200.0,
 			minWidth: 200.0,
-			scale: 1.0,
-			scaleMobile: 1.0,
-			color: 0x1e90ff,
-			shininess: 1.5,
-			waveHeight: 15.00,
+			highlightColor: 0xF3EEC7,
+			midtoneColor: 0xE191A7,
+			lowlightColor: 0xC762F3,
+			baseColor: 0xFFFFFF,
+			blurFactor: 0.5,
+			zoom: 1,
 		});
 
 		return () => effect?.destroy?.();
 	});
 </script>
 
-<svelte:head>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-</svelte:head>
-
 <div bind:this={vantaContainer} class="vanta-bg"></div>
 
+<Header />
 <slot />
 
 <style>
