@@ -72,7 +72,7 @@
     {/if}
 
     {#if $matches[i].items.length == 0}
-        <div class="player flex items-center justify-center"></div>
+        <div class="player bg-gradient-to-t from-[var(--primary)]/70 to-[var(--primary)]/50 flex items-center justify-center"></div>
     {/if}
 
     {#each $matches[i].items as item (item.id)}

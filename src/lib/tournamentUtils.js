@@ -48,7 +48,8 @@ export function edgesGenerator(depth, matches) {
         id: `${j + 2 ** (depth - 1 - level) - 1}`,
         source: left_edge,
         target: right_edge,
-        type: 'step'
+        type: 'smoothstep',
+        style: 'stroke: black; stroke-width: 2;'
       }
       edges = [...edges, newEdge]
     }

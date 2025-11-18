@@ -7,7 +7,7 @@
 
     import { onMount } from "svelte";
     onMount(async () => {
-        await loadGame("locking");
+        await loadGame("soultrain");
     });
 </script>
 
@@ -18,5 +18,5 @@
 <div
     class="absolute bottom-1 w-full"
 >
-    <TournamentShowcase collectionId={"locking"} />
+    <TournamentShowcase collectionId={"soultrain"} />
 </div>
