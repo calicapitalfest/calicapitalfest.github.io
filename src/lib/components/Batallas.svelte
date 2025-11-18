@@ -5,7 +5,7 @@
 	import Title from "$lib/components/Slideshow/Title.svelte";
 </script>
 
-<div class="w-full flex justify-center pt-2 pb-0">
+<div class="w-full flex justify-center pt-8 pb-0">
 	<h2 class="page-title bg-gradient-to-t from-[var(--primary)]/70 to-[var(--primary)]/40 backdrop-blur-md px-8 py-3 rounded-2xl text-center max-w-[85%]">Cronograma Batallas</h2>
 </div>
 

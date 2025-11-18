@@ -13,7 +13,7 @@
     // @ts-ignore:
     let id = `${j + 2 ** dlevel - 1}`;
     // Match logic function
-    function matchIndex(id) {
+    function matchIndex(id:string) {
         let idx = $matches.findIndex((match) => match.id === id);
         if (idx === -1) {
             // no existing match → append a new one
@@ -23,7 +23,7 @@
         }
         return idx;
     }
-    function playerIndex(player_id) {
+    function playerIndex(player_id:number) {
         return $players.findIndex((player) => player.id === player_id);
     }
 
@@ -32,17 +32,6 @@
     const playerHeight = "50px";
     const flipDurationMs = 100;
     let i = matchIndex(id);
-
-    // Animation
-    import { fade } from "svelte/transition";
-    import { flip } from "svelte/animate";
-
-    // Drag and Drop Components
-    import { dndzone } from "svelte-dnd-action";
-
-    // Flowbite UI Components
-    import { Button } from "flowbite-svelte";
-    import { StarOutline } from "flowbite-svelte-icons";
 
     //
     let emptyStyle = $derived(
@@ -141,7 +130,7 @@
         z-index: 1;
         width: 100%;
         height: var(--player-height);
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: var(--primary);
     }
 
     .title {
@@ -153,8 +142,9 @@
         position: relative;
         z-index: 1;
         width: 100%;
-        height: 25px;
-        background-color: rgba(0, 0, 0, 0.8);
+        height: 30px;
+        background-color: var(--primary);
+        opacity: 70%;
     }
 
     /* reset paragraph default margins and center vertically */
@@ -180,6 +170,6 @@
         z-index: 1;
         width: 100%;
         height: var(--player-height);
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: var(--secondary);
     }
 </style>
