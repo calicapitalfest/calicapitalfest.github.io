@@ -13,7 +13,7 @@
     // @ts-ignore:
     let id = `${j + 2 ** dlevel - 1}`;
     // Match logic function
-    function matchIndex(id:string) {
+    function matchIndex(id: string) {
         let idx = $matches.findIndex((match) => match.id === id);
         if (idx === -1) {
             // no existing match → append a new one
@@ -23,7 +23,7 @@
         }
         return idx;
     }
-    function playerIndex(player_id:number) {
+    function playerIndex(player_id: number) {
         return $players.findIndex((player) => player.id === player_id);
     }
 
@@ -56,9 +56,7 @@
     <Handle type="source" position={Position.Right} />
 
     {#if dlevel === 0}
-        <div
-            class="title"
-        >
+        <div class="title bg-gradient-to-t from-[var(--primary)]/90 to-[var(--primary)]/80">
             <p style="font-weight:bold;font-size:1.8rem;text-align:center;">
                 Final
             </p>
@@ -66,9 +64,7 @@
     {/if}
 
     {#if dlevel === 1}
-        <div
-            class="title"
-        >
+        <div class="title bg-gradient-to-t from-[var(--primary)]/90 to-[var(--primary)]/80">
             <p style="font-weight:bold;font-size:1.8rem;text-align:center;">
                 Semifinal
             </p>
@@ -79,32 +75,24 @@
         <div class="player flex items-center justify-center"></div>
     {/if}
 
-    
-
     {#each $matches[i].items as item (item.id)}
         {@const k = playerIndex(item.player_id)}
 
         {#if k + 1 != $matches[i].winner}
-            <div class="player flex items-center justify-center relative">
+            <div class="player bg-gradient-to-t from-[var(--primary)]/90 to-[var(--primary)]/100 flex items-center justify-center relative">
                 <!-- vertical ruler -->
-                <div
-                    class="absolute left-0 top-0 h-full w-[10px] bg-[var(--color-primary-800)]"
-                ></div>
+                <div class="absolute left-0 top-0 h-full w-[10px]"></div>
 
                 <p class="player-name text-center">
-                    {countryToEmoji($players[k].info.country)}
                     {$players[k].name}
                 </p>
             </div>
         {:else}
-            <div class="winner flex items-center justify-center relative">
+            <div class="winner bg-gradient-to-t from-orange-600/90 to-yellow-500/90 flex items-center justify-center relative ">
                 <!-- vertical ruler -->
-                <div
-                    class="absolute left-0 top-0 h-full w-[10px] bg-[var(--color-primary-500)]"
-                ></div>
+                <div class="absolute left-0 top-0 h-full w-[10px]"></div>
 
-                <p class="player-name text-center">
-                    {countryToEmoji($players[k].info.country)}
+                <p class="player-name text-center ">
                     {$players[k].name}
                 </p>
             </div>
@@ -114,14 +102,14 @@
 
 <style>
     .match {
-        min-height: 60px;
-        width: 200px;
-        gap: 0; /* ensure no gap; overrides any utility classes if necessary */
-    }
+    min-height: 60px;
+    width: 200px;
+    gap: 0;
+    border-radius: 0.5rem; /* 8px */
+    overflow: hidden; /* keeps children from overflowing rounded corners */
+}
 
-    /* player box */
     .player {
-        /* choose one border style — avoid double borders */
         border-bottom: 1px solid black;
         display: flex;
         justify-content: center;
@@ -130,11 +118,9 @@
         z-index: 1;
         width: 100%;
         height: var(--player-height);
-        background-color: var(--primary);
     }
 
     .title {
-        /* choose one border style — avoid double borders */
         border-bottom: 1px solid black;
         display: flex;
         justify-content: center;
@@ -143,11 +129,9 @@
         z-index: 1;
         width: 100%;
         height: 30px;
-        background-color: var(--primary);
-        opacity: 70%;
+        opacity: 100%;
     }
 
-    /* reset paragraph default margins and center vertically */
     .player-name {
         margin: 0;
         padding: 0 0.25rem;
@@ -170,6 +154,5 @@
         z-index: 1;
         width: 100%;
         height: var(--player-height);
-        background-color: var(--secondary);
     }
 </style>
