@@ -158,7 +158,7 @@
 				time="7:30 PM"
 			/>
 			<Item
-				title="🎉 Meat & Great"
+				title="🎉 Met & Great"
 				subtitle="Calle de Sabor"
 				event="Actividad de Ciudad"
 				color="#FF6EEF"

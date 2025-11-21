@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import { AngleRightOutline, AngleLeftOutline } from "flowbite-svelte-icons";
 
 	const judges = [
 		{ name: "Audrey Lane", crew: "JAM REPUBLIC - U.S.A", img: "audrey.png" },
@@ -43,7 +44,6 @@
 			changeJudge((currentIndex + 1) % judges.length);
 		}, 4000);
 	}
-
 </script>
 
 <div class="w-full flex justify-center pt-9 pb-0">
@@ -54,11 +54,8 @@
 
 <div class="w-full flex justify-center p-2">
 	<div class="relative w-full max-w-6xl">
-		<!-- Content -->
 		<div class="relative bg-gradient-to-t from-[var(--primary)]/90 to-[var(--secondary)]/90 backdrop-blur-md rounded-3xl pb-4 shadow-2xl min-h-[500px] flex flex-col items-center justify-center overflow-hidden">
-			<!-- Judge display with background -->
 			<div class="relative w-full h-[450px] md:h-[520px]">
-				<!-- Background image -->
 				<div 
 					class="absolute left-0 right-0 w-full h-full flex justify-center"
 					style="bottom: -150px;"
@@ -69,7 +66,6 @@
 					></div>
 				</div>
 
-				<!-- Left judge (shadow) -->
 				<div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/5 w-[70%] h-full opacity-50 scale-75 flex items-center justify-center">
 					<img
 						src="/assets/{judges[leftIndex].img}"
@@ -78,7 +74,6 @@
 					/>
 				</div>
 
-				<!-- Center judge (main) -->
 				<div class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[70%] h-full z-10 flex items-center justify-center">
 					{#key currentIndex}
 						<img
@@ -89,7 +84,6 @@
 					{/key}
 				</div>
 
-				<!-- Right judge (shadow) -->
 				<div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/5 w-[70%] h-full opacity-50 scale-75 flex items-center justify-center">
 					<img
 						src="/assets/{judges[rightIndex].img}"
@@ -99,19 +93,15 @@
 				</div>
 			</div>
 
-			<div class="relative flex items-center justify-center gap-4">
-				<!-- Left Arrow -->
+			<div class="relative flex items-center justify-center w-full">
 				<button
 					on:click={() => goToJudge(leftIndex)}
 					aria-label="Previous judge"
-					class="text-white hover:text-[var(--primary)] transition-colors"
+					class="absolute left-4 bg-white/50 rounded-full p-2 text-white hover:text-[var(--primary)] transition-colors"
 				>
-					<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-					</svg>
+					<AngleLeftOutline class="w-10 h-10" />
 				</button>
 
-				<!-- Judge Info -->
 				<div class="text-center">
 					<h3 class="text-3xl md:text-4xl font-bold text-white mb-2">
 						{judges[currentIndex].name}
@@ -121,30 +111,26 @@
 					</p>
 				</div>
 
-				<!-- Right Arrow -->
 				<button
 					on:click={() => goToJudge(rightIndex)}
 					aria-label="Next judge"
-					class="text-white hover:text-[var(--primary)] transition-colors"
+					class="absolute right-4 bg-white/50 rounded-full p-2 text-white hover:text-[var(--primary)] transition-colors"
 				>
-					<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-					</svg>
+					<AngleRightOutline class="w-10 h-10" />
 				</button>
 			</div>
+		</div>
 
-			<!-- Pagination dots -->
-			<div class="flex justify-center gap-2 mt-8">
-				{#each judges as _, index}
-					<button
-						on:click={() => goToJudge(index)}
-						aria-label={`Go to judge ${index + 1}`}
-						class="transition-all {currentIndex === index
-							? 'bg-[var(--primary)]/50 w-8 h-3'
-							: 'bg-[var(--secondary)]/50 w-3 h-3'} rounded-full"
-					></button>
-				{/each}
-			</div>
+		<div class="flex justify-center gap-2 mt-4">
+			{#each judges as _, index}
+				<button
+					on:click={() => goToJudge(index)}
+					aria-label={`Go to judge ${index + 1}`}
+					class="transition-all {currentIndex === index
+						? 'bg-[var(--primary)]/50 w-8 h-3'
+						: 'bg-[var(--secondary)]/50 w-3 h-3'} rounded-full"
+				></button>
+			{/each}
 		</div>
 	</div>
 </div>

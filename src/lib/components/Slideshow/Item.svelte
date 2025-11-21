@@ -31,7 +31,7 @@
 			{/if}
 			
 			{#if event}
-				<p style="color: {textColor}" class="text-xs font-semibold mb-1">{event}</p>
+				<p style="color: color-mix(in srgb, {textColor} 50%, white)" class="text-xs font-semibold mb-1">{event}</p>
 			{/if}
 			
 			{#if title && !description}

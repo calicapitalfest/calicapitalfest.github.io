@@ -37,11 +37,11 @@
 	<div class="flex-shrink-0">
 		<h2 class="text-lg md:text-2xl font-bold text-white">{dayName}</h2>
 		<h1 class="text-5xl md:text-7xl font-bold text-white mb-1">{day}</h1>
-		<p class="text-white/80 text-sm md:text-base mt-1">DE {monthName}</p>
+		<p class="text-white/80 text-sm md:text-base mt-1 font-bold">DE {monthName}</p>
 	</div>
 	<div class="absolute right-0 top-0 flex flex-col items-end justify-center pr-2 md:pr-4">
 		<h3 class="text-lg md:text-2xl font-bold text-white mb-1 text-right">{title}</h3>
-		<p class="text-white/90 text-sm md:text-base mb-2 text-right">{subtitle}</p>
+		<p class="text-white/90 text-sm md:text-base mb-2 text-right font-bold">{subtitle}</p>
 		<span class="inline-block {badgeClass} text-white px-3 py-1 rounded-full text-xs md:text-sm font-bold">{badge}</span>
 	</div>
 </div>
