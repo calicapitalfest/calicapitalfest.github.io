@@ -1,0 +1,5 @@
+$ vite preview --host --port 4173
+  ➜  Local:   http://localhost:4173/
+  ➜  Network: http://192.168.2.19:4173/
+  ➜  Network: http://192.168.2.28:4173/
+[ELIFECYCLE] Command failed.

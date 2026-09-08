@@ -2,16 +2,16 @@
     import { onMount } from "svelte";
 
     const sponsors = [
-        { name: "The Giants Co", img: "00. THEGIANTSCO.png" },
-        { name: "Artes para la paz", img: "1. artes para la paz.png" },
-        { name: "Culturas", img: "2. culturas.png" },
-        { name: "Skacepop", img: "3. skacepop.png" },
-        { name: "Palmeto", img: "4. palmeto.png" },
-        { name: "Gobernación", img: "5. gobernacion.png" },
-        { name: "Cacumen", img: "6. cacumen.png" },
-        { name: "2HAN", img: "7. 2HAN.png" },
-        { name: "Comfandi", img: "8. COMFANDI.png" },
-        { name: "Liga de Porrismo", img: "9. LIGA DE PORRISMO.PNG" }
+        { name: "The Giants Co", img: "the-giants-co.png" },
+        { name: "Artes para la paz", img: "artes-para-la-paz.png" },
+        { name: "Culturas", img: "culturas.png" },
+        { name: "Skacepop", img: "skacepop.png" },
+        { name: "Palmeto", img: "palmeto.png" },
+        { name: "Gobernación", img: "gobernacion.png" },
+        { name: "Cacumen", img: "cacumen.png" },
+        { name: "2HAN", img: "2han.png" },
+        { name: "Comfandi", img: "comfandi.png" },
+        { name: "Liga de Porrismo", img: "liga-de-porrismo.png" }
     ];
 
     let currentIndex = 0;
@@ -75,7 +75,7 @@
                     {#each sponsors as sponsor, i}
                         <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-500 {i === currentIndex ? 'opacity-100' : 'opacity-0'}">
                             <img
-                                src="/assets/patrocinadores/{sponsor.img}"
+                                src="/assets/2025/sponsors/{sponsor.img}"
                                 alt={sponsor.name}
                                 class="max-w-full max-h-48 object-contain"
                             />

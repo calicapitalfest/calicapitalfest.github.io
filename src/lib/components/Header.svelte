@@ -28,9 +28,9 @@
         <div
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         >
-            <a href="{base}/" aria-label="Go to homepage">
+            <a href="{base}/2025" aria-label="Go to homepage">
                 <img
-                    src="assets/banner.png"
+                    src="{base}/assets/2025/banner-2025.png"
                     alt="Banner"
                     class="h-32 object-contain cursor-pointer"
                 />
@@ -42,9 +42,9 @@
             <ButtonGroup
             class="*:ring-primary-700! *:rounded-t-none *:rounded-b-md *:border-0 *:border-primary-200 *:bg-[var(--primary)]/50 *:hover:bg-black/70 *:px-1" 
         >
-            <Button href="{base}/">Cronograma</Button>
-            <Button href="{base}/soultrain">Soul Train</Button>
-            <Button href="{base}/fromeighties">From 80's</Button>
+            <Button href="{base}/2025">Cronograma</Button>
+            <Button href="{base}/2025/soultrain">Soul Train</Button>
+            <Button href="{base}/2025/fromeighties">From 80's</Button>
         </ButtonGroup>
         </div>
     {/if}

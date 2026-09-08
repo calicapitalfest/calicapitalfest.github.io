@@ -1,0 +1,104 @@
+/* ------------------------------------------------------------------ *
+ *  Cali Capital Fest 2026 — theme                                     *
+ *  Scoped under .site-2026 so it never bleeds into the /2025 edition. *
+ * ------------------------------------------------------------------ */
+
+@font-face {
+	font-family: 'Guttery';
+	src: url('/fonts/guttery.ttf') format('truetype');
+	font-weight: 400;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'DM Sans 2026';
+	src: url('/fonts/dmsans-light.ttf') format('truetype');
+	font-weight: 300;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'DM Sans 2026';
+	src: url('/fonts/dmsans-semibold.ttf') format('truetype');
+	font-weight: 600;
+	font-display: swap;
+}
+
+.site-2026 {
+	--c-bg: #08040f;
+	--c-bg-elev: #150a26;
+	--c-pink: #ff2d9b;
+	--c-purple: #7b2ff7;
+	--c-cyan: #29d3f0;
+	--c-yellow: #ffd21e;
+	--c-text: #f4ecff;
+	--c-muted: #ad9bce;
+
+	--font-display: 'Guttery', 'Bebas Neue', 'Arial Narrow', system-ui, sans-serif;
+	--font-body: 'DM Sans 2026', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+	--nav-h: 60px;
+
+	background-color: var(--c-bg);
+	color: var(--c-text);
+	font-family: var(--font-body);
+	font-weight: 300;
+	line-height: 1.5;
+	min-height: 100vh;
+	padding-top: var(--nav-h);
+	overflow-x: hidden;
+	position: relative;
+	isolation: isolate;
+}
+
+.site-2026 .font-display {
+	font-family: var(--font-display);
+	font-weight: 400;
+	letter-spacing: 0.02em;
+	line-height: 0.95;
+	text-transform: uppercase;
+}
+
+.site-2026 .u-kicker {
+	font-family: var(--font-body);
+	font-weight: 600;
+	letter-spacing: 0.28em;
+	text-transform: uppercase;
+	font-size: 0.72rem;
+	color: var(--c-cyan);
+}
+
+/* neon pill button */
+.site-2026 .btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.85rem 1.75rem;
+	border-radius: 999px;
+	font-weight: 600;
+	font-size: 0.95rem;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+	white-space: nowrap;
+}
+.site-2026 .btn--primary {
+	background: linear-gradient(180deg, var(--c-pink), color-mix(in srgb, var(--c-pink) 70%, black));
+	color: white;
+	box-shadow: 0 0 24px color-mix(in srgb, var(--c-pink) 55%, transparent);
+}
+.site-2026 .btn--ghost {
+	background: transparent;
+	color: var(--c-text);
+	border: 1px solid color-mix(in srgb, var(--c-cyan) 60%, transparent);
+}
+.site-2026 .btn:hover {
+	transform: translateY(-2px);
+}
+.site-2026 .btn--disabled {
+	opacity: 0.55;
+	pointer-events: none;
+}
+
+.site-2026 a {
+	color: inherit;
+	text-decoration: none;
+}

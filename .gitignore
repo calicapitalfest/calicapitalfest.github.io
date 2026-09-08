@@ -21,3 +21,9 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Brand manual source files (large binaries)
+temp/
+
+# pnpm 12 workspace stub
+pnpm-workspace.yaml

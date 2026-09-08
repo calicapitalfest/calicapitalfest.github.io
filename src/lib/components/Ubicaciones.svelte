@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Slide from "$lib/components/Slideshow/Slide.svelte";
 	import Slideshow from "$lib/components/Slideshow/Slideshow.svelte";
-	
+
 	const locations = [
 		{
 			name: "Palmetto Plaza Shopping Mall",
