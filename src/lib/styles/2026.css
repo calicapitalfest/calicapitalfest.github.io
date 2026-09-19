@@ -3,6 +3,45 @@
  *  Scoped under .site-2026 so it never bleeds into the /2025 edition. *
  * ------------------------------------------------------------------ */
 
+/* Polymath — titles. The bundled Demo cut only covers A-Z a-z 0-9 , .
+   so Guttery is listed next in --font-display to catch accents. */
+@font-face {
+	font-family: 'Polymath';
+	src: url('/fonts/polymath-light.otf') format('opentype');
+	font-weight: 300;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Polymath';
+	src: url('/fonts/polymath-regular.otf') format('opentype');
+	font-weight: 400;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Polymath';
+	src: url('/fonts/polymath-semibold.otf') format('opentype');
+	font-weight: 600;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Polymath';
+	src: url('/fonts/polymath-bold.otf') format('opentype');
+	font-weight: 700;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Polymath';
+	src: url('/fonts/polymath-black.otf') format('opentype');
+	font-weight: 900;
+	font-display: swap;
+}
+/* Super is the heaviest cut, above Black — titles use it. */
+@font-face {
+	font-family: 'Polymath';
+	src: url('/fonts/polymath-super.otf') format('opentype');
+	font-weight: 950;
+	font-display: swap;
+}
 @font-face {
 	font-family: 'Guttery';
 	src: url('/fonts/guttery.ttf') format('truetype');
@@ -13,6 +52,12 @@
 	font-family: 'DM Sans 2026';
 	src: url('/fonts/dmsans-light.ttf') format('truetype');
 	font-weight: 300;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'DM Sans 2026';
+	src: url('/fonts/dmsans-medium.woff2') format('woff2');
+	font-weight: 500;
 	font-display: swap;
 }
 @font-face {
@@ -32,7 +77,8 @@
 	--c-text: #f4ecff;
 	--c-muted: #ad9bce;
 
-	--font-display: 'Guttery', 'Bebas Neue', 'Arial Narrow', system-ui, sans-serif;
+	--font-display: 'Polymath', 'Guttery', 'Bebas Neue', 'Arial Narrow', system-ui, sans-serif;
+	--font-subtitle: 'Guttery', 'Bebas Neue', 'Arial Narrow', system-ui, sans-serif;
 	--font-body: 'DM Sans 2026', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
 	--nav-h: 60px;
@@ -51,18 +97,18 @@
 
 .site-2026 .font-display {
 	font-family: var(--font-display);
-	font-weight: 400;
+	font-weight: 950;
 	letter-spacing: 0.02em;
 	line-height: 0.95;
 	text-transform: uppercase;
 }
 
 .site-2026 .u-kicker {
-	font-family: var(--font-body);
-	font-weight: 600;
-	letter-spacing: 0.28em;
+	font-family: var(--font-subtitle);
+	font-weight: 400;
+	letter-spacing: 0.22em;
 	text-transform: uppercase;
-	font-size: 0.72rem;
+	font-size: 0.85rem;
 	color: var(--c-cyan);
 }
 

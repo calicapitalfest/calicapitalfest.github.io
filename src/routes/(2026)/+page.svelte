@@ -33,6 +33,8 @@
 
 <Section id="entradas" kicker="Boletería" title="Entradas" icon="icon-notes.png" />
 
-<Section id="ubicacion" kicker="Dónde" title="Ubicación" icon="icon-location.png" />
+<!-- TODO: restore the accent ("Ubicación") once the licensed Polymath is in place;
+     the demo cut has no Ó. -->
+<Section id="ubicacion" kicker="Dónde" title="Ubicacion" icon="icon-location.png" />
 
 <Section id="patrocinadores" kicker="Apoyan" title="Patrocinadores" icon="deco-splat.png" />

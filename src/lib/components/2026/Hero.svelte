@@ -3,35 +3,46 @@
 	import Socials from "./Socials.svelte";
 	import { playOverlay } from "./overlay";
 
-	const suns = ["sun-dancing.png", "sun-handstand.png"];
+	const suns = ["sun-dancing.png", "sun-handstand.png", "sun-pointing.png"];
 	let sunIndex = $state(0);
 </script>
 
 <section id="top" class="hero">
-	<img class="hero__deco hero__deco--squiggle" src="{base}/assets/brand/deco-squiggle.png" alt="" />
+	<img class="hero__deco hero__deco--star" src="{base}/assets/brand/deco-star.png" alt="" />
 
 	<div class="hero__inner">
 		<button class="hero__logo-btn" type="button" aria-label="Reproducir intro" onclick={playOverlay}>
 			<img class="hero__logo" src="{base}/assets/brand/logo.png" alt="Cali Capital Fest" />
 		</button>
 
-		<button
-			class="hero__sun"
-			type="button"
-			aria-label="Cambiar mascota"
-			onclick={() => (sunIndex = (sunIndex + 1) % suns.length)}
-		>
-			{#key sunIndex}
-				<img class="hero__sun-img" src="{base}/assets/brand/{suns[sunIndex]}" alt="" />
-			{/key}
-		</button>
+		<div class="hero__stage">
+			<img class="hero__podium" src="{base}/assets/podio3.png" alt="" />
+			<button
+				class="hero__sun"
+				type="button"
+				aria-label="Cambiar mascota"
+				onclick={() => (sunIndex = (sunIndex + 1) % suns.length)}
+			>
+				{#key sunIndex}
+					<img class="hero__sun-img" src="{base}/assets/brand/{suns[sunIndex]}" alt="" />
+				{/key}
+			</button>
+			<span class="hero__bubble" aria-hidden="true">Click me!</span>
+		</div>
 
-		<p class="u-kicker hero__kicker">Festival Internacional de Danza Urbana</p>
+		<p class="hero__kicker">Festival Internacional de Danza Urbana</p>
 
 		<p class="hero__meta">
-			<span>Noviembre 2026</span>
-			<span class="hero__dot">•</span>
-			<span>Cali, Colombia</span>
+			<span class="hero__meta-row hero__meta-row--split">
+				<span>Cali Col</span>
+				<span class="hero__bar" aria-hidden="true"></span>
+				<span class="hero__dates">
+					<span>Nov 17</span>
+					<span class="hero__dash" aria-hidden="true"></span>
+					<span>22</span>
+				</span>
+			</span>
+			<span class="hero__meta-row">2026</span>
 		</p>
 
 		<div class="hero__cta">
@@ -86,8 +97,75 @@
 		filter: drop-shadow(0 0 40px color-mix(in srgb, var(--c-pink) 45%, transparent));
 	}
 
+	.hero__stage {
+		--sun-h: min(48vw, 220px);
+		--podium-h: calc(var(--sun-h) * 1.3);
+		position: relative;
+		/* Fixed box. Left to shrink-wrap, the stage would follow each pose's
+		   aspect ratio and drag the podium's size along with it. */
+		width: calc(var(--podium-h) * 1.334);
+		height: var(--sun-h);
+		display: flex;
+		justify-content: center;
+		/* The podium overhangs the stage box by 32%, but its lower ~15% is
+		   transparent, so only this much is actually visible pixels. */
+		margin-bottom: calc(var(--sun-h) * 0.13);
+	}
+
+	.hero__podium {
+		position: absolute;
+		left: 50%;
+		bottom: calc(var(--sun-h) * -0.32);
+		translate: -50% 0;
+		height: var(--podium-h);
+		width: auto;
+		/* Tailwind preflight sets img{max-width:100%}; without this the podium
+		   gets clamped to the stage width and changes size between poses. */
+		max-width: none;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.hero__bubble {
+		position: absolute;
+		left: 50%;
+		bottom: calc(100% + 0.35rem);
+		translate: -50% 0;
+		z-index: 2;
+		padding: 0.45rem 0.9rem;
+		border-radius: 999px;
+		background: var(--c-yellow);
+		color: #08040f;
+		font-family: var(--font-subtitle);
+		font-size: clamp(0.85rem, 3vw, 1.05rem);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		white-space: nowrap;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.25s ease, translate 0.25s ease;
+	}
+	/* the tail */
+	.hero__bubble::after {
+		content: "";
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		translate: -50% 0;
+		border: 7px solid transparent;
+		border-top-color: var(--c-yellow);
+		border-bottom: 0;
+	}
+	.hero__sun:hover ~ .hero__bubble,
+	.hero__sun:focus-visible ~ .hero__bubble {
+		opacity: 1;
+		translate: -50% -4px;
+	}
+
 	.hero__sun {
-		height: min(48vw, 220px);
+		position: relative;
+		z-index: 1;
+		height: 100%;
 		padding: 0;
 		border: 0;
 		background: none;
@@ -116,21 +194,67 @@
 		to { transform: rotate(360deg) scale(1); }
 	}
 
+	/* styled here rather than via .u-kicker so the DM Sans Medium cut wins
+	   without depending on stylesheet order */
 	.hero__kicker {
-		font-size: clamp(0.62rem, 2.2vw, 0.8rem);
+		/* tuck up under the deck, past the column gap */
+		margin-top: -0.5rem;
+		font-family: var(--font-body);
+		font-weight: 500;
+		font-size: clamp(0.72rem, 2.4vw, 0.95rem);
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: var(--c-cyan);
 	}
 
 	.hero__meta {
 		font-family: var(--font-display);
+		font-weight: 950;
 		font-size: clamp(1.4rem, 5vw, 2.4rem);
 		color: var(--c-text);
 		display: flex;
-		gap: 0.75rem;
+		flex-direction: column;
 		align-items: center;
+		gap: 0.08em;
+		line-height: 1;
 		text-transform: uppercase;
+		width: 100%;
 	}
-	.hero__dot {
-		color: var(--c-pink);
+	.hero__meta-row {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.42em;
+	}
+	/* equal side columns put the bar dead centre, directly above "2026" */
+	.hero__meta-row--split {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		width: 100%;
+	}
+	.hero__meta-row--split > :first-child {
+		justify-self: end;
+	}
+	.hero__meta-row--split > :last-child {
+		justify-self: start;
+	}
+	.hero__dates {
+		display: flex;
+		align-items: center;
+		gap: 0.42em;
+	}
+	/* Polymath Demo carries no "|" or "-" glyph, so both marks are drawn */
+	.hero__bar {
+		width: 0.09em;
+		height: 0.8em;
+		border-radius: 999px;
+		background: var(--c-pink);
+	}
+	.hero__dash {
+		width: 0.42em;
+		height: 0.1em;
+		border-radius: 999px;
+		background: currentColor;
 	}
 
 	.hero__cta {
@@ -154,10 +278,10 @@
 		opacity: 0.85;
 		pointer-events: none;
 	}
-	.hero__deco--squiggle {
-		bottom: 10%;
-		left: 4%;
-		width: clamp(80px, 14vw, 170px);
+	.hero__deco--star {
+		top: 8%;
+		right: 6%;
+		animation: spin 22s linear infinite;
 	}
 
 	.hero__scroll {
@@ -174,7 +298,11 @@
 		0%, 100% { transform: translateY(0); }
 		50% { transform: translateY(-10px); }
 	}
+	@keyframes spin {
+		to { transform: rotate(360deg); }
+	}
+
 	@media (prefers-reduced-motion: reduce) {
-		.hero__sun, .hero__sun-img, .hero__scroll { animation: none; }
+		.hero__sun, .hero__sun-img, .hero__deco--star, .hero__scroll { animation: none; }
 	}
 </style>

@@ -3,6 +3,7 @@
 
 	const INSTAGRAM = "https://www.instagram.com/calicapitalfest";
 	const TIKTOK = "https://www.tiktok.com/@calicapitalfest?_r=1&_t=ZS-91UppE5mI5w";
+	const YOUTUBE = "https://www.youtube.com/@CaliCapitalFest";
 </script>
 
 <div class="socials {klass}">
@@ -17,6 +18,13 @@
 		<svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden="true">
 			<path
 				d="M12.53 0h3.9c.09 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75a7.65 7.65 0 0 1-1.35 3.94c-1.31 1.92-3.58 3.17-5.91 3.21a7.3 7.3 0 0 1-4.08-1.03 7.6 7.6 0 0 1-3.65-5.71c-.02-.5-.03-1-.01-1.49a7.6 7.6 0 0 1 2.58-4.96 7.32 7.32 0 0 1 6.15-1.72c.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37a3.4 3.4 0 0 0-1.36 1.75c-.16.42-.11.88-.1 1.32.24 1.64 1.82 3.02 3.5 2.87a2.9 2.9 0 0 0 2.4-1.4c.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z"
+			/>
+		</svg>
+	</a>
+	<a href={YOUTUBE} target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+		<svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden="true">
+			<path
+				d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.08 0 12 0 12s0 3.92.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.92 24 12 24 12s0-3.92-.5-5.81ZM9.55 15.57V8.43L15.82 12l-6.27 3.57Z"
 			/>
 		</svg>
 	</a>
