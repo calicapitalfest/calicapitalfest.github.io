@@ -8,7 +8,6 @@
 </script>
 
 <section id="top" class="hero">
-	<img class="hero__deco hero__deco--star" src="{base}/assets/brand/deco-star.png" alt="" />
 	<img class="hero__deco hero__deco--squiggle" src="{base}/assets/brand/deco-squiggle.png" alt="" />
 
 	<div class="hero__inner">
@@ -155,11 +154,6 @@
 		opacity: 0.85;
 		pointer-events: none;
 	}
-	.hero__deco--star {
-		top: 8%;
-		right: 6%;
-		animation: spin 22s linear infinite;
-	}
 	.hero__deco--squiggle {
 		bottom: 10%;
 		left: 4%;
@@ -180,11 +174,7 @@
 		0%, 100% { transform: translateY(0); }
 		50% { transform: translateY(-10px); }
 	}
-	@keyframes spin {
-		to { transform: rotate(360deg); }
-	}
-
 	@media (prefers-reduced-motion: reduce) {
-		.hero__sun, .hero__sun-img, .hero__deco--star, .hero__scroll { animation: none; }
+		.hero__sun, .hero__sun-img, .hero__scroll { animation: none; }
 	}
 </style>
