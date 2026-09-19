@@ -26,7 +26,10 @@
 		<img src="{base}/assets/brand/sun-face.png" alt="Cali Capital Fest" />
 	</button>
 
-	<Socials class="nav__socials" />
+	<div class="nav__follow">
+		<span class="u-kicker nav__follow-label">Síguenos</span>
+		<Socials class="nav__socials" />
+	</div>
 </header>
 
 {#if open}
@@ -77,6 +80,23 @@
 	}
 	.nav__sun[aria-expanded="true"] img {
 		transform: rotate(45deg);
+	}
+
+	.nav__follow {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.7rem;
+	}
+	.nav__follow-label {
+		font-size: 0.85rem;
+		letter-spacing: 0.02em;
+		white-space: nowrap;
+	}
+	/* the label is a nicety — drop it before the icons on narrow screens */
+	@media (max-width: 520px) {
+		.nav__follow-label {
+			display: none;
+		}
 	}
 
 	.nav :global(.nav__socials) {

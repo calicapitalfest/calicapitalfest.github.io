@@ -103,12 +103,13 @@
 	text-transform: uppercase;
 }
 
+/* Guttery is never set in all caps — source strings carry their own casing. */
 .site-2026 .u-kicker {
 	font-family: var(--font-subtitle);
 	font-weight: 400;
-	letter-spacing: 0.22em;
-	text-transform: uppercase;
-	font-size: 0.85rem;
+	/* tight tracking, matching the "CAPITAL" wordmark in the brand manual */
+	letter-spacing: 0.02em;
+	font-size: 1.02rem;
 	color: var(--c-cyan);
 }
 

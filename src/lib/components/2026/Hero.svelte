@@ -1,10 +1,35 @@
 <script lang="ts">
 	import { base } from "$app/paths";
-	import Socials from "./Socials.svelte";
 	import { playOverlay } from "./overlay";
 
 	const suns = ["sun-dancing.png", "sun-handstand.png", "sun-pointing.png"];
 	let sunIndex = $state(0);
+
+	// the hint bubble shows itself: 2s after load, then for 1s every 10s
+	const FIRST_DELAY = 2000;
+	const VISIBLE_FOR = 1000;
+	const EVERY = 10000;
+
+	let bubbleOn = $state(false);
+
+	$effect(() => {
+		let hideTimer: ReturnType<typeof setTimeout>;
+		const flash = () => {
+			bubbleOn = true;
+			hideTimer = setTimeout(() => (bubbleOn = false), VISIBLE_FOR);
+		};
+		let repeat: ReturnType<typeof setInterval>;
+		const first = setTimeout(() => {
+			flash();
+			repeat = setInterval(flash, EVERY);
+		}, FIRST_DELAY);
+
+		return () => {
+			clearTimeout(first);
+			clearTimeout(hideTimer);
+			clearInterval(repeat);
+		};
+	});
 </script>
 
 <section id="top" class="hero">
@@ -27,14 +52,21 @@
 					<img class="hero__sun-img" src="{base}/assets/brand/{suns[sunIndex]}" alt="" />
 				{/key}
 			</button>
-			<span class="hero__bubble" aria-hidden="true">Click me!</span>
+			<span class="hero__bubble" class:is-on={bubbleOn} aria-hidden="true">Click me!</span>
 		</div>
 
 		<p class="hero__kicker">Festival Internacional de Danza Urbana</p>
 
 		<p class="hero__meta">
 			<span class="hero__meta-row hero__meta-row--split">
-				<span>Cali Col</span>
+				<span class="hero__place">
+					<span>Cali Col</span>
+					<svg class="hero__flag" viewBox="0 0 6 4" role="img" aria-label="Colombia">
+						<rect width="6" height="2" fill="#FCD116" />
+						<rect y="2" width="6" height="1" fill="#003893" />
+						<rect y="3" width="6" height="1" fill="#CE1126" />
+					</svg>
+				</span>
 				<span class="hero__bar" aria-hidden="true"></span>
 				<span class="hero__dates">
 					<span>Nov 17</span>
@@ -47,10 +79,6 @@
 
 		<div class="hero__cta">
 			<span class="btn btn--primary btn--disabled">Entradas — Próximamente</span>
-			<div class="hero__social">
-				<span class="u-kicker">Síguenos</span>
-				<Socials size={26} />
-			</div>
 		</div>
 	</div>
 
@@ -98,8 +126,11 @@
 	}
 
 	.hero__stage {
-		--sun-h: min(48vw, 220px);
-		--podium-h: calc(var(--sun-h) * 1.3);
+		/* both sizes derive from one base so they can be tuned independently:
+		   the sun runs 44% over it, the podium 36.5% */
+		--stage-base: min(48vw, 220px);
+		--sun-h: calc(var(--stage-base) * 1.44);
+		--podium-h: calc(var(--stage-base) * 1.365);
 		position: relative;
 		/* Fixed box. Left to shrink-wrap, the stage would follow each pose's
 		   aspect ratio and drag the podium's size along with it. */
@@ -107,15 +138,15 @@
 		height: var(--sun-h);
 		display: flex;
 		justify-content: center;
-		/* The podium overhangs the stage box by 32%, but its lower ~15% is
-		   transparent, so only this much is actually visible pixels. */
-		margin-bottom: calc(var(--sun-h) * 0.13);
+		/* The podium overhangs the stage box, but its lower ~15% is transparent,
+		   so only this much is actually visible pixels. */
+		margin-bottom: calc(var(--stage-base) * 0.07);
 	}
 
 	.hero__podium {
 		position: absolute;
 		left: 50%;
-		bottom: calc(var(--sun-h) * -0.32);
+		bottom: calc(var(--stage-base) * -0.273);
 		translate: -50% 0;
 		height: var(--podium-h);
 		width: auto;
@@ -137,9 +168,8 @@
 		background: var(--c-yellow);
 		color: #08040f;
 		font-family: var(--font-subtitle);
-		font-size: clamp(0.85rem, 3vw, 1.05rem);
+		font-size: clamp(1.02rem, 3vw, 1.22rem);
 		letter-spacing: 0.06em;
-		text-transform: uppercase;
 		white-space: nowrap;
 		pointer-events: none;
 		opacity: 0;
@@ -156,7 +186,7 @@
 		border-top-color: var(--c-yellow);
 		border-bottom: 0;
 	}
-	.hero__sun:hover ~ .hero__bubble,
+	.hero__bubble.is-on,
 	.hero__sun:focus-visible ~ .hero__bubble {
 		opacity: 1;
 		translate: -50% -4px;
@@ -194,13 +224,13 @@
 		to { transform: rotate(360deg) scale(1); }
 	}
 
-	/* styled here rather than via .u-kicker so the DM Sans Medium cut wins
+	/* styled here rather than via .u-kicker so this DM Sans cut wins
 	   without depending on stylesheet order */
 	.hero__kicker {
-		/* tuck up under the deck, past the column gap */
-		margin-top: -0.5rem;
+		/* grouped with the date block below it, clear of the podium above */
+		margin-top: clamp(1.25rem, 4vw, 2.75rem);
 		font-family: var(--font-body);
-		font-weight: 500;
+		font-weight: 600;
 		font-size: clamp(0.72rem, 2.4vw, 0.95rem);
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
@@ -219,6 +249,19 @@
 		line-height: 1;
 		text-transform: uppercase;
 		width: 100%;
+		/* sits tight under the kicker, past the column gap */
+		margin-top: -0.55rem;
+	}
+	.hero__place {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.32em;
+	}
+	.hero__flag {
+		height: 0.62em;
+		width: auto;
+		border-radius: 0.06em;
+		flex-shrink: 0;
 	}
 	.hero__meta-row {
 		display: flex;
@@ -265,13 +308,6 @@
 		justify-content: center;
 		margin-top: 0.5rem;
 	}
-	.hero__social {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.4rem;
-	}
-
 	.hero__deco {
 		position: absolute;
 		width: clamp(90px, 16vw, 200px);
