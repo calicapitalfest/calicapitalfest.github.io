@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { base } from "$app/paths";
 	import ComingSoon from "./ComingSoon.svelte";
+	import DisplayText from "./DisplayText.svelte";
 
 	let {
 		id,
@@ -22,6 +23,10 @@
 		bgX = 0,
 		bgY = 0,
 		bgScale = 1,
+		// Exposed as --accent/--accent-fg on the section root, so the kicker,
+		// tables, buttons and flashcards inside it (see +page.svelte) all pick
+		// up this section's brand colour without repeating it everywhere.
+		accentFg = "var(--c-text)",
 		children
 	}: {
 		id: string;
@@ -38,11 +43,12 @@
 		bgX?: number;
 		bgY?: number;
 		bgScale?: number;
+		accentFg?: string;
 		children?: import("svelte").Snippet;
 	} = $props();
 </script>
 
-<section {id} class="sec">
+<section {id} class="sec" style:--accent={bgColor} style:--accent-fg={accentFg}>
 	<div class="sec__head">
 		{#if icon}
 			<span class="sec__icon-wrap">
@@ -70,7 +76,7 @@
 		{/if}
 		<div>
 			{#if kicker}<p class="u-kicker">{kicker}</p>{/if}
-			<h2 class="font-display sec__title">{title}</h2>
+			<h2 class="font-display sec__title"><DisplayText text={title} /></h2>
 		</div>
 	</div>
 
@@ -138,6 +144,11 @@
 		opacity: 0.85;
 		pointer-events: none;
 	}
+	/* the kicker ("El Festival", "Artistas"…) sits indented under the title's
+	   first letter rather than flush with it */
+	.sec__head .u-kicker {
+		padding-left: clamp(0.6rem, 1.6vw, 1.1rem);
+	}
 	.sec__title {
 		font-size: clamp(2.4rem, 7vw, 4.5rem);
 		color: var(--c-text);
@@ -146,6 +157,5 @@
 	.sec__body {
 		color: var(--c-muted);
 		font-size: 1.05rem;
-		max-width: 60ch;
 	}
 </style>

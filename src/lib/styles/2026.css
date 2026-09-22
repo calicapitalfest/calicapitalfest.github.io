@@ -68,14 +68,18 @@
 }
 
 .site-2026 {
-	--c-bg: #08040f;
-	--c-bg-elev: #150a26;
-	--c-pink: #ff2d9b;
-	--c-purple: #7b2ff7;
-	--c-cyan: #29d3f0;
-	--c-yellow: #ffd21e;
-	--c-text: #f4ecff;
-	--c-muted: #ad9bce;
+	/* Cali Capital brand manual (2026), "Colores principales" / "Colores secundarios" */
+	--c-bg: #000507;
+	--c-bg-elev: #141416;
+	--c-pink: #ff245e; /* fucsia — principal */
+	--c-yellow: #f2cf00; /* principal */
+	--c-blue: #0073d8; /* principal */
+	--c-cyan: #00ebff; /* secundario */
+	--c-purple: #9546ff; /* secundario */
+	--c-magenta: #ff48d4; /* secundario */
+	--c-lime: #ccff00; /* secundario */
+	--c-text: #ffffe9; /* cream — brand's off-white */
+	--c-muted: #c7c4b2;
 
 	--font-display: 'Polymath', 'Guttery', 'Bebas Neue', 'Arial Narrow', system-ui, sans-serif;
 	--font-subtitle: 'Guttery', 'Bebas Neue', 'Arial Narrow', system-ui, sans-serif;
@@ -110,10 +114,35 @@
 	/* tight tracking, matching the "CAPITAL" wordmark in the brand manual */
 	letter-spacing: 0.02em;
 	font-size: 1.02rem;
-	color: var(--c-cyan);
+	color: var(--accent, var(--c-pink));
 }
 
-/* neon pill button */
+/* Flat pill label in the section colour — used next to the carousel arrows
+   ("Cronograma", "Paquetes"…). Guttery like the other subtitles; the
+   --display variant ("Síguenos") switches to the title face. */
+.site-2026 .u-label {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.4rem;
+	padding: 0.45rem 1.1rem;
+	border-radius: 1.2rem;
+	background: var(--accent, var(--c-pink));
+	color: var(--accent-fg, var(--c-bg));
+	font-family: var(--font-subtitle);
+	font-weight: 400;
+	font-size: 1.1rem;
+	letter-spacing: 0.02em;
+	line-height: 1.1;
+}
+.site-2026 .u-label--display {
+	font-family: var(--font-display);
+	font-weight: 950;
+	font-size: 0.85rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+/* flat pill button — solid fill, no gradient or glow (brand manual has neither) */
 .site-2026 .btn {
 	display: inline-flex;
 	align-items: center;
@@ -124,18 +153,17 @@
 	font-size: 0.95rem;
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
-	transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+	transition: transform 0.15s ease, opacity 0.15s ease;
 	white-space: nowrap;
 }
 .site-2026 .btn--primary {
-	background: linear-gradient(180deg, var(--c-pink), color-mix(in srgb, var(--c-pink) 70%, black));
-	color: white;
-	box-shadow: 0 0 24px color-mix(in srgb, var(--c-pink) 55%, transparent);
+	background: var(--accent, var(--c-pink));
+	color: var(--accent-fg, var(--c-text));
 }
 .site-2026 .btn--ghost {
 	background: transparent;
 	color: var(--c-text);
-	border: 1px solid color-mix(in srgb, var(--c-cyan) 60%, transparent);
+	border: 1px solid var(--c-text);
 }
 .site-2026 .btn:hover {
 	transform: translateY(-2px);
@@ -148,4 +176,35 @@
 .site-2026 a {
 	color: inherit;
 	text-decoration: none;
+}
+
+/* readable-width wrapper for plain paragraphs inside a (now full-width) Section body */
+.site-2026 .u-prose {
+	max-width: 60ch;
+}
+.site-2026 .u-prose + .u-prose {
+	margin-top: 1rem;
+}
+
+.site-2026 .u-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.95rem;
+}
+.site-2026 .u-table th,
+.site-2026 .u-table td {
+	text-align: left;
+	padding: 0.65rem 0.9rem;
+	border-bottom: 1px solid color-mix(in srgb, var(--c-text) 18%, transparent);
+}
+.site-2026 .u-table th {
+	color: var(--accent, var(--c-pink));
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+}
+.site-2026 .u-table th:last-child,
+.site-2026 .u-table td:last-child {
+	text-align: right;
 }

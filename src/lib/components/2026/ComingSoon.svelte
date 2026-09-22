@@ -13,8 +13,7 @@
 		font-size: 0.7rem;
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
-		color: var(--c-yellow);
-		border: 1px dashed color-mix(in srgb, var(--c-yellow) 55%, transparent);
-		background: color-mix(in srgb, var(--c-yellow) 8%, transparent);
+		color: var(--c-text);
+		background: var(--c-pink);
 	}
 </style>

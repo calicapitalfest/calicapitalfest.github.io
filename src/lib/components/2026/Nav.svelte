@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { base } from "$app/paths";
 	import Socials from "./Socials.svelte";
+	import DisplayText from "./DisplayText.svelte";
+	import { flashBubble } from "./flashBubble.svelte";
 
 	const links = [
 		{ href: "#acerca", label: "Acerca" },
@@ -12,6 +14,9 @@
 	];
 
 	let open = $state(false);
+
+	// "MENU!" hint next to the sun — same timing as the hero's "Click me!"
+	const bubble = flashBubble();
 </script>
 
 <svelte:window onkeydown={(e) => e.key === "Escape" && (open = false)} />
@@ -25,9 +30,10 @@
 	>
 		<img src="{base}/assets/brand/sun-face.png" alt="Cali Capital Fest" />
 	</button>
+	<span class="nav__bubble" class:is-on={bubble.on && !open} aria-hidden="true">MENU!</span>
 
 	<div class="nav__follow">
-		<span class="u-kicker nav__follow-label">Síguenos</span>
+		<span class="u-label u-label--display nav__follow-label"><DisplayText text="Síguenos" /></span>
 		<Socials class="nav__socials" />
 	</div>
 </header>
@@ -82,14 +88,49 @@
 		transform: rotate(45deg);
 	}
 
+	/* speech bubble to the right of the sun, tail pointing back at it */
+	.nav__bubble {
+		position: absolute;
+		left: calc(clamp(1rem, 4vw, 2.5rem) + 42px + 0.7rem);
+		top: 50%;
+		translate: 0 -50%;
+		padding: 0.35rem 0.8rem;
+		border-radius: 999px;
+		background: var(--c-yellow);
+		color: #000507;
+		font-family: var(--font-subtitle);
+		font-size: 1.02rem;
+		letter-spacing: 0.06em;
+		white-space: nowrap;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.25s ease, translate 0.25s ease;
+	}
+	.nav__bubble::after {
+		content: "";
+		position: absolute;
+		right: 100%;
+		top: 50%;
+		translate: 0 -50%;
+		border: 6px solid transparent;
+		border-right-color: var(--c-yellow);
+		border-left: 0;
+	}
+	.nav__bubble.is-on,
+	.nav__sun:focus-visible ~ .nav__bubble {
+		opacity: 1;
+		translate: 4px -50%;
+	}
+
 	.nav__follow {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.7rem;
 	}
 	.nav__follow-label {
-		font-size: 0.85rem;
-		letter-spacing: 0.02em;
+		color: var(--c-text);
+		min-height: 2rem;
+		font-size: 0.8rem;
 		white-space: nowrap;
 	}
 	/* the label is a nicety — drop it before the icons on narrow screens */
@@ -123,9 +164,8 @@
 		padding: 0.6rem;
 		border-radius: 18px;
 		background: var(--c-bg-elev);
-		border: 1px solid color-mix(in srgb, var(--c-purple) 45%, transparent);
-		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
-			0 0 40px color-mix(in srgb, var(--c-purple) 30%, transparent);
+		border: 1px solid color-mix(in srgb, var(--c-text) 20%, transparent);
+		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 		animation: menu-in 0.16s ease-out;
 	}
 

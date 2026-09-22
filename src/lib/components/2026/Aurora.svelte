@@ -2,8 +2,46 @@
 	Decorative background: three brand-colour blobs whose radius pulses
 	between 0 and its max (the old static gradient size). Each blob has its
 	own duration and a negative delay, so they never line up.
+
+	This glow is a hero-only flourish — the rest of the page follows the
+	brand manual's flat style, so the blobs fade out once the hero's ticket
+	button (.hero__cta) scrolls past the top of the viewport, and fade back
+	in if the visitor scrolls back up to it.
 -->
-<div class="aurora" aria-hidden="true">
+<script lang="ts">
+	import { onMount } from "svelte";
+
+	let faded = $state(false);
+
+	onMount(() => {
+		let ticking = false;
+		function update() {
+			ticking = false;
+			const el = document.querySelector(".hero__cta");
+			if (!el) return;
+			// gone from view once it slides under the fixed nav bar
+			const navH = document.querySelector(".nav")?.getBoundingClientRect().height ?? 0;
+			faded = el.getBoundingClientRect().bottom < navH;
+		}
+		function onScroll() {
+			if (ticking) return;
+			ticking = true;
+			requestAnimationFrame(update);
+		}
+		update();
+		// app.css gives html/body height:100% + overflow, which makes <body> the
+		// scroller instead of the window — and element scroll events don't
+		// bubble. A capturing listener on document sees scrolls from either.
+		document.addEventListener("scroll", onScroll, { passive: true, capture: true });
+		window.addEventListener("resize", onScroll);
+		return () => {
+			document.removeEventListener("scroll", onScroll, { capture: true });
+			window.removeEventListener("resize", onScroll);
+		};
+	});
+</script>
+
+<div class="aurora" class:is-faded={faded} aria-hidden="true">
 	<span class="blob blob--purple"></span>
 	<span class="blob blob--pink"></span>
 	<span class="blob blob--cyan"></span>
@@ -16,6 +54,11 @@
 		z-index: -1;
 		overflow: hidden;
 		pointer-events: none;
+		opacity: 1;
+		transition: opacity 0.6s ease;
+	}
+	.aurora.is-faded {
+		opacity: 0;
 	}
 
 	.blob {
@@ -87,6 +130,9 @@
 		.blob {
 			animation: none;
 			transform: scale(1);
+		}
+		.aurora {
+			transition: none;
 		}
 	}
 </style>

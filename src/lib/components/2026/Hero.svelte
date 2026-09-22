@@ -1,39 +1,44 @@
 <script lang="ts">
 	import { base } from "$app/paths";
 	import { playOverlay } from "./overlay";
+	import { flashBubble } from "./flashBubble.svelte";
 
 	const suns = ["sun-dancing.png", "sun-handstand.png", "sun-pointing.png"];
 	let sunIndex = $state(0);
 
 	// the hint bubble shows itself: 2s after load, then for 1s every 10s
-	const FIRST_DELAY = 2000;
-	const VISIBLE_FOR = 1000;
-	const EVERY = 10000;
+	const bubble = flashBubble();
 
-	let bubbleOn = $state(false);
+	// Two extra spinning decorations, placed at random on each visit: one in
+	// the left margin, one in the right (below the fixed top-right star), so
+	// they never land on the logo/sun column. Positioned on mount only, so the
+	// server render and hydration agree; they fade in once placed.
+	type Deco = { src: string; x: number; y: number; dur: number; dir: 1 | -1 };
+	let decos = $state<Deco[]>([]);
 
 	$effect(() => {
-		let hideTimer: ReturnType<typeof setTimeout>;
-		const flash = () => {
-			bubbleOn = true;
-			hideTimer = setTimeout(() => (bubbleOn = false), VISIBLE_FOR);
-		};
-		let repeat: ReturnType<typeof setInterval>;
-		const first = setTimeout(() => {
-			flash();
-			repeat = setInterval(flash, EVERY);
-		}, FIRST_DELAY);
-
-		return () => {
-			clearTimeout(first);
-			clearTimeout(hideTimer);
-			clearInterval(repeat);
-		};
+		const r = (min: number, max: number) => min + Math.random() * (max - min);
+		const srcs = ["deco-asterisk.png", "deco-splat.png"].sort(() => Math.random() - 0.5);
+		decos = [
+			{ src: srcs[0], x: r(2, 14), y: r(12, 78), dur: r(16, 28), dir: Math.random() < 0.5 ? 1 : -1 },
+			{ src: srcs[1], x: r(80, 90), y: r(40, 80), dur: r(16, 28), dir: Math.random() < 0.5 ? 1 : -1 }
+		];
 	});
 </script>
 
 <section id="top" class="hero">
 	<img class="hero__deco hero__deco--star" src="{base}/assets/brand/deco-star.png" alt="" />
+	{#each decos as d}
+		<img
+			class="hero__deco hero__deco--rand"
+			src="{base}/assets/brand/{d.src}"
+			alt=""
+			style:left="{d.x}%"
+			style:top="{d.y}%"
+			style:--spin-dur="{d.dur}s"
+			style:animation-direction={d.dir === 1 ? "normal" : "reverse"}
+		/>
+	{/each}
 
 	<div class="hero__inner">
 		<button class="hero__logo-btn" type="button" aria-label="Reproducir intro" onclick={playOverlay}>
@@ -52,7 +57,7 @@
 					<img class="hero__sun-img" src="{base}/assets/brand/{suns[sunIndex]}" alt="" />
 				{/key}
 			</button>
-			<span class="hero__bubble" class:is-on={bubbleOn} aria-hidden="true">Click me!</span>
+			<span class="hero__bubble" class:is-on={bubble.on} aria-hidden="true">Click me!</span>
 		</div>
 
 		<p class="hero__kicker">Festival Internacional de Danza Urbana</p>
@@ -122,7 +127,6 @@
 	.hero__logo {
 		width: min(82vw, 620px);
 		height: auto;
-		filter: drop-shadow(0 0 40px color-mix(in srgb, var(--c-pink) 45%, transparent));
 	}
 
 	.hero__stage {
@@ -166,7 +170,7 @@
 		padding: 0.45rem 0.9rem;
 		border-radius: 999px;
 		background: var(--c-yellow);
-		color: #08040f;
+		color: #000507;
 		font-family: var(--font-subtitle);
 		font-size: clamp(1.02rem, 3vw, 1.22rem);
 		letter-spacing: 0.06em;
@@ -319,6 +323,22 @@
 		right: 6%;
 		animation: spin 22s linear infinite;
 	}
+	.hero__deco--rand {
+		width: clamp(56px, 9vw, 130px);
+		translate: -50% -50%;
+		animation:
+			spin var(--spin-dur, 22s) linear infinite,
+			deco-in 0.6s ease-out;
+	}
+	/* stays under the logo, sun and text */
+	.hero__inner {
+		position: relative;
+		z-index: 1;
+	}
+
+	@keyframes deco-in {
+		from { opacity: 0; }
+	}
 
 	.hero__scroll {
 		position: absolute;
@@ -339,6 +359,6 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.hero__sun, .hero__sun-img, .hero__deco--star, .hero__scroll { animation: none; }
+		.hero__sun, .hero__sun-img, .hero__deco--star, .hero__deco--rand, .hero__scroll { animation: none; }
 	}
 </style>
