@@ -2,12 +2,16 @@
 	import { base } from "$app/paths";
 	import { playOverlay } from "./overlay";
 	import { flashBubble } from "./flashBubble.svelte";
+	import Countdown from "./Countdown.svelte";
+
+	// opening day, Colombia time; the countdown renders nothing once it's past
+	const EVENT_START = "2026-11-17T00:00:00-05:00";
 
 	const suns = ["sun-dancing.png", "sun-handstand.png", "sun-pointing.png"];
 	let sunIndex = $state(0);
 
-	// the hint bubble shows itself: 2s after load, then for 1s every 10s
-	const bubble = flashBubble();
+	// "Click me!" hint: first 5s after load, then for 2s every 10–15s
+	const bubble = flashBubble(5000);
 
 	// Two extra spinning decorations, placed at random on each visit: one in
 	// the left margin, one in the right (below the fixed top-right star), so
@@ -83,7 +87,7 @@
 		</p>
 
 		<div class="hero__cta">
-			<span class="btn btn--primary btn--disabled">Entradas — Próximamente</span>
+			<Countdown target={EVENT_START} label="Tiempo para el festival" />
 		</div>
 	</div>
 
@@ -170,7 +174,7 @@
 		padding: 0.45rem 0.9rem;
 		border-radius: 999px;
 		background: var(--c-yellow);
-		color: #000507;
+		color: #000101;
 		font-family: var(--font-subtitle);
 		font-size: clamp(1.02rem, 3vw, 1.22rem);
 		letter-spacing: 0.06em;
@@ -311,6 +315,26 @@
 		align-items: center;
 		justify-content: center;
 		margin-top: 0.5rem;
+	}
+	/* countdown to the festival: brand-pink boxes, Polymath digits */
+	.hero__cta :global(.countdown) {
+		gap: clamp(0.5rem, 2vw, 0.9rem);
+	}
+	.hero__cta :global(.countdown__unit) {
+		min-width: clamp(3.6rem, 14vw, 5rem);
+		padding: 0.6rem 0.5rem 0.5rem;
+		border: 0;
+		border-radius: 14px;
+		background: var(--c-pink);
+		color: #ffffff;
+	}
+	.hero__cta :global(.countdown__n) {
+		font-size: clamp(1.6rem, 6vw, 2.4rem);
+	}
+	.hero__cta :global(.countdown__l) {
+		font-weight: 700;
+		font-size: 0.72rem;
+		opacity: 0.8;
 	}
 	.hero__deco {
 		position: absolute;

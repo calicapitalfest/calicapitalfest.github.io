@@ -10,7 +10,7 @@
 	<Socials size={24} />
 
 	<div class="foot__links">
-		<a href="{base}/2025">Edición 2025</a>
+		<a class="foot__mail" href="mailto:calicapitalfest@thegiantsco.com">calicapitalfest@thegiantsco.com</a>
 	</div>
 
 	<p class="foot__legal">© {year} Cali Capital Fest · Cali, Colombia</p>
@@ -42,6 +42,12 @@
 	}
 	.foot__links a {
 		color: var(--c-cyan);
+	}
+	/* an address reads wrong in capitals */
+	.foot__links .foot__mail {
+		text-transform: none;
+		letter-spacing: 0.02em;
+		font-size: 0.95rem;
 	}
 	.foot__legal {
 		color: var(--c-muted);

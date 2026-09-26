@@ -1,0 +1,606 @@
+/* ------------------------------------------------------------------ *
+ *  Cali Capital Fest 2026 — flashcards                                *
+ *  Rebuilt from the designer's SVGs (temp/drive-download-…/):         *
+ *    Descripcion  → .dc--desc    (Acerca carousel)                    *
+ *    Line Up      → .dc--lineup                                       *
+ *    Pases        → .dc--pass    (Paquetes carousel)                  *
+ *    Competencias → .dc--form    (League / Battles inscripción)       *
+ *  Cronograma (.dc--day) has no design; it reuses the same parts.     *
+ *                                                                     *
+ *  Every size is in cqi (1% of the card's width), taken from the SVG  *
+ *  artboards (1001.87 units wide), so a card keeps the design's       *
+ *  proportions at any width. .dc is the size container and .dc__in    *
+ *  paints the card — cqi can't refer to the element that declares it. *
+ * ------------------------------------------------------------------ */
+
+.site-2026 .dc {
+	/* The designs use DM Sans at its large optical size (tighter, narrower
+	   than the static cut the rest of the site uses) and weights up to
+	   ExtraBold, so cards load the variable font (see 2026.css). */
+	--font-card: 'DM Sans Variable', var(--font-body);
+	font-variation-settings: 'opsz' 40;
+	letter-spacing: -0.015em;
+	container-type: inline-size;
+	flex: none;
+	width: min(80vw, 340px);
+}
+.site-2026 .dc__in {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	border-radius: 11.4cqi;
+	background: var(--accent);
+	color: var(--accent-fg);
+	padding: var(--dc-pt, 11.7cqi) 8.2cqi 0;
+}
+/* app.css gives p and h3 their own size and colour; cards set their own.
+   :where() keeps this reset below every card rule in specificity. */
+.site-2026 .dc :where(h3, p, ul, li) {
+	color: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	margin: 0;
+}
+
+/* Polymath Super, one word per line, sentence case (not the uppercase
+   section titles) */
+.site-2026 .dc__title {
+	font-family: var(--font-display);
+	font-weight: 950;
+	font-size: 13cqi;
+	line-height: 1;
+	letter-spacing: -0.01em;
+	color: var(--title-fg, inherit);
+}
+.site-2026 .dc__title > span {
+	display: block;
+}
+
+/* Light fills (panels, buttons, date pills) are drawn as the designs do:
+   cream on "screen" at 97%, so they read near-white on purple/cyan/magenta
+   and cream on lime/yellow. The fill is a pseudo-element so the text on top
+   isn't blended too. --fill-* override it (Clases Sueltas' dark pill). */
+.site-2026 :is(.dc__panel, .dc__buy, .dc__pill, .dc__btn, .dc__time)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border-radius: inherit;
+	background: var(--fill-bg, #ffffe8);
+	mix-blend-mode: var(--fill-blend, screen);
+	opacity: var(--fill-opacity, 0.97);
+}
+.site-2026 .dc__btn {
+	position: relative;
+}
+
+/* ---- Descripción (Acerca) ----------------------------------------- */
+.site-2026 .dc--desc .dc__in {
+	--dc-pt: 9.6cqi;
+	aspect-ratio: 1001.87 / 1121.14;
+}
+.site-2026 .dc__panel {
+	position: absolute;
+	left: 8.27cqi;
+	top: 58.2cqi;
+	width: 79.32cqi;
+	height: 45.4cqi;
+	display: flex;
+	align-items: center;
+	padding: 0 6.5cqi 0 7.3cqi;
+	border-radius: 8cqi;
+	color: var(--panel-fg, var(--accent));
+	font-family: var(--font-card);
+	font-weight: 500;
+	font-size: 4.9cqi;
+	line-height: 1.33;
+}
+/* line breaks copied from the designs (\n in the data) */
+.site-2026 .dc__panel > span {
+	white-space: pre-line;
+}
+.site-2026 .dc__panel strong {
+	font-weight: 700;
+}
+
+/* ---- Line Up ------------------------------------------------------ */
+.site-2026 .dc--lineup .dc__in {
+	aspect-ratio: 1001.87 / 1121.14;
+	padding: 0;
+}
+.site-2026 .dc__label {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 13.6cqi;
+	text-align: center;
+	font-family: var(--font-display);
+	font-weight: 950;
+	font-size: 9cqi;
+	line-height: 1;
+	letter-spacing: -0.01em;
+	color: #ffffe8;
+}
+
+.site-2026 .dc__paren {
+	font-family: var(--font-card);
+	font-weight: 700;
+}
+
+/* ---- Pases (Paquetes) --------------------------------------------- */
+.site-2026 .dc--pass .dc__in {
+	--dc-pt: 12.5cqi;
+	aspect-ratio: 1001.87 / 1332.95;
+}
+.site-2026 .dc__lead {
+	margin-top: 8.2cqi;
+	font-family: var(--font-card);
+	font-size: 4.8cqi;
+	line-height: 1.4;
+}
+.site-2026 .dc__lead strong {
+	display: block;
+	font-weight: 700;
+}
+/* line breaks copied from the designs (\n in the data) */
+.site-2026 .dc__lead span {
+	display: block;
+	font-weight: 400;
+	white-space: pre-line;
+}
+.site-2026 .dc__buy {
+	position: absolute;
+	left: 55.89cqi;
+	top: 72.26cqi;
+	width: 31.42cqi;
+	height: 11.64cqi;
+	display: grid;
+	place-items: center;
+	border-radius: 4.18cqi;
+	color: #000101;
+	font-family: var(--font-card);
+	font-weight: 800;
+	font-size: 4.8cqi;
+	letter-spacing: -0.01em;
+	text-transform: uppercase;
+}
+/* COMPRAR: polished metal that tilts in 3D. It turns more on the vertical
+   axis (rotateY) than on the horizontal one (rotateX), and the highlight
+   sweeps across in step with the tilt, as light would on a metal plate. */
+.site-2026 .dc__buy {
+	--fill-bg: linear-gradient(
+		160deg,
+		#fbfbf6 0%,
+		#d9dbdc 28%,
+		#ffffff 46%,
+		#b6babd 62%,
+		#e9eae6 82%,
+		#c9ccce 100%
+	);
+	--fill-blend: normal;
+	--fill-opacity: 1;
+	overflow: hidden;
+	box-shadow:
+		inset 0 0.5cqi 0.4cqi rgb(255 255 255 / 0.9),
+		inset 0 -0.6cqi 0.6cqi rgb(0 0 0 / 0.18),
+		0 1.2cqi 2.4cqi rgb(0 0 0 / 0.22);
+	transform-style: preserve-3d;
+	animation: dc-buy-tilt 5s ease-in-out infinite;
+}
+.site-2026 .dc__buy::after {
+	content: "";
+	position: absolute;
+	inset: -20% auto -20% 0;
+	width: 45%;
+	background: linear-gradient(
+		100deg,
+		transparent 0%,
+		rgb(255 255 255 / 0.95) 50%,
+		transparent 100%
+	);
+	z-index: -1;
+	mix-blend-mode: soft-light;
+	pointer-events: none;
+	animation: dc-buy-shine 5s ease-in-out infinite;
+}
+@keyframes dc-buy-tilt {
+	0%,
+	100% {
+		transform: perspective(60cqi) rotateY(-22deg) rotateX(6deg);
+	}
+	50% {
+		transform: perspective(60cqi) rotateY(22deg) rotateX(-6deg);
+	}
+}
+@keyframes dc-buy-shine {
+	0%,
+	100% {
+		translate: -110% 0;
+	}
+	50% {
+		translate: 330% 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.site-2026 .dc__buy,
+	.site-2026 .dc__buy::after {
+		animation: none;
+	}
+}
+/* vertically centred on the COMPRAR button */
+.site-2026 .dc__price {
+	position: absolute;
+	left: 8.2cqi;
+	top: 78.08cqi;
+	translate: 0 -50%;
+	font-family: var(--font-card);
+	font-weight: 900;
+	font-size: 6.8cqi;
+	letter-spacing: -0.025em;
+	line-height: 1;
+	white-space: nowrap;
+}
+.site-2026 .dc__when {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 95.8cqi;
+	translate: 0 -50%;
+	text-align: center;
+	font-family: var(--font-card);
+	font-weight: 500;
+	font-size: 3.8cqi;
+	line-height: 1;
+}
+.site-2026 .dc__pill {
+	position: absolute;
+	left: 11.13cqi;
+	top: 99.38cqi;
+	width: 77.74cqi;
+	height: 19.54cqi;
+	display: grid;
+	place-items: center;
+	border-radius: 5.82cqi;
+	color: var(--pill-fg, #000101);
+	font-family: var(--font-card);
+	font-weight: 800;
+	font-size: 5.4cqi;
+	letter-spacing: -0.025em;
+	text-transform: uppercase;
+}
+.site-2026 .dc__fine {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 122.6cqi;
+	translate: 0 -50%;
+	text-align: center;
+	font-family: var(--font-card);
+	font-weight: 500;
+	font-size: 2.8cqi;
+	line-height: 1;
+}
+
+/* two-column price list (Clases Sueltas, Inscripción) */
+.site-2026 .dc__rows {
+	display: grid;
+	grid-template-columns: 43.3cqi 1fr;
+	column-gap: 0;
+	font-family: var(--font-card);
+	font-size: 6cqi;
+	line-height: 1;
+}
+.site-2026 .dc__rows > * {
+	padding-bottom: var(--row-gap, 5.6cqi);
+}
+.site-2026 .dc__rows .dc__head {
+	grid-column: 1 / -1;
+	font-weight: 800;
+}
+/* column headings (Clases Sueltas: Nivel | Inversión) */
+.site-2026 .dc__rows .dc__head--col {
+	grid-column: auto;
+}
+.site-2026 .dc__rows .dc__k {
+	font-weight: 500;
+}
+.site-2026 .dc__rows .dc__v {
+	font-weight: 900;
+	letter-spacing: -0.025em;
+	white-space: nowrap;
+}
+.site-2026 .dc--pass .dc__rows {
+	margin-top: 6cqi;
+	--row-gap: 5.6cqi;
+}
+
+/* Bonos de Ingreso: a pass card ~9% taller (1453 units, per the design),
+   so its two three-line rows fit; the date box moves down with it. */
+.site-2026 .dc--bonos .dc__in {
+	aspect-ratio: 1001.87 / 1453;
+}
+.site-2026 .dc--bonos .dc__rows {
+	margin-top: 11cqi;
+	font-size: 5.3cqi;
+	line-height: 1.1;
+	--row-gap: 5cqi;
+}
+.site-2026 .dc--bonos .dc__rows .dc__head {
+	font-size: 5.6cqi;
+	padding-bottom: 7cqi;
+}
+/* day in bold on its own line, then the event (line breaks from the data) */
+.site-2026 .dc--bonos .dc__k {
+	white-space: pre-line;
+}
+.site-2026 .dc--bonos .dc__k strong {
+	display: block;
+	font-weight: 800;
+}
+.site-2026 .dc--bonos .dc__when {
+	top: 113cqi;
+}
+.site-2026 .dc--bonos .dc__pill {
+	top: 116.8cqi;
+}
+
+/* ---- Competencias (Inscripción) ------------------------------------ */
+.site-2026 .dc--form {
+	width: min(88vw, 380px);
+}
+.site-2026 .dc--form .dc__in {
+	--dc-pt: 12.7cqi;
+	padding-bottom: 6.3cqi;
+}
+.site-2026 .dc--form .dc__rows {
+	margin-top: 12cqi;
+	line-height: 0.97;
+}
+.site-2026 .dc--form .dc__rows .dc__head {
+	font-size: 6.3cqi;
+	padding-bottom: 4.9cqi;
+}
+.site-2026 .dc__btns {
+	display: flex;
+	flex-direction: column;
+	gap: 4.49cqi;
+	margin: 5.9cqi 2.93cqi 0;
+}
+.site-2026 .dc__btn {
+	display: grid;
+	place-items: center;
+	height: 19.54cqi;
+	border-radius: 5.82cqi;
+	color: #000101;
+	font-family: var(--font-card);
+	font-weight: 800;
+	font-size: 5.8cqi;
+	letter-spacing: -0.02em;
+}
+
+/* Reglamento / Registro: COMPRAR's tilt and sweeping highlight, at its
+   pace (5s) but gentler, and with the axes' strengths swapped: these rock mostly on
+   the horizontal axis (rotateX), only a little on the vertical one. The second button runs a beat behind
+   the first, so they don't move as one block. */
+.site-2026 .dc__btn {
+	overflow: hidden;
+	box-shadow:
+		inset 0 0.5cqi 0.4cqi rgb(255 255 255 / 0.7),
+		inset 0 -0.6cqi 0.6cqi rgb(0 0 0 / 0.12),
+		0 1.2cqi 2.4cqi rgb(0 0 0 / 0.18);
+	transform-style: preserve-3d;
+	animation: dc-btn-tilt 5s ease-in-out infinite;
+}
+.site-2026 .dc__btn::after {
+	content: "";
+	position: absolute;
+	inset: -20% auto -20% 0;
+	width: 35%;
+	background: linear-gradient(
+		100deg,
+		transparent 0%,
+		rgb(255 255 255 / 0.9) 50%,
+		transparent 100%
+	);
+	z-index: -1;
+	mix-blend-mode: soft-light;
+	pointer-events: none;
+	animation: dc-btn-shine 5s ease-in-out infinite;
+}
+.site-2026 .dc__btn:nth-child(2),
+.site-2026 .dc__btn:nth-child(2)::after {
+	animation-delay: -1.25s;
+}
+@keyframes dc-btn-tilt {
+	0%,
+	100% {
+		transform: perspective(90cqi) rotateY(-3deg) rotateX(10deg);
+	}
+	50% {
+		transform: perspective(90cqi) rotateY(3deg) rotateX(-10deg);
+	}
+}
+@keyframes dc-btn-shine {
+	0%,
+	100% {
+		translate: -110% 0;
+	}
+	50% {
+		translate: 400% 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.site-2026 .dc__btn,
+	.site-2026 .dc__btn::after {
+		animation: none;
+	}
+}
+
+/* ---- Faith Pass: tap-to-reveal cover over the price ------------------ */
+/* Frosted glass lying over the price: it blurs the digits beneath it
+   into a smudge. Tapping flips it up off the card and the price shows. */
+.site-2026 .dc__reveal {
+	position: absolute;
+	left: 4.4cqi;
+	top: 78.08cqi;
+	width: 49.4cqi;
+	height: 14.5cqi;
+	translate: 0 -50%;
+	display: grid;
+	place-items: center;
+	padding: 0;
+	border: 0;
+	border-radius: 4.18cqi;
+	background: linear-gradient(
+		135deg,
+		rgb(255 255 255 / 0.42),
+		rgb(255 255 255 / 0.16)
+	);
+	-webkit-backdrop-filter: blur(2.8cqi) saturate(1.4);
+	backdrop-filter: blur(2.8cqi) saturate(1.4);
+	box-shadow:
+		inset 0 0.3cqi 0.6cqi rgb(255 255 255 / 0.55),
+		0 1.2cqi 3cqi rgb(0 0 0 / 0.14);
+	color: var(--accent-fg);
+	font-family: var(--font-card);
+	font-weight: 800;
+	font-size: 4.8cqi;
+	letter-spacing: -0.01em;
+	line-height: 1;
+	cursor: pointer;
+	transform-origin: 50% 0;
+	transition:
+		transform 0.6s cubic-bezier(0.5, -0.4, 0.3, 1),
+		opacity 0.45s 0.15s ease;
+	animation: dc-reveal-nudge 2.6s ease-in-out infinite;
+}
+/* Clases Sueltas: the same glass over the whole price column (its three
+   rows span 51.5–91.8 × 56–85cqi). `top` is the centre, like the pass cover. */
+.site-2026 .dc__reveal--rows {
+	left: 48.5cqi;
+	top: 70.8cqi;
+	width: 45cqi;
+	height: 33.5cqi;
+}
+.site-2026 .dc__reveal:focus-visible {
+	outline: 0.6cqi solid var(--accent-fg);
+	outline-offset: 0.8cqi;
+}
+.site-2026 .dc__reveal.is-open {
+	transform: perspective(60cqi) rotateX(-95deg) translateY(-6cqi);
+	opacity: 0;
+	pointer-events: none;
+	animation: none;
+}
+@keyframes dc-reveal-nudge {
+	0%,
+	70%,
+	100% {
+		translate: 0 -50%;
+	}
+	78% {
+		translate: 0 -58%;
+	}
+	86% {
+		translate: 0 -50%;
+	}
+	92% {
+		translate: 0 -53%;
+	}
+}
+/* COMPRAR outside the sale window: a frosted box a little bigger than
+   the button lies over it, and its label sits in the strip above the
+   button so the two never overlap. It takes the clicks too. */
+.site-2026 .dc__closed {
+	position: absolute;
+	z-index: 2;
+	left: 54.4cqi;
+	width: 34.4cqi;
+	top: 64.6cqi;
+	height: 20.8cqi; /* down to 1.5cqi below the button */
+	display: flex;
+	justify-content: center;
+	padding-top: 2cqi;
+	border-radius: 5.4cqi;
+	/* the "Revelar Precio!" glass, but thinner and clearer so COMPRAR still
+	   shows through; text in the card's own colour */
+	background: linear-gradient(
+		135deg,
+		rgb(255 255 255 / 0.24),
+		rgb(255 255 255 / 0.08)
+	);
+	-webkit-backdrop-filter: blur(0.7cqi) saturate(1.2);
+	backdrop-filter: blur(0.7cqi) saturate(1.2);
+	box-shadow:
+		inset 0 0.3cqi 0.6cqi rgb(255 255 255 / 0.55),
+		0 1.2cqi 3cqi rgb(0 0 0 / 0.14);
+	color: var(--accent-fg);
+	font-family: var(--font-card);
+	font-weight: 800;
+	font-size: 3.2cqi;
+	letter-spacing: -0.01em;
+	line-height: 1;
+	white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+	.site-2026 .dc__reveal {
+		animation: none;
+		transition: opacity 0.3s ease;
+	}
+	.site-2026 .dc__reveal.is-open {
+		transform: none;
+	}
+}
+
+/* ---- Cronograma (one card per day) ----------------------------------- */
+/* No design exists for these; they reuse the pass cards' parts: Polymath
+   title, DM Sans rows, and the time in the same cream "screen" chip. */
+.site-2026 .dc--day {
+	width: auto;
+}
+.site-2026 .dc--day .dc__in {
+	--dc-pt: 11cqi;
+	height: 100%;
+	padding-bottom: 9cqi;
+}
+.site-2026 .dc__group {
+	margin-top: 7cqi;
+	font-family: var(--font-card);
+	font-weight: 800;
+	font-size: 5.4cqi;
+	line-height: 1.2;
+}
+.site-2026 .dc__agenda {
+	list-style: none;
+	margin-top: 6cqi;
+	padding: 0;
+	display: grid;
+	gap: 3.6cqi;
+}
+.site-2026 .dc__group + .dc__agenda {
+	margin-top: 3.6cqi;
+}
+.site-2026 .dc__agenda li {
+	display: grid;
+	grid-template-columns: 26cqi 1fr;
+	align-items: center;
+	column-gap: 3.6cqi;
+	font-family: var(--font-card);
+	font-weight: 500;
+	font-size: 5cqi;
+	line-height: 1.15;
+	text-wrap: balance;
+}
+.site-2026 .dc__time {
+	position: relative;
+	display: grid;
+	place-items: center;
+	height: 9.5cqi;
+	border-radius: 3cqi;
+	color: #000101;
+	font-weight: 800;
+	font-size: 3.9cqi;
+	letter-spacing: -0.01em;
+	white-space: nowrap;
+	text-transform: uppercase;
+}

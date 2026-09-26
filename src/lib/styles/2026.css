@@ -66,18 +66,34 @@
 	font-weight: 600;
 	font-display: swap;
 }
+@font-face {
+	font-family: 'DM Sans 2026';
+	src: url('/fonts/dmsans-bold.woff2') format('woff2');
+	font-weight: 700;
+	font-display: swap;
+}
+/* Variable DM Sans (wght + opsz axes) for the flashcards, which follow the
+   designer's large-optical-size, up-to-Black cut (see 2026-cards.css). */
+@font-face {
+	font-family: 'DM Sans Variable';
+	src: url('/fonts/dmsans-variable.woff2') format('woff2');
+	font-weight: 100 1000;
+	font-display: swap;
+}
 
 .site-2026 {
-	/* Cali Capital brand manual (2026), "Colores principales" / "Colores secundarios" */
-	--c-bg: #000507;
+	/* Cali Capital brand manual (2026), "Colores principales" / "Colores secundarios".
+	   Values are sampled from the manual's swatches as rendered, which the client
+	   prefers over the (duller) hex codes printed on them. */
+	--c-bg: #000101;
 	--c-bg-elev: #141416;
-	--c-pink: #ff245e; /* fucsia — principal */
-	--c-yellow: #f2cf00; /* principal */
-	--c-blue: #0073d8; /* principal */
-	--c-cyan: #00ebff; /* secundario */
-	--c-purple: #9546ff; /* secundario */
-	--c-magenta: #ff48d4; /* secundario */
-	--c-lime: #ccff00; /* secundario */
+	--c-pink: #ff1f5f; /* fucsia — principal */
+	--c-yellow: #fed000; /* principal */
+	/* the brand blue (#0074d7) is left out: the client rejected it */
+	--c-cyan: #00e7ff; /* secundario */
+	--c-purple: #a544ff; /* secundario */
+	--c-magenta: #ff46d4; /* secundario */
+	--c-lime: #acff00; /* secundario */
 	--c-text: #ffffe9; /* cream — brand's off-white */
 	--c-muted: #c7c4b2;
 
@@ -86,6 +102,11 @@
 	--font-body: 'DM Sans 2026', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
 	--nav-h: 60px;
+	/* the flashcards' body size (.dc__panel: 4.9cqi of a min(80vw, 340px)
+	   card), so text on the page background matches the text in the cards */
+	--card-text: calc(min(80vw, 340px) * 0.049);
+	/* text on the page background: 2pt above the cards' text */
+	--body-text: calc(var(--card-text) + 2pt);
 
 	background-color: var(--c-bg);
 	color: var(--c-text);
@@ -113,13 +134,13 @@
 	font-weight: 400;
 	/* tight tracking, matching the "CAPITAL" wordmark in the brand manual */
 	letter-spacing: 0.02em;
-	font-size: 1.02rem;
+	font-size: 1.92rem;
 	color: var(--accent, var(--c-pink));
 }
 
 /* Flat pill label in the section colour — used next to the carousel arrows
-   ("Cronograma", "Paquetes"…). Guttery like the other subtitles; the
-   --display variant ("Síguenos") switches to the title face. */
+   ("Cronograma", "Paquetes"…). DM Sans bold — Guttery is kept for the
+   kicker subtitles and speech bubbles only; the --display variant ("Síguenos") switches to the title face. */
 .site-2026 .u-label {
 	display: inline-flex;
 	align-items: center;
@@ -128,8 +149,8 @@
 	border-radius: 1.2rem;
 	background: var(--accent, var(--c-pink));
 	color: var(--accent-fg, var(--c-bg));
-	font-family: var(--font-subtitle);
-	font-weight: 400;
+	font-family: var(--font-body);
+	font-weight: 700;
 	font-size: 1.1rem;
 	letter-spacing: 0.02em;
 	line-height: 1.1;
@@ -181,6 +202,11 @@
 /* readable-width wrapper for plain paragraphs inside a (now full-width) Section body */
 .site-2026 .u-prose {
 	max-width: 60ch;
+	font-size: var(--body-text);
+}
+/* app.css sizes every p (text-sm / md:text-base) */
+.site-2026 .u-prose p {
+	font-size: var(--body-text);
 }
 .site-2026 .u-prose + .u-prose {
 	margin-top: 1rem;

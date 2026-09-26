@@ -6,6 +6,6 @@ export default defineConfig({
 	plugins: [sveltekit(), tailwindcss()],
 	server: {
 		host: true,
-		allowedHosts: ['perkeo.local']
+		allowedHosts: ['perkeo.local', 'calicapitalfest.figarofigaro.org']
 	}
 });

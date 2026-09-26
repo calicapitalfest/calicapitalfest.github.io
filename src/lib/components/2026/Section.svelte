@@ -8,21 +8,16 @@
 		kicker = "",
 		title,
 		icon = "",
-		iconBg = "",
-		// The background shape is drawn as a mask, so any of the flat-*.svg
-		// files can be tinted to any colour here.
 		bgColor = "var(--c-pink)",
-		// Placement knobs. Both the icon and its background pivot on the same
-		// fixed centre, so rotation never drifts and x/y are offsets from it.
-		// x/y are percentages of the element's own size; rotate is degrees.
+		// Placement knobs. The icon is absolutely positioned on the centre of a
+		// fixed square box (the same box in every section):
+		//   iconSize    icon width as a fraction of the box width
+		//   iconX/iconY offset of the icon's centre, in % of the box
+		//   iconRotate  degrees, around the icon's own centre
+		iconSize = 1,
 		iconRotate = 0,
 		iconX = 0,
 		iconY = 0,
-		iconScale = 1,
-		bgRotate = 0,
-		bgX = 0,
-		bgY = 0,
-		bgScale = 1,
 		// Exposed as --accent/--accent-fg on the section root, so the kicker,
 		// tables, buttons and flashcards inside it (see +page.svelte) all pick
 		// up this section's brand colour without repeating it everywhere.
@@ -33,16 +28,11 @@
 		kicker?: string;
 		title: string;
 		icon?: string;
-		iconBg?: string;
 		bgColor?: string;
+		iconSize?: number;
 		iconRotate?: number;
 		iconX?: number;
 		iconY?: number;
-		iconScale?: number;
-		bgRotate?: number;
-		bgX?: number;
-		bgY?: number;
-		bgScale?: number;
 		accentFg?: string;
 		children?: import("svelte").Snippet;
 	} = $props();
@@ -52,25 +42,14 @@
 	<div class="sec__head">
 		{#if icon}
 			<span class="sec__icon-wrap">
-				{#if iconBg}
-					<span
-						class="sec__icon-bg"
-						style:--bg-src="url({base}/assets/brand/{iconBg})"
-						style:--bg-color={bgColor}
-						style:--bg-rotate="{bgRotate}deg"
-						style:--bg-x="{bgX}%"
-						style:--bg-y="{bgY}%"
-						style:--bg-scale={bgScale}
-					></span>
-				{/if}
 				<img
 					class="sec__icon"
-					src="{base}/assets/brand/{icon}"
+					src="{base}/assets/brand/trimmed/{icon}"
 					alt=""
+					style:--icon-size={iconSize}
 					style:--icon-rotate="{iconRotate}deg"
 					style:--icon-x="{iconX}%"
 					style:--icon-y="{iconY}%"
-					style:--icon-scale={iconScale}
 				/>
 			</span>
 		{/if}
@@ -97,65 +76,60 @@
 		scroll-margin-top: calc(var(--nav-h) + 12px);
 	}
 
+	/* Icon column has a fixed width, so every section's icon shares the same
+	   centre line and every title starts at the same x, whatever the icon's
+	   shape. The title column is minmax(0, 1fr), so it wraps instead of
+	   running under the icon. */
 	.sec__head {
-		display: flex;
+		--icon-box: clamp(122px, 22.95vw, 194px); /* 170% of 72px / 13.5vw / 114px */
+		--title-size: clamp(2.4rem, 7vw, 4.5rem);
+		display: grid;
+		grid-template-columns: var(--icon-box) minmax(0, 1fr);
 		align-items: center;
 		gap: 1.4rem;
 		margin-bottom: 2rem;
 	}
+	.sec__head > :only-child {
+		grid-column: 1 / -1;
+	}
 	.sec__icon-wrap {
 		position: relative;
-		display: inline-grid;
-		place-items: center;
-		flex-shrink: 0;
+		display: block;
+		width: var(--icon-box);
+		height: var(--icon-box);
 	}
-	/* Both layers share the wrapper's centre as their pivot, so rotate/scale
-	   stay put and x/y read as offsets from that one fixed point. */
+	/* Absolutely positioned on the box centre; its size comes from iconSize
+	   rather than the file's proportions, so a tall icon (the mic) no longer
+	   fills the whole box height. The files are trimmed to their visible
+	   pixels (assets/brand/trimmed), so the centre is the artwork's centre. */
 	.sec__icon {
-		position: relative;
-		z-index: 1;
-		height: clamp(72px, 13.5vw, 114px);
-		width: auto;
-		transform-origin: 50% 50%;
-		translate: var(--icon-x, 0%) var(--icon-y, 0%);
-		rotate: var(--icon-rotate, 0deg);
-		scale: var(--icon-scale, 1);
-	}
-	.sec__icon-bg {
 		position: absolute;
-		z-index: 0;
-		/* square box + contain, so the varying shape ratios all read the same size */
-		width: clamp(52px, 9.33vw, 79px);
-		height: clamp(52px, 9.33vw, 79px);
-		/* masked rather than drawn, so one file works in any brand colour */
-		background-color: var(--bg-color, var(--c-pink));
-		-webkit-mask-image: var(--bg-src);
-		mask-image: var(--bg-src);
-		-webkit-mask-repeat: no-repeat;
-		mask-repeat: no-repeat;
-		-webkit-mask-position: center;
-		mask-position: center;
-		-webkit-mask-size: contain;
-		mask-size: contain;
-		transform-origin: 50% 50%;
-		translate: var(--bg-x, 0%) var(--bg-y, 0%);
-		rotate: var(--bg-rotate, 0deg);
-		scale: var(--bg-scale, 1);
-		opacity: 0.85;
-		pointer-events: none;
+		left: calc(50% + var(--icon-x, 0%));
+		top: calc(50% + var(--icon-y, 0%));
+		z-index: 1;
+		width: calc(var(--icon-box) * var(--icon-size, 1));
+		height: auto;
+		max-width: none;
+		translate: -50% -50%;
+		rotate: var(--icon-rotate, 0deg);
 	}
 	/* the kicker ("El Festival", "Artistas"…) sits indented under the title's
 	   first letter rather than flush with it */
+	/* Sized as a fixed ratio of the title (1.92rem at the 4.5rem desktop
+	   title), so zooming the page scales both together. Zooming out widens
+	   the viewport, which grows the vw-based title; a fixed rem kicker would
+	   shrink against it. The 1.44rem floor only applies on phones (<~770px). */
 	.sec__head .u-kicker {
-		padding-left: clamp(0.6rem, 1.6vw, 1.1rem);
+		font-size: max(1.44rem, calc(var(--title-size) * 0.4267));
+		padding-left: calc(var(--title-size) * 0.2444);
 	}
 	.sec__title {
-		font-size: clamp(2.4rem, 7vw, 4.5rem);
+		font-size: var(--title-size);
 		color: var(--c-text);
 	}
 
 	.sec__body {
 		color: var(--c-muted);
-		font-size: 1.05rem;
+		font-size: var(--body-text);
 	}
 </style>

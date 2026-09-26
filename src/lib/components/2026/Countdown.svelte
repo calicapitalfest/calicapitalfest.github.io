@@ -1,6 +1,7 @@
 <!-- Ticking countdown to an ISO date, e.g. for a limited-time ticket promo. -->
 <script lang="ts">
-	let { target }: { target: string } = $props();
+	let { target, label = "Tiempo restante de la promoción" }: { target: string; label?: string } =
+		$props();
 
 	let now = $state(Date.now());
 
@@ -18,7 +19,7 @@
 </script>
 
 {#if !expired}
-	<div class="countdown" role="timer" aria-label="Tiempo restante de la promoción">
+	<div class="countdown" role="timer" aria-label={label}>
 		<div class="countdown__unit">
 			<span class="countdown__n">{days}</span>
 			<span class="countdown__l">d</span>

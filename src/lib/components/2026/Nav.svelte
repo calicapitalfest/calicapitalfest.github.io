@@ -4,19 +4,22 @@
 	import DisplayText from "./DisplayText.svelte";
 	import { flashBubble } from "./flashBubble.svelte";
 
+	// absolute, so the menu also works from subpages (the League reglamento)
 	const links = [
-		{ href: "#acerca", label: "Acerca" },
-		{ href: "#lineup", label: "Line Up" },
-		{ href: "#talleres", label: "Talleres" },
-		{ href: "#batallas", label: "Batallas" },
-		{ href: "#entradas", label: "Entradas" },
-		{ href: "#ubicacion", label: "Ubicación" }
+		{ href: `${base}/#acerca`, label: "El Festival" },
+		{ href: `${base}/#lineup`, label: "Line Up" },
+		{ href: `${base}/#paquetes`, label: "Paquetes" },
+		{ href: `${base}/#league`, label: "League of Giants" },
+		{ href: `${base}/#battles`, label: "Battles of Giants" },
+		{ href: `${base}/#cronograma`, label: "Agenda" },
+		{ href: `${base}/#apoyan`, label: "Apoyan" }
 	];
 
 	let open = $state(false);
 
-	// "MENU!" hint next to the sun — same timing as the hero's "Click me!"
-	const bubble = flashBubble();
+	// "MENU!" hint next to the sun: first 2s after load, then for 2s every
+	// 10–15s, independently of the hero's "Click me!"
+	const bubble = flashBubble(2000);
 </script>
 
 <svelte:window onkeydown={(e) => e.key === "Escape" && (open = false)} />
@@ -97,7 +100,7 @@
 		padding: 0.35rem 0.8rem;
 		border-radius: 999px;
 		background: var(--c-yellow);
-		color: #000507;
+		color: #000101;
 		font-family: var(--font-subtitle);
 		font-size: 1.02rem;
 		letter-spacing: 0.06em;

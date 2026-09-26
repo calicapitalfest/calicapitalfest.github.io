@@ -1,6 +1,7 @@
 <script lang="ts">
 	import "../../app.css";
 	import "$lib/styles/2026.css";
+	import "$lib/styles/2026-cards.css";
 	import Nav from "$lib/components/2026/Nav.svelte";
 	import Footer from "$lib/components/2026/Footer.svelte";
 	import Aurora from "$lib/components/2026/Aurora.svelte";

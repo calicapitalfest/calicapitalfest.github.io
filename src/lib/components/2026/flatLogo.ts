@@ -10,10 +10,10 @@ export const FLAT_LOGO_CAPITAL = "M 1750 759.726 C 1739.825 760.400, 1724.075 76
 
 /** Background / CALI / CAPITAL — the six approved combinations. */
 export const LOGO_COMBOS = [
-	{ bg: "#000507", cali: "#f2cf00", capital: "#ffffe9" },
-	{ bg: "#f2cf00", cali: "#ffffe9", capital: "#000507" },
-	{ bg: "#ffffe9", cali: "#ff245e", capital: "#000507" },
-	{ bg: "#ffffe9", cali: "#000507", capital: "#ff245e" },
-	{ bg: "#ff245e", cali: "#000507", capital: "#ffffe9" },
-	{ bg: "#000507", cali: "#ff245e", capital: "#ffffe9" }
+	{ bg: "#000101", cali: "#fed000", capital: "#ffffe9" },
+	{ bg: "#fed000", cali: "#ffffe9", capital: "#000101" },
+	{ bg: "#ffffe9", cali: "#ff1f5f", capital: "#000101" },
+	{ bg: "#ffffe9", cali: "#000101", capital: "#ff1f5f" },
+	{ bg: "#ff1f5f", cali: "#000101", capital: "#ffffe9" },
+	{ bg: "#000101", cali: "#ff1f5f", capital: "#ffffe9" }
 ] as const;

@@ -229,7 +229,7 @@
 	.preloader__bar-fill {
 		height: 100%;
 		border-radius: inherit;
-		background: #ff245e; /* brand fucsia — flat, matches the manual */
+		background: #ff1f5f; /* brand fucsia — flat, matches the manual */
 		transition: width 0.25s ease;
 	}
 

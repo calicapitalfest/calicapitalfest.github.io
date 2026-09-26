@@ -3,13 +3,12 @@
  * text colour that reads on it. Flashcards take their fill from here.
  */
 export const BRAND = {
-	pink: { bg: "#ff245e", fg: "#000507" },
-	yellow: { bg: "#f2cf00", fg: "#000507" },
-	blue: { bg: "#0073d8", fg: "#ffffe9" },
-	cyan: { bg: "#00ebff", fg: "#000507" },
-	purple: { bg: "#9546ff", fg: "#ffffe9" },
-	magenta: { bg: "#ff48d4", fg: "#000507" },
-	lime: { bg: "#ccff00", fg: "#000507" }
+	pink: { bg: "#ff1f5f", fg: "#000101" },
+	yellow: { bg: "#fed000", fg: "#000101" },
+	cyan: { bg: "#00e7ff", fg: "#000101" },
+	purple: { bg: "#a544ff", fg: "#ffffe9" },
+	magenta: { bg: "#ff46d4", fg: "#000101" },
+	lime: { bg: "#acff00", fg: "#000101" }
 } as const;
 
 export type BrandColor = keyof typeof BRAND;
