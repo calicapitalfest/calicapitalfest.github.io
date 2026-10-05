@@ -119,7 +119,7 @@
 			price: "$374.500 COP",
 			until: FAITH_ENDS,
 			promo: true,
-			href: "https://checkout.bold.co/payment/LNK_P150RL4VME",
+			href: "https://checkout.bold.co/payment/LNK_5OAEB277G2",
 			bg: BRAND.lime.bg,
 			fg: "#000101"
 		},
