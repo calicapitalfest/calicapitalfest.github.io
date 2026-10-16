@@ -27,3 +27,6 @@ temp/
 
 # pnpm 12 workspace stub
 pnpm-workspace.yaml
+
+# Analytics collector data (local model)
+.analytics-data/

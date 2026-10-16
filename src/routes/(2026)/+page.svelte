@@ -442,7 +442,7 @@
 	<Carousel>
 		{#each pases as p}
 			{@const sale = saleState(p, now)}
-			<article class="dc dc--pass" style:--accent={p.bg} style:--accent-fg={p.fg}>
+			<article class="dc dc--pass" style:--accent={p.bg} style:--accent-fg={p.fg} data-track-card={p.name}>
 				<div class="dc__in">
 					{@render cardTitle(p.name)}
 					<p class="dc__lead"><strong>{p.lead}</strong><span>{p.sub}</span></p>
@@ -455,18 +455,19 @@
 						class="dc__reveal"
 						class:is-open={revealed[p.name]}
 						disabled={revealed[p.name]}
+						data-track="Revelar precio"
 						onclick={() => (revealed[p.name] = true)}
 					>
 						Revelar Precio!
 					</button>
 					{#if p.href && sale === "open"}
-						<a class="dc__buy" href={p.href} target="_blank" rel="noopener">Comprar</a>
+						<a class="dc__buy" href={p.href} target="_blank" rel="noopener" data-track="Comprar">Comprar</a>
 					{:else}
-						<span class="dc__buy" aria-disabled={sale !== "open"}>Comprar</span>
+						<span class="dc__buy" aria-disabled={sale !== "open"} data-track="Comprar (no disponible)">Comprar</span>
 					{/if}
 					{#if sale !== "open"}
 						<!-- covers COMPRAR (and takes its clicks) before the window opens / after it closes -->
-						<div class="dc__closed">
+						<div class="dc__closed" data-track="Comprar (no disponible)">
 							<span>{sale === "soon" ? "No Disponible Aún" : "No disponible"}</span>
 						</div>
 					{/if}
@@ -486,6 +487,7 @@
 		<!-- white card, dark "multiply" date box, as in the design -->
 		<article
 			class="dc dc--pass"
+			data-track-card="Clases Sueltas"
 			style:--accent="#ffffff"
 			style:--accent-fg="#000101"
 			style:--pill-fg="#ffffff"
@@ -512,6 +514,7 @@
 					class="dc__reveal dc__reveal--rows"
 					class:is-open={revealed["Clases Sueltas"]}
 					disabled={revealed["Clases Sueltas"]}
+					data-track="Revelar precio"
 					onclick={() => (revealed["Clases Sueltas"] = true)}
 				>
 					Revelar Precio!
@@ -520,7 +523,7 @@
 				<p class="dc__pill">{clasesSueltas.from}</p>
 			</div>
 		</article>
-		<article class="dc dc--pass dc--bonos" style:--accent={BRAND.yellow.bg} style:--accent-fg="#000101">
+		<article class="dc dc--pass dc--bonos" data-track-card="Bonos de Ingreso" style:--accent={BRAND.yellow.bg} style:--accent-fg="#000101">
 			<div class="dc__in">
 				{@render cardTitle("Bonos de\nIngreso")}
 				<div class="dc__rows">

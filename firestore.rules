@@ -1,0 +1,48 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- 2025 tournament data (src/lib/global.ts) ---------------------------
+    // Unchanged from the rules deployed in Sep 2025, which were
+    // "allow read, write: if true" on every document: global/messages and one
+    // collection per bracket (fromeighties, soultrain, locking, …). Kept open
+    // for every collection except the analytics one, because Firestore grants
+    // access when any matching rule allows it.
+    match /{collectionId}/{document=**} {
+      allow read, write: if collectionId != 'analytics_pageviews';
+    }
+
+    // ---- Site analytics (src/lib/analytics/tracker.ts) ----------------------
+    // One document per page view, id = pvid. Visitors' browsers create it and
+    // update it every ~30 s (summary overwritten, events appended, rt stamped
+    // with the server clock). Only the dashboard account can read; nobody can
+    // delete from the client.
+    match /analytics_pageviews/{pvid} {
+      function validPageview(d) {
+        return d.keys().hasOnly(['v', 'vid', 'sid', 'pvid', 'seq', 'ts', 'page', 'client',
+                                 'summary', 'events', 'geo', 'rt', 'rt0'])
+          && d.v == 1
+          && d.pvid == pvid && pvid.size() <= 64
+          && d.vid is string && d.vid.size() <= 64
+          && d.sid is string && d.sid.size() <= 64
+          && d.seq is int && d.ts is int
+          && d.page is map && d.client is map && d.summary is map
+          && d.rt == request.time
+          && (!('events' in d) || (d.events is list && d.events.size() <= 500))
+          && (!('geo' in d) || d.geo is map);
+      }
+      allow create: if validPageview(request.resource.data)
+        && (!('rt0' in request.resource.data) || request.resource.data.rt0 == request.time);
+      allow update: if validPageview(request.resource.data)
+        && request.resource.data.vid == resource.data.vid
+        && request.resource.data.sid == resource.data.sid
+        && request.resource.data.seq > resource.data.seq
+        && (!('rt0' in resource.data) || request.resource.data.rt0 == resource.data.rt0);
+      allow read: if request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['martinpradoguerra@gmail.com'];
+      allow delete: if false;
+    }
+  }
+}
