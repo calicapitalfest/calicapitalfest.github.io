@@ -449,7 +449,7 @@
 				<b>5.3. Valores de inscripción.</b> Se cobran por persona, es decir, por cada depo-artista del
 				roster. Valores en pesos colombianos:
 			</p>
-			<div class="tbl">
+			<div class="tbl tbl--stack">
 				<table>
 					<thead>
 						<tr>
@@ -460,9 +460,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr><td>1 categoría</td><td class="num">$150.000</td><td class="num">$52.500</td><td class="num">$97.500</td></tr>
-						<tr><td>Categoría adicional</td><td class="num">$80.000</td><td class="num">$28.000</td><td class="num">$52.000</td></tr>
-						<tr><td>1 categoría con taller internacional incluido</td><td class="num">$250.000</td><td class="num">$87.500</td><td class="num">$162.500</td></tr>
+						<tr><td>1 categoría</td><td class="num" data-label="Valor por persona">$150.000</td><td class="num" data-label="Primer pago (35 %)">$52.500</td><td class="num" data-label="Segundo pago (65 %)">$97.500</td></tr>
+						<tr><td>Categoría adicional</td><td class="num" data-label="Valor por persona">$80.000</td><td class="num" data-label="Primer pago (35 %)">$28.000</td><td class="num" data-label="Segundo pago (65 %)">$52.000</td></tr>
+						<tr><td>1 categoría con taller internacional incluido</td><td class="num" data-label="Valor por persona">$250.000</td><td class="num" data-label="Primer pago (35 %)">$87.500</td><td class="num" data-label="Segundo pago (65 %)">$162.500</td></tr>
 					</tbody>
 				</table>
 			</div>

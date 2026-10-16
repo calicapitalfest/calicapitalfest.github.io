@@ -365,6 +365,50 @@
 		white-space: nowrap;
 		font-variant-numeric: tabular-nums;
 	}
+	.doc :global(.tbl--stack td) {
+		hyphens: manual;
+	}
+	/* tables of prices: on phones each row becomes a small card, concept on
+	   top and one labelled line per amount, so nothing hides off-screen */
+	@media (max-width: 560px) {
+		.doc :global(.tbl--stack table) {
+			min-width: 0;
+		}
+		.doc :global(.tbl--stack thead) {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip-path: inset(50%);
+		}
+		.doc :global(.tbl--stack tr) {
+			display: block;
+			padding: 0.8rem 0.9rem;
+			border-bottom: 1px solid var(--line);
+		}
+		.doc :global(.tbl--stack tbody tr:last-child) {
+			border-bottom: 0;
+		}
+		.doc :global(.tbl--stack td) {
+			display: flex;
+			justify-content: space-between;
+			gap: 1rem;
+			padding: 0.15rem 0;
+			border: 0;
+		}
+		.doc :global(.tbl--stack td:first-child) {
+			font-weight: 700;
+			padding-bottom: 0.35rem;
+		}
+		.doc :global(.tbl--stack td[data-label]::before) {
+			content: attr(data-label);
+			color: var(--ink-soft);
+			font-variant-numeric: normal;
+		}
+		.doc :global(.tbl--stack td[data-label]:nth-child(2)) {
+			font-weight: 700;
+		}
+	}
 
 	/* small notes, worked examples and e-mail subjects */
 	.doc :global(.note) {
