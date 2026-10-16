@@ -16,8 +16,8 @@ service cloud.firestore {
     // ---- Site analytics (src/lib/analytics/tracker.ts) ----------------------
     // One document per page view, id = pvid. Visitors' browsers create it and
     // update it every ~30 s (summary overwritten, events appended, rt stamped
-    // with the server clock). Only the dashboard account can read; nobody can
-    // delete from the client.
+    // with the server clock). Anyone signed in with a Google account can read
+    // (the /stats dashboard); nobody can delete from the client.
     match /analytics_pageviews/{pvid} {
       function validPageview(d) {
         return d.keys().hasOnly(['v', 'vid', 'sid', 'pvid', 'seq', 'ts', 'page', 'client',
@@ -40,8 +40,8 @@ service cloud.firestore {
         && request.resource.data.seq > resource.data.seq
         && (!('rt0' in resource.data) || request.resource.data.rt0 == resource.data.rt0);
       allow read: if request.auth != null
-        && request.auth.token.email_verified == true
-        && request.auth.token.email in ['martinpradoguerra@gmail.com'];
+        && request.auth.token.firebase.sign_in_provider == 'google.com'
+        && request.auth.token.email_verified == true;
       allow delete: if false;
     }
   }

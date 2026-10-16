@@ -5,7 +5,7 @@
 	//   (analytics-server/collector.mjs), behind the token printed in the
 	//   dev-server log and kept in .analytics-data/.token;
 	// - everywhere else (calicapitalfest.com), the Firestore page-view
-	//   documents ($lib/analytics/firestoreSource.ts), behind Google sign-in.
+	//   documents ($lib/analytics/firestoreSource.ts), open to any Google account.
 	//   ?source=firebase forces this one on the test domain.
 	import { onMount, onDestroy } from "svelte";
 	import type { Batch } from "$lib/analytics/types";
@@ -647,7 +647,7 @@
 			{:else if user}
 				<p>Cargando datos de {user.email}…</p>
 			{:else}
-				<p>Entra con la cuenta de Google autorizada para ver las estadísticas.</p>
+				<p>Entra con tu cuenta de Google para ver las estadísticas.</p>
 				<button type="button" onclick={googleSignIn}>Entrar con Google</button>
 			{/if}
 			{#if error}<p class="error">{error}</p>{/if}
