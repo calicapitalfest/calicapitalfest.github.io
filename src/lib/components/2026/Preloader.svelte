@@ -12,7 +12,7 @@
 	import { base } from "$app/paths";
 	import { onMount, tick } from "svelte";
 	import { fade } from "svelte/transition";
-	import { overlayReplay } from "./overlay";
+	import { overlayReplay, introDone } from "./overlay";
 	import { PRELOAD_ASSETS } from "./preloadAssets";
 	import { FLAT_LOGO_CALI, FLAT_LOGO_CAPITAL, FLAT_LOGO_VIEWBOX, LOGO_COMBOS } from "./flatLogo";
 
@@ -121,6 +121,7 @@
 				if (cancelled) return;
 				visible = false;
 				root.style.overflow = "";
+				introDone.set(true);
 			});
 
 		// Replay when the hero logo is clicked.

@@ -188,20 +188,22 @@
 	animation: dc-buy-tilt 5s ease-in-out infinite;
 }
 .site-2026 .dc__buy::after {
+	--band: 15%; /* 45% of the button: the gradient is 3 buttons wide */
 	content: "";
 	position: absolute;
-	inset: -20% auto -20% 0;
-	width: 45%;
+	inset: 0;
+	border-radius: inherit;
 	background: linear-gradient(
-		100deg,
-		transparent 0%,
-		rgb(255 255 255 / 0.95) 50%,
-		transparent 100%
-	);
+			100deg,
+			transparent calc(50% - var(--band) / 2),
+			rgb(255 255 255 / 0.95) 50%,
+			transparent calc(50% + var(--band) / 2)
+		)
+		0 0 / 300% 100% no-repeat;
 	z-index: -1;
 	mix-blend-mode: soft-light;
 	pointer-events: none;
-	animation: dc-buy-shine 5s ease-in-out infinite;
+	animation: dc-shine 5s ease-in-out infinite;
 }
 @keyframes dc-buy-tilt {
 	0%,
@@ -210,15 +212,6 @@
 	}
 	50% {
 		transform: perspective(60cqi) rotateY(22deg) rotateX(-6deg);
-	}
-}
-@keyframes dc-buy-shine {
-	0%,
-	100% {
-		translate: -110% 0;
-	}
-	50% {
-		translate: 330% 0;
 	}
 }
 @media (prefers-reduced-motion: reduce) {
@@ -392,20 +385,22 @@
 	animation: dc-btn-tilt 5s ease-in-out infinite;
 }
 .site-2026 .dc__btn::after {
+	--band: 11.7%; /* 35% of the button: the gradient is 3 buttons wide */
 	content: "";
 	position: absolute;
-	inset: -20% auto -20% 0;
-	width: 35%;
+	inset: 0;
+	border-radius: inherit;
 	background: linear-gradient(
-		100deg,
-		transparent 0%,
-		rgb(255 255 255 / 0.9) 50%,
-		transparent 100%
-	);
+			100deg,
+			transparent calc(50% - var(--band) / 2),
+			rgb(255 255 255 / 0.9) 50%,
+			transparent calc(50% + var(--band) / 2)
+		)
+		0 0 / 300% 100% no-repeat;
 	z-index: -1;
 	mix-blend-mode: soft-light;
 	pointer-events: none;
-	animation: dc-btn-shine 5s ease-in-out infinite;
+	animation: dc-shine 5s ease-in-out infinite;
 }
 .site-2026 .dc__btn:nth-child(2),
 .site-2026 .dc__btn:nth-child(2)::after {
@@ -420,13 +415,18 @@
 		transform: perspective(90cqi) rotateY(3deg) rotateX(-10deg);
 	}
 }
-@keyframes dc-btn-shine {
+/* The shine sweeps across inside its own rounded box (the ::after has
+   border-radius: inherit) instead of being a narrow band clipped by the
+   button's overflow: phones composite the animated, blended band on its own
+   layer and clip it to a plain rectangle, so it glowed in the square corners.
+   At 100% the band sits off the left edge, at 0% off the right one. */
+@keyframes dc-shine {
 	0%,
 	100% {
-		translate: -110% 0;
+		background-position: 100% 0;
 	}
 	50% {
-		translate: 400% 0;
+		background-position: 0% 0;
 	}
 }
 @media (prefers-reduced-motion: reduce) {

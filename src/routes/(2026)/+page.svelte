@@ -6,6 +6,7 @@
 	import Carousel from "$lib/components/2026/Carousel.svelte";
 	import Countdown from "$lib/components/2026/Countdown.svelte";
 	import DisplayText from "$lib/components/2026/DisplayText.svelte";
+	import ScrollHint from "$lib/components/2026/ScrollHint.svelte";
 	import { BRAND, pick, type BrandColor } from "$lib/components/2026/palette";
 
 	// Content and section order follow temp/Cali_Capital_2026_Contenido_Web.docx
@@ -313,6 +314,7 @@
 </svelte:head>
 
 <Hero />
+<ScrollHint />
 
 <!--
 	Section icon placement.

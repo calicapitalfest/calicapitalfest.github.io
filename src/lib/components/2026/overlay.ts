@@ -6,6 +6,9 @@ import { writable } from "svelte/store";
  */
 export const overlayReplay = writable(0);
 
+/** Becomes true once the page-load intro overlay has faded out. */
+export const introDone = writable(false);
+
 export function playOverlay() {
 	overlayReplay.update((n) => n + 1);
 }

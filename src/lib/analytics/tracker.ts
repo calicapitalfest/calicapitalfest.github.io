@@ -447,6 +447,7 @@ class Tracker {
 		document.addEventListener(
 			"scroll",
 			() => {
+				if (synthetic) return;
 				active();
 				this.onScroll();
 			},
@@ -686,6 +687,15 @@ class Tracker {
 }
 
 let tracker: Tracker | null = null;
+
+/**
+ * While true, scrolling is the page's own doing (the ScrollHint nudge), not the
+ * visitor's: it doesn't count towards scroll depth or active time.
+ */
+let synthetic = false;
+export function setSyntheticScroll(on: boolean) {
+	synthetic = on;
+}
 
 /** Starts tracking (once) and records a page view for `url`. Browser only. */
 export function trackPageview(url: URL) {
