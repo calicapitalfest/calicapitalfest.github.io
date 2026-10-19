@@ -189,7 +189,7 @@
 	const leagueInscripcion = [
 		{ opcion: "1 categoría", precio: "$150.000 COP" },
 		{ opcion: "Categoría adicional", precio: "$80.000 COP" },
-		{ opcion: "1 categoría + taller Internacional", precio: "$220.000 COP" }
+		{ opcion: "1 categoría + taller Internacional", precio: "$250.000 COP" }
 	];
 	const leagueBotones: { label: string; href: string; external?: boolean }[] = [
 		{ label: "Reglamento", href: `${base}/league/reglamento` },

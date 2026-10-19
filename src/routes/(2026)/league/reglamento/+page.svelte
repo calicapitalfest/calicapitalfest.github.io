@@ -462,12 +462,12 @@
 					<tbody>
 						<tr><td>1 categoría</td><td class="num" data-label="Valor por persona">$150.000</td><td class="num" data-label="Primer pago (35 %)">$52.500</td><td class="num" data-label="Segundo pago (65 %)">$97.500</td></tr>
 						<tr><td>Categoría adicional</td><td class="num" data-label="Valor por persona">$80.000</td><td class="num" data-label="Primer pago (35 %)">$28.000</td><td class="num" data-label="Segundo pago (65 %)">$52.000</td></tr>
-						<tr><td>1 categoría con taller internacional incluido</td><td class="num" data-label="Valor por persona">$220.000</td><td class="num" data-label="Primer pago (35 %)">$77.000</td><td class="num" data-label="Segundo pago (65 %)">$143.000</td></tr>
+						<tr><td>1 categoría con taller internacional incluido</td><td class="num" data-label="Valor por persona">$250.000</td><td class="num" data-label="Primer pago (35 %)">$87.500</td><td class="num" data-label="Segundo pago (65 %)">$162.500</td></tr>
 					</tbody>
 				</table>
 			</div>
 			<p class="note">
-				El valor de $220.000 corresponde a los $150.000 de la inscripción más $70.000 por un taller
+				El valor de $250.000 corresponde a los $150.000 de la inscripción más $100.000 por un taller
 				internacional, según los términos y condiciones publicados.
 			</p>
 			<p>
