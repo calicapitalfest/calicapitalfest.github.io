@@ -120,7 +120,7 @@
 			price: "$374.500 COP",
 			until: FAITH_ENDS,
 			promo: true,
-			href: "https://checkout.bold.co/payment/LNK_5OAEB277G2",
+			href: "https://checkout.bold.co/payment/LNK_PTN3EH3VWM",
 			bg: BRAND.lime.bg,
 			fg: "#000101"
 		},
@@ -131,6 +131,7 @@
 			price: "$90.950 COP",
 			from: "10 de octubre",
 			opens: "2026-10-10T00:00:00-05:00",
+			href: "https://checkout.bold.co/payment/LNK_QWCFODLLNU",
 			bg: BRAND.purple.bg,
 			fg: "#ffffe8"
 		},
@@ -141,6 +142,7 @@
 			price: "$160.500 COP",
 			from: "20 de octubre",
 			opens: "2026-10-20T00:00:00-05:00",
+			href: "https://checkout.bold.co/payment/LNK_B01PHJDAKC",
 			bg: BRAND.cyan.bg,
 			fg: "#ffffe8"
 		},
@@ -193,7 +195,8 @@
 	];
 	const leagueBotones: { label: string; href: string; external?: boolean }[] = [
 		{ label: "Reglamento", href: `${base}/league/reglamento` },
-		{ label: "Registro", href: "https://forms.gle/E4hi6fk1sc6uaGP98", external: true }
+		{ label: "Pre-registro", href: "https://forms.gle/a4sfXkxhAVReujNK9", external: true },
+		{ label: "Pagos y entrega de pistas", href: "https://forms.gle/mFWU8Lx74fYrZp579", external: true }
 	];
 
 	const battlesInscripcion = [

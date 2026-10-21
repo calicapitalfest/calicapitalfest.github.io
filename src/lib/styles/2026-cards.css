@@ -369,6 +369,9 @@
 	font-weight: 800;
 	font-size: 5.8cqi;
 	letter-spacing: -0.02em;
+	text-align: center;
+	line-height: 1.05;
+	padding-inline: 3cqi;
 }
 
 /* Reglamento / Registro: COMPRAR's tilt and sweeping highlight, at its
@@ -405,6 +408,10 @@
 .site-2026 .dc__btn:nth-child(2),
 .site-2026 .dc__btn:nth-child(2)::after {
 	animation-delay: -1.25s;
+}
+.site-2026 .dc__btn:nth-child(3),
+.site-2026 .dc__btn:nth-child(3)::after {
+	animation-delay: -2.5s;
 }
 @keyframes dc-btn-tilt {
 	0%,
