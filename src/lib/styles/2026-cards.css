@@ -2,7 +2,6 @@
  *  Cali Capital Fest 2026 — flashcards                                *
  *  Rebuilt from the designer's SVGs (temp/drive-download-…/):         *
  *    Descripcion  → .dc--desc    (Acerca carousel)                    *
- *    Line Up      → .dc--lineup                                       *
  *    Pases        → .dc--pass    (Paquetes carousel)                  *
  *    Competencias → .dc--form    (League / Battles inscripción)       *
  *  Cronograma (.dc--day) has no design; it reuses the same parts.     *
@@ -100,30 +99,6 @@
 	white-space: pre-line;
 }
 .site-2026 .dc__panel strong {
-	font-weight: 700;
-}
-
-/* ---- Line Up ------------------------------------------------------ */
-.site-2026 .dc--lineup .dc__in {
-	aspect-ratio: 1001.87 / 1121.14;
-	padding: 0;
-}
-.site-2026 .dc__label {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 13.6cqi;
-	text-align: center;
-	font-family: var(--font-display);
-	font-weight: 950;
-	font-size: 9cqi;
-	line-height: 1;
-	letter-spacing: -0.01em;
-	color: #ffffe8;
-}
-
-.site-2026 .dc__paren {
-	font-family: var(--font-card);
 	font-weight: 700;
 }
 

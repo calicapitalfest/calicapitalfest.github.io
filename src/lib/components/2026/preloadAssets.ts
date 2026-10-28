@@ -11,8 +11,6 @@ export const PRELOAD_ASSETS = [
 	"/assets/lineup/latrice-kabamba.png",
 	"/assets/lineup/josh-price.png",
 	"/assets/lineup/clay-boonthanakit.png",
-	"/assets/brand/sun-handstand.png",
-	"/assets/brand/sun-pointing.png",
 	"/assets/brand/trimmed/icon-mic.png",
 	"/assets/brand/trimmed/icon-calendar.png",
 	"/assets/brand/trimmed/deco-asterisk.png",
@@ -23,10 +21,6 @@ export const PRELOAD_ASSETS = [
 	// hero random deco (Hero.svelte picks one)
 	"/assets/brand/deco-asterisk.png",
 	"/assets/brand/deco-splat.png",
-	// Line Up characters
-	"/assets/brand/trimmed/sun-dancing.png",
-	"/assets/brand/trimmed/sun-pointing.png",
-	"/assets/brand/trimmed/sun-standing.png",
 	// flashcard decorations (CardDeco.svelte)
 	"/assets/brand/flat-star.svg",
 	"/assets/brand/flat-spiral.svg",

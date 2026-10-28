@@ -68,7 +68,7 @@
 			<img class="hero__logo" src="{base}/assets/brand/logo.png" alt="Cali Capital Fest" />
 		</button>
 
-		<h2 class="hero__lineup-title">Internacional</h2>
+		<h2 id="lineup" class="hero__lineup-title">Internacional</h2>
 		<p class="hero__lineup-sub">Line Up</p>
 
 		<div class="hero__stage">
@@ -81,6 +81,7 @@
 						width="724"
 						height="658"
 						style:--tilt="{invitados[artist].tilt}deg"
+						style:--size={invitados[artist].size}
 					/>
 				{/key}
 			</button>
@@ -158,7 +159,7 @@
 
 	.hero__stage {
 		/* the artist sticker's height derives from this base */
-		--stage-base: min(48vw, 220px);
+		--stage-base: min(38.4vw, 176px); /* 80% of the original min(48vw, 220px) */
 		--sun-h: calc(var(--stage-base) * 1.82);
 		position: relative;
 		/* Fixed box, so the layout doesn't jump between stickers. They are
@@ -245,11 +246,12 @@
 		transition: transform 0.15s ease;
 	}
 	.hero__sun-img {
-		height: 100%;
+		/* per-artist size; the stage box stays fixed and the sticker sits centred */
+		height: calc(100% * var(--size, 1));
 		width: auto;
 		/* Tailwind preflight's img{max-width:100%} would squash the sticker
 		   to the stage width; cap it at the screen instead */
-		max-width: 94vw;
+		max-width: calc(75vw * var(--size, 1));
 		object-fit: contain;
 		display: block;
 		rotate: var(--tilt, 0deg);
