@@ -8,6 +8,7 @@
 	import DisplayText from "$lib/components/2026/DisplayText.svelte";
 	import ScrollHint from "$lib/components/2026/ScrollHint.svelte";
 	import { BRAND, pick, type BrandColor } from "$lib/components/2026/palette";
+	import { invitados } from "$lib/components/2026/lineup";
 
 	// Content and section order follow temp/Cali_Capital_2026_Contenido_Web.docx
 	// (Apartados 1–7). The flashcards (momentos, Line Up, pases, inscripción)
@@ -74,11 +75,15 @@
 	const LOCK =
 		"M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h1Zm2 0h6V7a3 3 0 0 0-6 0v3Zm3 4a1.5 1.5 0 0 0-1 2.6V19h2v-2.4A1.5 1.5 0 0 0 12 14Z";
 	type Sun = { src: string; size: number; x: number; y: number; lockX: number; lockY: number };
-	const lineup: { grupo: string; bg: string; suns: Sun[] }[] = [
+
+	// `glider`: the card shows the confirmed artists sliding by instead of
+	// its locked sun.
+	const lineup: { grupo: string; bg: string; suns: Sun[]; glider?: boolean }[] = [
 		{
 			grupo: "Internacional",
 			bg: BRAND.purple.bg,
-			suns: [{ src: "sun-dancing.png", size: 50, x: 0, y: -12, lockX: -12, lockY: 3 }]
+			suns: [],
+			glider: true
 		},
 		{
 			grupo: "Nacional",
@@ -216,6 +221,44 @@
 		const id = setInterval(() => (now = Date.now()), 1000);
 		return () => clearInterval(id);
 	});
+	// Artist glider. The track holds a copy of the first artist at the end:
+	// it slides onto the copy, then jumps back to the real first one with the
+	// transition off, so the loop never runs backwards.
+	// Each glide takes GLIDE_MS (keep in step with .glider__track's
+	// transition), then the artist rests for REST_MS. Clicking the card
+	// glides on straight away and restarts the wait.
+	const GLIDE_MS = 800;
+	const REST_MS = 2000;
+	let slide = $state(0);
+	let snap = $state(false);
+	let autoGlide = false;
+	let glideTimer: ReturnType<typeof setTimeout> | undefined;
+	function snapToStart() {
+		snap = true;
+		slide = 0;
+		requestAnimationFrame(() => requestAnimationFrame(() => (snap = false)));
+	}
+	function glideNext() {
+		if (slide >= invitados.length) {
+			// on the copy (a hidden tab never fires transitionend): jump back
+			// to the real first artist, then glide on from there
+			snapToStart();
+			requestAnimationFrame(() =>
+				requestAnimationFrame(() => requestAnimationFrame(() => (slide = 1)))
+			);
+		} else slide++;
+		scheduleGlide();
+	}
+	function scheduleGlide() {
+		clearTimeout(glideTimer);
+		if (autoGlide) glideTimer = setTimeout(glideNext, GLIDE_MS + REST_MS);
+	}
+	onMount(() => {
+		autoGlide = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+		scheduleGlide();
+		return () => clearTimeout(glideTimer);
+	});
+
 	function saleState(p: { opens?: string; until?: string }, t: number | null) {
 		if (t === null) return "open";
 		if (p.opens && t < Date.parse(p.opens)) return "soon";
@@ -391,6 +434,48 @@
 		{#each lineup as l, i}
 			<div class="dc dc--lineup" style:--accent={l.bg}>
 				<div class="dc__in">
+					{#if l.glider}
+						<!-- the whole card is the button: a click glides to the next artist -->
+						<button
+							type="button"
+							class="glider"
+							aria-label="Siguiente artista internacional"
+							onclick={glideNext}
+						>
+							<div
+								class="glider__track"
+								class:glider__track--snap={snap}
+								style:translate="{-slide * 100}% 0"
+								ontransitionend={(e) => {
+									if (e.target === e.currentTarget && slide >= invitados.length) snapToStart();
+								}}
+							>
+								{#each [...invitados, invitados[0]] as a, k}
+									{@const copy = k === invitados.length}
+									<div
+										class="glider__slide"
+										style:--tilt="{a.tilt}deg"
+										aria-hidden={copy ? "true" : undefined}
+										data-track-card={copy ? undefined : a.name}
+									>
+										<div class="glider__bob" style:animation-delay="{-(k % invitados.length) * 0.9}s">
+											<img
+												src="{base}/assets/lineup/{a.src}"
+												alt={copy ? "" : a.name}
+												width="724"
+												height="658"
+											/>
+										</div>
+									</div>
+								{/each}
+							</div>
+						</button>
+						<div class="glider__dots" aria-hidden="true">
+							{#each invitados as _, k}
+								<span class:on={slide % invitados.length === k}></span>
+							{/each}
+						</div>
+					{/if}
 					<!-- locked characters: silhouettes bobbing up and down inside the box -->
 					{#each l.suns as sun, j}
 						<div
@@ -705,6 +790,69 @@
 		gap: 1rem;
 	}
 
+	/* Line Up · the Internacional card's artist glider. The stickers fill
+	   the card above its label; sizes in cqi, like the rest of the card. */
+	.glider {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		padding: 0;
+		border: 0;
+		background: none;
+		cursor: pointer;
+		overflow: hidden;
+	}
+	.glider__track {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 4cqi;
+		height: 82cqi;
+		display: flex;
+		transition: translate 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+	}
+	.glider__track--snap {
+		transition: none;
+	}
+	.glider__slide {
+		flex: 0 0 100%;
+		display: grid;
+		place-items: center;
+	}
+	.glider__bob {
+		width: 88%;
+		animation: lineup-glide 3s ease-in-out infinite alternate;
+	}
+	.glider__slide img {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: none;
+		rotate: var(--tilt);
+		filter: drop-shadow(0 1.5cqi 3cqi rgb(0 0 0 / 0.35));
+	}
+	.glider__dots {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 6.5cqi;
+		display: flex;
+		justify-content: center;
+		gap: 2cqi;
+	}
+	.glider__dots span {
+		width: 2.2cqi;
+		height: 2.2cqi;
+		border-radius: 50%;
+		background: #ffffe8;
+		opacity: 0.4;
+		transition: opacity 0.3s, scale 0.3s;
+	}
+	.glider__dots span.on {
+		opacity: 1;
+		scale: 1.3;
+	}
+
 	/* Line Up: suns sit in the .dc--lineup card (2026-cards.css). */
 	/* Each sun is absolutely positioned: its centre sits on the box centre
 	   plus --sun-x/--sun-y, and its width is --sun-size of the box. The bob
@@ -748,7 +896,8 @@
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.lineup-box__bob {
+		.lineup-box__bob,
+		.glider__bob {
 			animation: none;
 		}
 	}

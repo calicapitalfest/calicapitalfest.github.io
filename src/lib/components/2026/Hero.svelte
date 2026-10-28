@@ -3,12 +3,31 @@
 	import { playOverlay } from "./overlay";
 	import { flashBubble } from "./flashBubble.svelte";
 	import Countdown from "./Countdown.svelte";
+	import { invitados } from "./lineup";
 
 	// opening day, Colombia time; the countdown renders nothing once it's past
 	const EVENT_START = "2026-11-17T00:00:00-05:00";
 
-	const suns = ["sun-dancing.png", "sun-handstand.png", "sun-pointing.png"];
-	let sunIndex = $state(0);
+	// The international artists take turns in the hero: a new one every
+	// SHOW_MS, and a click jumps to the next one and restarts the wait.
+	// No autoplay with reduced motion; clicking still works.
+	const SHOW_MS = 3000;
+	let artist = $state(0);
+	let autoplay = false;
+	let showTimer: ReturnType<typeof setTimeout>;
+	function nextArtist() {
+		artist = (artist + 1) % invitados.length;
+		scheduleNext();
+	}
+	function scheduleNext() {
+		clearTimeout(showTimer);
+		if (autoplay) showTimer = setTimeout(nextArtist, SHOW_MS);
+	}
+	$effect(() => {
+		autoplay = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+		scheduleNext();
+		return () => clearTimeout(showTimer);
+	});
 
 	// "Click me!" hint: first 5s after load, then for 2s every 10–15s
 	const bubble = flashBubble(5000);
@@ -49,16 +68,20 @@
 			<img class="hero__logo" src="{base}/assets/brand/logo.png" alt="Cali Capital Fest" />
 		</button>
 
+		<h2 class="hero__lineup-title">Internacional</h2>
+		<p class="hero__lineup-sub">Line Up</p>
+
 		<div class="hero__stage">
-			<img class="hero__podium" src="{base}/assets/podio3.png" alt="" />
-			<button
-				class="hero__sun"
-				type="button"
-				aria-label="Cambiar mascota"
-				onclick={() => (sunIndex = (sunIndex + 1) % suns.length)}
-			>
-				{#key sunIndex}
-					<img class="hero__sun-img" src="{base}/assets/brand/{suns[sunIndex]}" alt="" />
+			<button class="hero__sun" type="button" aria-label="Siguiente artista" onclick={nextArtist}>
+				{#key artist}
+					<img
+						class="hero__sun-img"
+						src="{base}/assets/lineup/{invitados[artist].src}"
+						alt={invitados[artist].name}
+						width="724"
+						height="658"
+						style:--tilt="{invitados[artist].tilt}deg"
+					/>
 				{/key}
 			</button>
 			<span class="hero__bubble" class:is-on={bubble.on} aria-hidden="true">Click me!</span>
@@ -134,41 +157,48 @@
 	}
 
 	.hero__stage {
-		/* both sizes derive from one base so they can be tuned independently:
-		   the sun runs 44% over it, the podium 36.5% */
+		/* the artist sticker's height derives from this base */
 		--stage-base: min(48vw, 220px);
-		--sun-h: calc(var(--stage-base) * 1.44);
-		--podium-h: calc(var(--stage-base) * 1.365);
+		--sun-h: calc(var(--stage-base) * 1.82);
 		position: relative;
-		/* Fixed box. Left to shrink-wrap, the stage would follow each pose's
-		   aspect ratio and drag the podium's size along with it. */
-		width: calc(var(--podium-h) * 1.334);
+		/* Fixed box, so the layout doesn't jump between stickers. They are
+		   wider than this box and spill out of it. */
+		width: calc(var(--stage-base) * 1.82);
 		height: var(--sun-h);
 		display: flex;
 		justify-content: center;
-		/* The podium overhangs the stage box, but its lower ~15% is transparent,
-		   so only this much is actually visible pixels. */
-		margin-bottom: calc(var(--stage-base) * 0.07);
+		overflow: visible;
 	}
 
-	.hero__podium {
-		position: absolute;
-		left: 50%;
-		bottom: calc(var(--stage-base) * -0.273);
-		translate: -50% 0;
-		height: var(--podium-h);
-		width: auto;
-		/* Tailwind preflight sets img{max-width:100%}; without this the podium
-		   gets clamped to the stage width and changes size between poses. */
-		max-width: none;
-		pointer-events: none;
-		z-index: 0;
+	/* "Internacional" (Polymath bold) with "Line Up" (Guttery, fucsia) under it, over the artists */
+	.hero__lineup-title {
+		/* longer word than before, so a touch smaller to stay on one line on phones */
+		font-size: clamp(2rem, 6vw, 3.8rem);
+		font-family: var(--font-display);
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		line-height: 1;
+		color: var(--c-text);
+		margin-top: clamp(0.5rem, 2vw, 1.5rem);
+		/* subtitle tucked tight under the title */
+		margin-bottom: -0.9rem;
+	}
+	.hero__lineup-sub {
+		font-family: var(--font-subtitle);
+		font-size: clamp(1.8rem, 5.4vw, 2.9rem);
+		letter-spacing: 0.02em;
+		line-height: 1;
+		color: var(--c-pink);
+		/* pulled toward the sticker; the images have transparent margins */
+		margin-bottom: -1.25rem;
 	}
 
 	.hero__bubble {
 		position: absolute;
-		left: 50%;
-		bottom: calc(100% + 0.35rem);
+		/* on the sticker's top-right corner, clear of the titles above */
+		left: 82%;
+		bottom: calc(100% - 3rem);
 		translate: -50% 0;
 		z-index: 2;
 		padding: 0.45rem 0.9rem;
@@ -217,8 +247,14 @@
 	.hero__sun-img {
 		height: 100%;
 		width: auto;
+		/* Tailwind preflight's img{max-width:100%} would squash the sticker
+		   to the stage width; cap it at the screen instead */
+		max-width: 94vw;
+		object-fit: contain;
 		display: block;
-		animation: sun-swap 0.5s ease-in-out;
+		rotate: var(--tilt, 0deg);
+		filter: drop-shadow(0 0.6rem 1.2rem rgb(0 0 0 / 0.45));
+		animation: sun-swap 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
 	.hero__sun:hover {
 		transform: scale(1.06);
@@ -228,14 +264,14 @@
 	}
 
 	@keyframes sun-swap {
-		from { transform: rotate(0deg) scale(0.6); }
-		to { transform: rotate(360deg) scale(1); }
+		from { transform: rotate(-12deg) scale(0.5); opacity: 0; }
+		to { transform: rotate(0deg) scale(1); opacity: 1; }
 	}
 
 	/* styled here rather than via .u-kicker so this DM Sans cut wins
 	   without depending on stylesheet order */
 	.hero__kicker {
-		/* grouped with the date block below it, clear of the podium above */
+		/* grouped with the date block below it, clear of the line-up above */
 		margin-top: clamp(1.25rem, 4vw, 2.75rem);
 		font-family: var(--font-body);
 		font-weight: 600;

@@ -7,8 +7,10 @@
 export const PRELOAD_ASSETS = [
 	"/assets/brand/logo.png",
 	"/assets/brand/deco-star.png",
-	"/assets/podio3.png",
-	"/assets/brand/sun-dancing.png",
+	// hero line-up stickers (lineup.ts)
+	"/assets/lineup/latrice-kabamba.png",
+	"/assets/lineup/josh-price.png",
+	"/assets/lineup/clay-boonthanakit.png",
 	"/assets/brand/sun-handstand.png",
 	"/assets/brand/sun-pointing.png",
 	"/assets/brand/trimmed/icon-mic.png",
