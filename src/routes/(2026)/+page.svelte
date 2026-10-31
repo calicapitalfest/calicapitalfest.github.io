@@ -112,6 +112,7 @@
 			price: "$642.000 COP",
 			from: "31 de octubre",
 			opens: "2026-10-31T00:00:00-05:00",
+			href: "https://checkout.bold.co/payment/LNK_24PP6AI8CD",
 			bg: BRAND.magenta.bg,
 			fg: "#ffffe8"
 		},
@@ -122,6 +123,7 @@
 			price: "$802.500 COP",
 			from: "5 de noviembre",
 			opens: "2026-11-05T00:00:00-05:00",
+			href: "https://checkout.bold.co/payment/LNK_ER08M9G9UY",
 			bg: BRAND.yellow.bg,
 			fg: "#000101"
 		},
