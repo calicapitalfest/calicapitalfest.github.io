@@ -78,21 +78,11 @@
 		opens?: string;
 		until?: string;
 		promo?: boolean;
+		expired?: boolean;
 		href?: string;
 		bg: string;
 		fg: string;
 	}[] = [
-		{
-			name: "Faith Pass",
-			lead: "Todas las clases del evento (12)",
-			sub: "No incluye ingresos a\ncompetencias ni batallas",
-			price: "$374.500 COP",
-			until: FAITH_ENDS,
-			promo: true,
-			href: "https://checkout.bold.co/payment/LNK_PTN3EH3VWM",
-			bg: BRAND.lime.bg,
-			fg: "#000101"
-		},
 		{
 			name: "Local Pass",
 			lead: "4 Clases Pro-Collab",
@@ -134,6 +124,19 @@
 			opens: "2026-11-05T00:00:00-05:00",
 			bg: BRAND.yellow.bg,
 			fg: "#000101"
+		},
+		// the promo is over: last in the row, greyed out, "Expiró" in the date box
+		{
+			name: "Faith Pass",
+			lead: "Todas las clases del evento (12)",
+			sub: "No incluye ingresos a\ncompetencias ni batallas",
+			price: "$374.500 COP",
+			until: FAITH_ENDS,
+			promo: true,
+			expired: true,
+			href: "https://checkout.bold.co/payment/LNK_PTN3EH3VWM",
+			bg: "#b6babd",
+			fg: "#000101"
 		}
 	];
 
@@ -160,7 +163,7 @@
 	const leagueInscripcion = [
 		{ opcion: "1 categoría", precio: "$150.000 COP" },
 		{ opcion: "Categoría adicional", precio: "$80.000 COP" },
-		{ opcion: "1 categoría + taller Internacional", precio: "$250.000 COP" }
+		{ opcion: "1 categoría + taller Internacional", precio: "$220.000 COP" }
 	];
 	const leagueBotones: { label: string; href: string; external?: boolean }[] = [
 		{ label: "Reglamento", href: `${base}/league/reglamento` },
@@ -391,9 +394,13 @@
 					{/if}
 					{#if p.promo}
 						<p class="dc__when">La oferta termina en</p>
-						<div class="dc__pill dc__pill--countdown">
-							<Countdown target={p.until ?? FAITH_ENDS} />
-						</div>
+						{#if p.expired}
+							<p class="dc__pill">Expiró</p>
+						{:else}
+							<div class="dc__pill dc__pill--countdown">
+								<Countdown target={p.until ?? FAITH_ENDS} />
+							</div>
+						{/if}
 						<p class="dc__fine">Solo 15 cupos disponibles</p>
 					{:else}
 						<p class="dc__when">Disponible desde el</p>

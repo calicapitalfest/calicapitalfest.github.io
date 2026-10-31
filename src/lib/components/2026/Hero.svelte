@@ -173,10 +173,10 @@
 
 	/* "Internacional" (Polymath bold) with "Line Up" (Guttery, fucsia) under it, over the artists */
 	.hero__lineup-title {
-		/* longer word than before, so a touch smaller to stay on one line on phones */
-		font-size: clamp(2rem, 6vw, 3.8rem);
+		/* same size and weight as the "Cali Col" line (.hero__meta) */
+		font-size: clamp(1.4rem, 5vw, 2.4rem);
 		font-family: var(--font-display);
-		font-weight: 700;
+		font-weight: 950;
 		letter-spacing: 0.02em;
 		text-transform: uppercase;
 		line-height: 1;
@@ -187,7 +187,8 @@
 	}
 	.hero__lineup-sub {
 		font-family: var(--font-subtitle);
-		font-size: clamp(1.8rem, 5.4vw, 2.9rem);
+		/* 70% of the earlier clamp(1.8rem, 5.4vw, 2.9rem), rounded up */
+		font-size: clamp(1.3rem, 3.8vw, 2.05rem);
 		letter-spacing: 0.02em;
 		line-height: 1;
 		color: var(--c-pink);
