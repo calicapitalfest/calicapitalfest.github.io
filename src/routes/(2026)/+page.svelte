@@ -61,14 +61,14 @@
 		}
 	];
 
-	// Pases. Prices sit under the tap-to-reveal cover; for a pass not on sale
-	// yet the cover reveals PRONTO instead of its price. `from` is the
+	// Pases. Prices are shown outright, except the promo pass, whose price
+	// sits under the tap-to-reveal cover. `from` is the
 	// "Disponible desde el" date as printed; the promo pass shows the countdown
 	// in that box instead.
 	//
 	// Sale window (Colombia time, ISO): before `opens` the COMPRAR button is
 	// covered by "No Disponible Aún", after `until` by "No disponible".
-	const FAITH_ENDS = "2026-10-30T23:59:59-05:00";
+	const FAITH_ENDS = "2026-11-10T23:59:59-05:00";
 	const pases: {
 		name: string;
 		lead: string;
@@ -78,7 +78,6 @@
 		opens?: string;
 		until?: string;
 		promo?: boolean;
-		expired?: boolean;
 		href?: string;
 		bg: string;
 		fg: string;
@@ -127,7 +126,6 @@
 			bg: BRAND.yellow.bg,
 			fg: "#000101"
 		},
-		// the promo is over: last in the row, greyed out, "Expiró" in the date box
 		{
 			name: "Faith Pass",
 			lead: "Todas las clases del evento (12)",
@@ -135,18 +133,17 @@
 			price: "$374.500 COP",
 			until: FAITH_ENDS,
 			promo: true,
-			expired: true,
 			href: "https://checkout.bold.co/payment/LNK_PTN3EH3VWM",
-			bg: "#b6babd",
+			bg: BRAND.lime.bg,
 			fg: "#000101"
 		}
 	];
 
 	const clasesSueltas = {
 		rows: [
-			{ nivel: "Local", precio: "$48.150 COP" },
-			{ nivel: "Nacional", precio: "$85.600 COP" },
-			{ nivel: "Internacional", precio: "$267.500 COP" }
+			{ nivel: "Local", precio: "$48.150 COP", href: "https://checkout.bold.co/payment/LNK_SXJD3C3EFU" },
+			{ nivel: "Nacional", precio: "$85.600 COP", href: "https://checkout.bold.co/payment/LNK_29I9G3LZC0" },
+			{ nivel: "Internacional", precio: "$267.500 COP", href: undefined as string | undefined }
 		],
 		from: "5 de noviembre",
 		opens: "2026-11-05T00:00:00-05:00"
@@ -196,7 +193,8 @@
 		if (p.until && t >= Date.parse(p.until)) return "over";
 		return "open";
 	}
-	let clasesSoon = $derived(saleState(clasesSueltas, now) === "soon");
+	// before the clock starts (prerender) the class links stay plain text
+	let clasesOpen = $derived(now !== null && saleState(clasesSueltas, now) === "open");
 
 	type Item = { time: string; label: string };
 	const cronograma: { day: string; groups: { heading?: string; items: Item[] }[] }[] = [
@@ -369,20 +367,20 @@
 				<div class="dc__in">
 					{@render cardTitle(p.name)}
 					<p class="dc__lead"><strong>{p.lead}</strong><span>{p.sub}</span></p>
-					<!-- not on sale yet: the cover still teases, but reveals PRONTO -->
-					<p class="dc__price" aria-hidden={!revealed[p.name]}>
-						{sale === "soon" ? "PRONTO" : p.price}
-					</p>
-					<button
-						type="button"
-						class="dc__reveal"
-						class:is-open={revealed[p.name]}
-						disabled={revealed[p.name]}
-						data-track="Revelar precio"
-						onclick={() => (revealed[p.name] = true)}
-					>
-						Revelar Precio!
-					</button>
+					<!-- prices are shown outright; only the promo pass keeps its reveal cover -->
+					<p class="dc__price" aria-hidden={p.promo && !revealed[p.name]}>{p.price}</p>
+					{#if p.promo}
+						<button
+							type="button"
+							class="dc__reveal"
+							class:is-open={revealed[p.name]}
+							disabled={revealed[p.name]}
+							data-track="Revelar precio"
+							onclick={() => (revealed[p.name] = true)}
+						>
+							Revelar Precio!
+						</button>
+					{/if}
 					{#if p.href && sale === "open"}
 						<a class="dc__buy" href={p.href} target="_blank" rel="noopener" data-track="Comprar">Comprar</a>
 					{:else}
@@ -396,13 +394,9 @@
 					{/if}
 					{#if p.promo}
 						<p class="dc__when">La oferta termina en</p>
-						{#if p.expired}
-							<p class="dc__pill">Expiró</p>
-						{:else}
-							<div class="dc__pill dc__pill--countdown">
-								<Countdown target={p.until ?? FAITH_ENDS} />
-							</div>
-						{/if}
+						<div class="dc__pill dc__pill--countdown">
+							<Countdown target={p.until ?? FAITH_ENDS} />
+						</div>
 						<p class="dc__fine">Solo 15 cupos disponibles</p>
 					{:else}
 						<p class="dc__when">Disponible desde el</p>
@@ -424,28 +418,22 @@
 		>
 			<div class="dc__in">
 				{@render cardTitle("Clases Sueltas")}
-				<!-- same logic as the passes: prices under the reveal cover, PRONTO
-				     until the classes go on sale -->
+				<!-- prices shown outright; each one links to its payment once the
+				     classes go on sale -->
 				<div class="dc__rows">
 					<span class="dc__head dc__head--col">Nivel</span>
 					<span class="dc__head dc__head--col">Inversión</span>
 					{#each clasesSueltas.rows as row}
-						<span class="dc__k">{row.nivel}</span><span
-							class="dc__v"
-							aria-hidden={!revealed["Clases Sueltas"]}>{clasesSoon ? "PRONTO" : row.precio}</span
-						>
+						<span class="dc__k">{row.nivel}</span>
+						{#if row.href && clasesOpen}
+							<a class="dc__v dc__v--buy" href={row.href} target="_blank" rel="noopener" data-track="Comprar {row.nivel}"
+								>{row.precio}</a
+							>
+						{:else}
+							<span class="dc__v">{row.precio}</span>
+						{/if}
 					{/each}
 				</div>
-				<button
-					type="button"
-					class="dc__reveal dc__reveal--rows"
-					class:is-open={revealed["Clases Sueltas"]}
-					disabled={revealed["Clases Sueltas"]}
-					data-track="Revelar precio"
-					onclick={() => (revealed["Clases Sueltas"] = true)}
-				>
-					Revelar Precio!
-				</button>
 				<p class="dc__when">Disponible desde el</p>
 				<p class="dc__pill">{clasesSueltas.from}</p>
 			</div>
@@ -650,6 +638,13 @@
 		font-size: 3.6cqi;
 		letter-spacing: 0;
 		opacity: 0.7;
+	}
+
+	/* Clases Sueltas: a price that is also its payment link */
+	.dc__v--buy {
+		text-decoration: underline;
+		text-decoration-thickness: 0.12em;
+		text-underline-offset: 0.15em;
 	}
 
 	/* the document's sub-headings (Categorías) and the Inscripción cards */
