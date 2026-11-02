@@ -139,11 +139,18 @@
 		}
 	];
 
+	// Clases Sueltas' three COMPRAR buttons: each tilts on its own beat
+	const BUY_BEATS = [
+		{ dur: "5s", delay: "0s" },
+		{ dur: "5.7s", delay: "-1.9s" },
+		{ dur: "4.4s", delay: "-3.3s" }
+	];
+
 	const clasesSueltas = {
 		rows: [
 			{ nivel: "Local", precio: "$48.150 COP", href: "https://checkout.bold.co/payment/LNK_SXJD3C3EFU" },
 			{ nivel: "Nacional", precio: "$85.600 COP", href: "https://checkout.bold.co/payment/LNK_29I9G3LZC0" },
-			{ nivel: "Internacional", precio: "$267.500 COP", href: undefined as string | undefined }
+			{ nivel: "Internacional", precio: "$267.500 COP", href: "https://checkout.bold.co/payment/LNK_CKGUUAYTT6" }
 		],
 		from: "5 de noviembre",
 		opens: "2026-11-05T00:00:00-05:00"
@@ -193,8 +200,7 @@
 		if (p.until && t >= Date.parse(p.until)) return "over";
 		return "open";
 	}
-	// before the clock starts (prerender) the class links stay plain text
-	let clasesOpen = $derived(now !== null && saleState(clasesSueltas, now) === "open");
+	let clasesSale = $derived(saleState(clasesSueltas, now));
 
 	type Item = { time: string; label: string };
 	const cronograma: { day: string; groups: { heading?: string; items: Item[] }[] }[] = [
@@ -407,7 +413,7 @@
 		{/each}
 		<!-- white card, dark "multiply" date box, as in the design -->
 		<article
-			class="dc dc--pass"
+			class="dc dc--pass dc--wide"
 			data-track-card="Clases Sueltas"
 			style:--accent="#ffffff"
 			style:--accent-fg="#000101"
@@ -416,26 +422,48 @@
 			style:--fill-blend="multiply"
 			style:--fill-opacity="0.67"
 		>
+			<!-- wider than a pass card for the COMPRAR column; .dc__base keeps the
+			     pass card's units so the text matches the other cards (2026-cards.css) -->
 			<div class="dc__in">
-				{@render cardTitle("Clases Sueltas")}
-				<!-- prices shown outright; each one links to its payment once the
-				     classes go on sale -->
-				<div class="dc__rows">
-					<span class="dc__head dc__head--col">Nivel</span>
-					<span class="dc__head dc__head--col">Inversión</span>
-					{#each clasesSueltas.rows as row}
-						<span class="dc__k">{row.nivel}</span>
-						{#if row.href && clasesOpen}
-							<a class="dc__v dc__v--buy" href={row.href} target="_blank" rel="noopener" data-track="Comprar {row.nivel}"
-								>{row.precio}</a
-							>
-						{:else}
-							<span class="dc__v">{row.precio}</span>
-						{/if}
-					{/each}
+				<div class="dc__base">
+					<div class="dc__pad">
+						{@render cardTitle("Clases Sueltas")}
+						<div class="dc__rows">
+							<span class="dc__head dc__head--col">Nivel</span>
+							<span class="dc__head dc__head--col">Inversión</span>
+							<span class="dc__head dc__head--col"></span>
+							{#each clasesSueltas.rows as row, i}
+								<span class="dc__k">{row.nivel}</span>
+								<span class="dc__v">{row.precio}</span>
+								{#if row.href && clasesSale === "open"}
+									<a
+										class="dc__buy"
+										style:--buy-dur={BUY_BEATS[i].dur}
+										style:--buy-delay={BUY_BEATS[i].delay}
+										href={row.href} target="_blank" rel="noopener" data-track="Comprar {row.nivel}"
+										>Comprar</a
+									>
+								{:else}
+									<span
+										class="dc__buy"
+										style:--buy-dur={BUY_BEATS[i].dur}
+										style:--buy-delay={BUY_BEATS[i].delay}
+										aria-disabled={clasesSale !== "open"}
+										data-track="Comprar (no disponible)">Comprar</span
+									>
+								{/if}
+							{/each}
+							{#if clasesSale !== "open"}
+								<!-- one cover over the three buttons, as on the passes -->
+								<div class="dc__closed" data-track="Comprar (no disponible)">
+									<span>{clasesSale === "soon" ? "No Disponible Aún" : "No disponible"}</span>
+								</div>
+							{/if}
+						</div>
+					</div>
+					<p class="dc__when">Disponible desde el</p>
+					<p class="dc__pill">{clasesSueltas.from}</p>
 				</div>
-				<p class="dc__when">Disponible desde el</p>
-				<p class="dc__pill">{clasesSueltas.from}</p>
 			</div>
 		</article>
 		<article class="dc dc--pass dc--bonos" data-track-card="Bonos de Ingreso" style:--accent={BRAND.yellow.bg} style:--accent-fg="#000101">
@@ -638,13 +666,6 @@
 		font-size: 3.6cqi;
 		letter-spacing: 0;
 		opacity: 0.7;
-	}
-
-	/* Clases Sueltas: a price that is also its payment link */
-	.dc__v--buy {
-		text-decoration: underline;
-		text-decoration-thickness: 0.12em;
-		text-underline-offset: 0.15em;
 	}
 
 	/* the document's sub-headings (Categorías) and the Inscripción cards */

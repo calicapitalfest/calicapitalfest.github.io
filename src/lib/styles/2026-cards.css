@@ -586,3 +586,76 @@
 	white-space: nowrap;
 	text-transform: uppercase;
 }
+
+/* ---- Clases Sueltas: wide pass card with a COMPRAR column ---------- */
+/* The card is 1.29× a pass card's width so a third column of COMPRAR
+   buttons fits. Its inner .dc__base is a container exactly one pass card
+   wide, so every cqi below (and in the pass rules it reuses) is the same
+   unit as on the other cards: the text matches them, and the extra width
+   lies to the right of .dc__base, where the buttons overhang it.
+   Height matches a pass card (1332.95/1001.87 of a pass card's width).
+   .dc__base has no padding (container units measure its content box);
+   .dc__pad inside it carries the pass card's padding. */
+.site-2026 .dc--wide {
+	width: min(92vw, calc(340px * 1.29));
+}
+.site-2026 .dc--wide .dc__in {
+	padding: 0;
+	border-radius: calc(11.4cqi / 1.29);
+	aspect-ratio: 129 / 133.05;
+}
+.site-2026 .dc--wide .dc__base {
+	container-type: inline-size;
+	position: relative;
+	box-sizing: border-box;
+	width: calc(100cqi / 1.29);
+	height: 100%;
+}
+.site-2026 .dc--wide .dc__pad {
+	padding: 12.5cqi 8.2cqi 0;
+}
+/* Nivel | Inversión | COMPRAR (the last column overhangs .dc__base) */
+.site-2026 .dc--wide .dc__rows {
+	position: relative;
+	grid-template-columns: 43.3cqi 40.3cqi 29cqi;
+	column-gap: 0;
+	width: max-content;
+}
+.site-2026 .dc--wide .dc__rows .dc__buy {
+	position: relative;
+	left: auto;
+	top: auto;
+	width: auto;
+	height: 9cqi;
+	margin-left: 3cqi;
+	/* centred on the row's 6cqi line without making the row taller */
+	margin-top: -1.5cqi;
+	margin-bottom: calc(var(--row-gap) - 1.5cqi);
+	padding: 0;
+	border-radius: 3.2cqi;
+	font-size: 4cqi;
+	line-height: 1;
+	/* each button tilts and shines on its own beat (set per button in the page) */
+	animation-duration: var(--buy-dur, 5s);
+	animation-delay: var(--buy-delay, 0s);
+}
+.site-2026 .dc--wide .dc__rows .dc__buy::after {
+	animation-duration: var(--buy-dur, 5s);
+	animation-delay: var(--buy-delay, 0s);
+}
+/* outside the sale window one frosted box covers the whole column, its
+   label in the heading row above the first button */
+.site-2026 .dc--wide .dc__rows .dc__closed {
+	left: calc(43.3cqi + 40.3cqi + 1.5cqi);
+	width: 29cqi;
+	top: -1cqi;
+	height: 44.8cqi;
+	padding: 1.5cqi 0 0;
+}
+/* "Disponible desde el" and its box centred on the whole wide card */
+.site-2026 .dc--wide .dc__when {
+	right: -29cqi;
+}
+.site-2026 .dc--wide .dc__pill {
+	left: calc((129cqi - 77.74cqi) / 2);
+}
