@@ -3,7 +3,7 @@
 	import { playOverlay } from "./overlay";
 	import { flashBubble } from "./flashBubble.svelte";
 	import Countdown from "./Countdown.svelte";
-	import { invitados } from "./lineup";
+	import { invitados, nacionales } from "./lineup";
 
 	// opening day, Colombia time; the countdown renders nothing once it's past
 	const EVENT_START = "2026-11-17T00:00:00-05:00";
@@ -13,20 +13,43 @@
 	// No autoplay with reduced motion; clicking still works.
 	const SHOW_MS = 3000;
 	let artist = $state(0);
+	let nacional = $state(0);
 	let autoplay = false;
+	// The national stickers run on their own timer, with a random wait of
+	// 1.9–2.1s between swaps and a different float speed for each sticker.
+	const bobs = nacionales.map((_, i) => 3 + ((i * 1.7) % 3.1));
 	let showTimer: ReturnType<typeof setTimeout>;
+	let nacTimer: ReturnType<typeof setTimeout>;
 	function nextArtist() {
 		artist = (artist + 1) % invitados.length;
 		scheduleNext();
+	}
+	function nextNacional() {
+		nacional = (nacional + 1) % nacionales.length;
+		scheduleNac();
+	}
+	function clickInternacional() {
+		nextArtist();
+	}
+	function clickNacional() {
+		nextNacional();
 	}
 	function scheduleNext() {
 		clearTimeout(showTimer);
 		if (autoplay) showTimer = setTimeout(nextArtist, SHOW_MS);
 	}
+	function scheduleNac() {
+		clearTimeout(nacTimer);
+		if (autoplay) nacTimer = setTimeout(nextNacional, 1900 + Math.random() * 200);
+	}
 	$effect(() => {
 		autoplay = !matchMedia("(prefers-reduced-motion: reduce)").matches;
 		scheduleNext();
-		return () => clearTimeout(showTimer);
+		scheduleNac();
+		return () => {
+			clearTimeout(showTimer);
+			clearTimeout(nacTimer);
+		};
 	});
 
 	// "Click me!" hint: first 5s after load, then for 2s every 10–15s
@@ -49,6 +72,30 @@
 	});
 </script>
 
+{#snippet stage(title: string, id: string, list: typeof invitados, i: number, onclick: () => void, bubbleOn: boolean, bobDur?: number)}
+	<div class="hero__lineup">
+	<h2 {id} class="hero__lineup-title">{title}</h2>
+	<p class="hero__lineup-sub">Line Up</p>
+
+	<div class="hero__stage">
+		<button class="hero__sun" type="button" aria-label="Siguiente artista" {onclick} style:animation-duration={bobDur ? `${bobDur}s` : undefined}>
+			{#key i}
+				<img
+					class="hero__sun-img"
+					src="{base}/assets/lineup/{list[i].src}"
+					alt={list[i].name}
+					width="724"
+					height="658"
+					style:--tilt="{list[i].tilt}deg"
+					style:--size={list[i].size}
+				/>
+			{/key}
+		</button>
+		{#if bubbleOn}<span class="hero__bubble" class:is-on={bubble.on} aria-hidden="true">Click me!</span>{/if}
+	</div>
+	</div>
+{/snippet}
+
 <section id="top" class="hero">
 	<img class="hero__deco hero__deco--star" src="{base}/assets/brand/deco-star.png" alt="" />
 	{#each decos as d}
@@ -68,24 +115,9 @@
 			<img class="hero__logo" src="{base}/assets/brand/logo.png" alt="Cali Capital Fest" />
 		</button>
 
-		<h2 id="lineup" class="hero__lineup-title">Internacional</h2>
-		<p class="hero__lineup-sub">Line Up</p>
-
-		<div class="hero__stage">
-			<button class="hero__sun" type="button" aria-label="Siguiente artista" onclick={nextArtist}>
-				{#key artist}
-					<img
-						class="hero__sun-img"
-						src="{base}/assets/lineup/{invitados[artist].src}"
-						alt={invitados[artist].name}
-						width="724"
-						height="658"
-						style:--tilt="{invitados[artist].tilt}deg"
-						style:--size={invitados[artist].size}
-					/>
-				{/key}
-			</button>
-			<span class="hero__bubble" class:is-on={bubble.on} aria-hidden="true">Click me!</span>
+		<div class="hero__lineups">
+		{@render stage("Internacional", "lineup", invitados, artist, clickInternacional, true)}
+		{@render stage("Nacional", "lineup-nacional", nacionales, nacional, clickNacional, false, bobs[nacional])}
 		</div>
 
 		<p class="hero__kicker">Festival Internacional de Danza Urbana</p>
@@ -157,6 +189,18 @@
 		height: auto;
 	}
 
+	.hero__lineups {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: flex-start;
+		gap: 1rem 2.5rem;
+	}
+	.hero__lineup {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	.hero__stage {
 		/* the artist sticker's height derives from this base */
 		--stage-base: min(38.4vw, 176px); /* 80% of the original min(48vw, 220px) */
@@ -183,7 +227,7 @@
 		color: var(--c-text);
 		margin-top: clamp(0.5rem, 2vw, 1.5rem);
 		/* subtitle tucked tight under the title */
-		margin-bottom: -0.9rem;
+		margin-bottom: -0.35rem;
 	}
 	.hero__lineup-sub {
 		font-family: var(--font-subtitle);
@@ -193,7 +237,7 @@
 		line-height: 1;
 		color: var(--c-pink);
 		/* pulled toward the sticker; the images have transparent margins */
-		margin-bottom: -1.25rem;
+		margin-bottom: -0.75rem;
 	}
 
 	.hero__bubble {

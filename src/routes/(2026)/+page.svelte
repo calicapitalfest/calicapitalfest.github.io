@@ -202,50 +202,68 @@
 	}
 	let clasesSale = $derived(saleState(clasesSueltas, now));
 
-	type Item = { time: string; label: string };
-	const cronograma: { day: string; groups: { heading?: string; items: Item[] }[] }[] = [
+	type Item = { time: string; label: string; artists?: string };
+	type Venue = { name: string; href?: string };
+	const LAS_PILAS: Venue = {
+		name: "Centro Comercial Las Pilas",
+		href: "https://www.google.com/maps/place/Centro+Comercial+Las+Pilas/@3.4061366,-76.5377913,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a6ad636a707d:0x87a6c7af055faa90!8m2!3d3.4061366!4d-76.5377913!16s%2Fg%2F1tg5d4dh"
+	};
+	const PALMETTO: Venue = {
+		name: "Palmetto Plaza",
+		href: "https://www.google.com/maps/place/Palmetto+Plaza+Shopping+Mall/@3.4128861,-76.5431852,17z/data=!3m2!4b1!5s0x8e30a6aef78344eb:0xe260a8b7d67b4a5!4m6!3m5!1s0x8e30a6af05707fc1:0xd083a753c7398fb8!8m2!3d3.4128807!4d-76.5406049!16s%2Fg%2F1hf2hz45s"
+	};
+	const E1060: Venue = {
+		name: "Espacio 10-60",
+		href: "https://www.google.com/maps/place/Espacio+10-60/@3.4469788,-76.534555,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a663dc084f97:0xd1742e76d804b37e!8m2!3d3.4469734!4d-76.5319747!16s%2Fg%2F11c5g81n40"
+	};
+	const TBC: Venue = { name: "Espacio por confirmar" };
+	const cronograma: { day: string; venue: Venue; groups: { heading?: string; venue?: Venue; items: Item[] }[] }[] = [
 		{
 			day: "Martes 17",
+			venue: PALMETTO,
 			groups: [
 				{
 					items: [
 						{ time: "5:30 p.m.", label: "Apertura" },
-						{ time: "6:30 p.m.", label: "Taller de apertura (Free)" },
-						{ time: "9:30 p.m.", label: "Local | Collab Class 1 (Free)" }
+						{ time: "6:00 p.m.", label: "Taller de apertura (Free)", artists: "Valoyes x Valen Killa" },
+						{ time: "7:30 p.m.", label: "Taller de apertura 2 (Free)", artists: "Diego Casas" }
 					]
 				}
 			]
 		},
 		{
 			day: "Miércoles 18",
+			venue: PALMETTO,
 			groups: [
 				{
 					items: [
-						{ time: "5:00 p.m.", label: "Local | Collab Class 2" },
-						{ time: "6:30 p.m.", label: "Local | Collab Class 3" },
-						{ time: "8:30 p.m.", label: "Tallerista nacional 1" }
+						{ time: "5:00 p.m.", label: "Local | Collab Class", artists: "Luppy x AlexX" },
+						{ time: "6:30 p.m.", label: "Local | Collab Class", artists: "Tian Viveros x JuanKa" },
+						{ time: "8:30 p.m.", label: "Tallerista nacional", artists: "La Casas" }
 					]
 				}
 			]
 		},
 		{
 			day: "Jueves 19",
+			venue: LAS_PILAS,
 			groups: [
 				{
 					items: [
-						{ time: "5:00 p.m.", label: "Local | Collab Class 4" },
-						{ time: "6:30 p.m.", label: "Local | Collab Class 5" },
-						{ time: "8:30 p.m.", label: "Tallerista nacional 2" }
+						{ time: "5:00 p.m.", label: "Local | Collab Class", artists: "Andrea Acevedo x Andhiyes" },
+						{ time: "6:30 p.m.", label: "Local | Collab Class", artists: "Esteban R x Gekko" },
+						{ time: "8:30 p.m.", label: "Tallerista nacional", artists: "Nai Garcia" }
 					]
 				}
 			]
 		},
 		{
 			day: "Viernes 20",
+			venue: LAS_PILAS,
 			groups: [
 				{
 					items: [
-						{ time: "6:00 p.m.", label: "Tallerista nacional 3" },
+						{ time: "6:00 p.m.", label: "Tallerista nacional", artists: "Erwin Fine" },
 						{ time: "7:30 p.m.", label: "Meeting" }
 					]
 				}
@@ -253,24 +271,41 @@
 		},
 		{
 			day: "Sábado 21",
-			groups: [{ items: [{ time: "2:00 p.m.", label: "League of Giants" }] }]
+			venue: TBC,
+			groups: [
+				{
+					items: [
+						{
+							time: "2:00 p.m.",
+							label: "League of Giants",
+							artists: "Hosts: Kid Lord x Scarly\nHead Judge: Arnold Taborda"
+						}
+					]
+				}
+			]
 		},
 		{
 			day: "Domingo 22",
+			venue: E1060,
 			groups: [
 				{
 					heading: "The Biggest Workshop (Internacionales)",
 					items: [
-						{ time: "9:00 a.m.", label: "Tallerista internacional 1" },
-						{ time: "10:30 a.m.", label: "Tallerista internacional 2" },
-						{ time: "12:00 m.", label: "Tallerista internacional 3" }
+						{ time: "9:00 a.m.", label: "Tallerista internacional", artists: "Clay Boonthanakit (IDL)" },
+						{ time: "10:30 a.m.", label: "Tallerista internacional", artists: "Josh Price (Jam Republic)" },
+						{ time: "12:00 m.", label: "Tallerista internacional", artists: "Latrice Kabamba (Jam Republic)" }
 					]
 				},
 				{
 					heading: "Battle of Giants",
 					items: [
-						{ time: "3:00 p.m.", label: "Inscripciones" },
-						{ time: "4:00 p.m.", label: "Inicio de batallas" }
+						{ time: "2:00 p.m.", label: "Inscripciones" },
+						{
+							time: "4:00 p.m.",
+							label: "Inicio de batallas",
+							artists:
+								"Hosts: Kid Lord x Scarly\nDJs: Brah x DFour x Kid Boneless\nJueces: Geiker Lock, Blady y Sad 69"
+						}
 					]
 				}
 			]
@@ -607,11 +642,18 @@
 			<article class="dc dc--day" style:--accent={c.bg} style:--accent-fg={c.fg}>
 				<div class="dc__in">
 					{@render cardTitle(d.day)}
+					<p class="dc__venue">
+						{#if d.venue.href}<a href={d.venue.href} target="_blank" rel="noopener">📍 {d.venue.name}</a>{:else}{d.venue.name}{/if}
+					</p>
 					{#each d.groups as g}
 						{#if g.heading}<p class="dc__group">{g.heading}</p>{/if}
+						{#if g.venue}<p class="dc__venue"><a href={g.venue.href} target="_blank" rel="noopener">📍 {g.venue.name}</a></p>{/if}
 						<ul class="dc__agenda">
 							{#each g.items as it}
-								<li><span class="dc__time">{it.time}</span><span>{it.label}</span></li>
+								<li>
+									<span class="dc__time">{it.time}</span>
+									<span>{it.label}{#if it.artists}<small class="dc__artists">{it.artists}</small>{/if}</span>
+								</li>
 							{/each}
 						</ul>
 					{/each}
@@ -637,6 +679,21 @@
 <style>
 	/* no slider for the schedule in the document: every day is visible at
 	   once. The day cards are .dc--day (2026-cards.css). */
+	.dc__venue {
+		margin: 0 0 0.6rem;
+		font-size: 0.85em;
+		font-weight: 700;
+	}
+	.dc__venue a {
+		text-decoration: underline;
+	}
+	.dc__artists {
+		display: block;
+		font-size: 0.85em;
+		font-weight: 400;
+		white-space: pre-line;
+		opacity: 0.85;
+	}
 	.cronograma {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
