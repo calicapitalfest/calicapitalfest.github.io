@@ -217,7 +217,7 @@
 		href: "https://www.google.com/maps/place/Espacio+10-60/@3.4469788,-76.534555,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a663dc084f97:0xd1742e76d804b37e!8m2!3d3.4469734!4d-76.5319747!16s%2Fg%2F11c5g81n40"
 	};
 	const TBC: Venue = { name: "Espacio por confirmar" };
-	const cronograma: { day: string; venue: Venue; groups: { heading?: string; venue?: Venue; items: Item[] }[] }[] = [
+	const cronograma: { day: string; venue?: Venue; groups: { heading?: string; venue?: Venue; items: Item[] }[] }[] = [
 		{
 			day: "Martes 17",
 			venue: PALMETTO,
@@ -286,10 +286,10 @@
 		},
 		{
 			day: "Domingo 22",
-			venue: E1060,
 			groups: [
 				{
 					heading: "The Biggest Workshop (Internacionales)",
+					venue: TBC,
 					items: [
 						{ time: "9:00 a.m.", label: "Tallerista internacional", artists: "Clay Boonthanakit (IDL)" },
 						{ time: "10:30 a.m.", label: "Tallerista internacional", artists: "Josh Price (Jam Republic)" },
@@ -298,6 +298,7 @@
 				},
 				{
 					heading: "Battle of Giants",
+					venue: E1060,
 					items: [
 						{ time: "2:00 p.m.", label: "Inscripciones" },
 						{
@@ -642,12 +643,14 @@
 			<article class="dc dc--day" style:--accent={c.bg} style:--accent-fg={c.fg}>
 				<div class="dc__in">
 					{@render cardTitle(d.day)}
+					{#if d.venue}
 					<p class="dc__venue">
 						{#if d.venue.href}<a href={d.venue.href} target="_blank" rel="noopener">📍 {d.venue.name}</a>{:else}{d.venue.name}{/if}
 					</p>
+					{/if}
 					{#each d.groups as g}
 						{#if g.heading}<p class="dc__group">{g.heading}</p>{/if}
-						{#if g.venue}<p class="dc__venue"><a href={g.venue.href} target="_blank" rel="noopener">📍 {g.venue.name}</a></p>{/if}
+						{#if g.venue}<p class="dc__venue">{#if g.venue.href}<a href={g.venue.href} target="_blank" rel="noopener">📍 {g.venue.name}</a>{:else}{g.venue.name}{/if}</p>{/if}
 						<ul class="dc__agenda">
 							{#each g.items as it}
 								<li>
