@@ -1,36 +1,31 @@
 <!doctype html>
-<html lang="en">
+<!--
+	The copy mixes Spanish with English event names (Battle of Giants, Line Up, Workshops...),
+	so browsers' auto-translate keeps "translating" the English bits or mangling names.
+	lang="es" is the main language; translate="no" plus the notranslate meta opt out of
+	Chrome / Google Translate / Edge prompts.
+-->
+<html lang="es" translate="no">
 
 <head>
-	<!-- CDN extensions -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-		integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-		crossorigin="anonymous" referrerpolicy="no-referrer" />
-		
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-
-	<!-- Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Bitcount:wght@100..900&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-
-
-
 	<meta charset="utf-8" />
+	<meta name="google" content="notranslate" />
+	<meta http-equiv="Content-Language" content="es" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
 	<link rel="icon" href="%sveltekit.assets%/favicon-2026.ico" sizes="any" />
 	<link rel="icon" type="image/png" href="%sveltekit.assets%/favicon-2026.png" />
 	<link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon-2026.png" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- Fonts used above the fold, fetched in parallel with the CSS instead of after it -->
+	<link rel="preload" href="%sveltekit.assets%/fonts/polymath-super.woff2" as="font" type="font/woff2" crossorigin />
+	<link rel="preload" href="%sveltekit.assets%/fonts/guttery.woff2" as="font" type="font/woff2" crossorigin />
+	<link rel="preload" href="%sveltekit.assets%/fonts/dmsans-medium.woff2" as="font" type="font/woff2" crossorigin />
 	%sveltekit.head%
 </head>
 
 <body data-sveltekit-preload-data="hover" class="bg-slate-950 text-white relative">
 	<div style="display: contents">%sveltekit.body%</div>
-
-
 </body>
 
 </html>

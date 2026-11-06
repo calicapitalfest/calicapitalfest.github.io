@@ -30,7 +30,7 @@
         >
             <a href="{base}/2025" aria-label="Go to homepage">
                 <img
-                    src="{base}/assets/2025/banner-2025.png"
+                    src="{base}/assets/2025/banner-2025.webp"
                     alt="Banner"
                     class="h-32 object-contain cursor-pointer"
                 />

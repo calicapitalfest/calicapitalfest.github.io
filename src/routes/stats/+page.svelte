@@ -923,7 +923,7 @@
 	}
 	@font-face {
 		font-family: "CC Display";
-		src: url("/fonts/polymath-super.otf") format("opentype");
+		src: url("/fonts/polymath-super.woff2") format("woff2");
 	}
 
 	.stats {

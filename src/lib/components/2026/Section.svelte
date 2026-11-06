@@ -44,6 +44,8 @@
 			<span class="sec__icon-wrap">
 				<img
 					class="sec__icon"
+					loading="lazy"
+					decoding="async"
 					src="{base}/assets/brand/trimmed/{icon}"
 					alt=""
 					style:--icon-size={iconSize}

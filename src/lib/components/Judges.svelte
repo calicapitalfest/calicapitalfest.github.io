@@ -3,11 +3,11 @@
 	import { AngleRightOutline, AngleLeftOutline } from "flowbite-svelte-icons";
 
 	const judges = [
-		{ name: "Audrey Lane", crew: "JAM REPUBLIC - U.S.A", img: "judge-audrey-lane.png" },
-		{ name: "Gunmin", crew: "JUST JERK - COREA", img: "judge-gunmin.png" },
-		{ name: "Henry Link", crew: "ELITE FORCE CREW - U.S.A", img: "judge-henry-link.png" },
-		{ name: "Mr Wiggles", crew: "ELECTRIC BOOGALOOS & ROCK STEADY CREW - U.S.A", img: "judge-mr-wiggles.png" },
-		{ name: "Melvin Tim Tim", crew: "LEGACY ENTERTAINMENT GROUP - U.S.A", img: "judge-melvin-tim-tim.png" }
+		{ name: "Audrey Lane", crew: "JAM REPUBLIC - U.S.A", img: "judge-audrey-lane.webp" },
+		{ name: "Gunmin", crew: "JUST JERK - COREA", img: "judge-gunmin.webp" },
+		{ name: "Henry Link", crew: "ELITE FORCE CREW - U.S.A", img: "judge-henry-link.webp" },
+		{ name: "Mr Wiggles", crew: "ELECTRIC BOOGALOOS & ROCK STEADY CREW - U.S.A", img: "judge-mr-wiggles.webp" },
+		{ name: "Melvin Tim Tim", crew: "LEGACY ENTERTAINMENT GROUP - U.S.A", img: "judge-melvin-tim-tim.webp" }
 	];
 
 	let currentIndex = 0;
@@ -62,13 +62,15 @@
 				>
 					<div 
 						class="w-full h-full bg-contain bg-bottom bg-center bg-no-repeat opacity-70"
-						style="background-image: url('/assets/2025/floor-curved.png');"
+						style="background-image: url('/assets/2025/floor-curved.webp');"
 					></div>
 				</div>
 
 				<div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/5 w-[70%] h-full opacity-50 scale-75 flex items-center justify-center">
 					<img
 						src="/assets/2025/{judges[leftIndex].img}"
+						loading="lazy"
+						decoding="async"
 						alt={judges[leftIndex].name}
 						class="max-w-full max-h-full object-contain filter brightness-50"
 					/>
@@ -78,6 +80,8 @@
 					{#key currentIndex}
 						<img
 							src="/assets/2025/{judges[currentIndex].img}"
+							loading="lazy"
+							decoding="async"
 							alt={judges[currentIndex].name}
 							class="max-w-full max-h-full object-contain animate-fade-in"
 						/>
@@ -87,6 +91,8 @@
 				<div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/5 w-[70%] h-full opacity-50 scale-75 flex items-center justify-center">
 					<img
 						src="/assets/2025/{judges[rightIndex].img}"
+						loading="lazy"
+						decoding="async"
 						alt={judges[rightIndex].name}
 						class="max-w-full max-h-full object-contain filter brightness-50"
 					/>

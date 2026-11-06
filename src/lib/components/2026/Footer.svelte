@@ -5,7 +5,7 @@
 </script>
 
 <footer class="foot">
-	<img class="foot__mark" src="{base}/assets/brand/sun-face.png" alt="" />
+	<img class="foot__mark" loading="lazy" decoding="async" src="{base}/assets/brand/sun-face.webp" alt="" />
 
 	<Socials size={24} />
 

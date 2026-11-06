@@ -64,7 +64,7 @@
 
 	$effect(() => {
 		const r = (min: number, max: number) => min + Math.random() * (max - min);
-		const srcs = ["deco-asterisk.png", "deco-splat.png"].sort(() => Math.random() - 0.5);
+		const srcs = ["deco-asterisk.webp", "deco-splat.webp"].sort(() => Math.random() - 0.5);
 		decos = [
 			{ src: srcs[0], x: r(2, 14), y: r(12, 78), dur: r(16, 28), dir: Math.random() < 0.5 ? 1 : -1 },
 			{ src: srcs[1], x: r(80, 90), y: r(40, 80), dur: r(16, 28), dir: Math.random() < 0.5 ? 1 : -1 }
@@ -97,7 +97,7 @@
 {/snippet}
 
 <section id="top" class="hero">
-	<img class="hero__deco hero__deco--star" src="{base}/assets/brand/deco-star.png" alt="" />
+	<img class="hero__deco hero__deco--star" src="{base}/assets/brand/deco-star.webp" alt="" />
 	{#each decos as d}
 		<img
 			class="hero__deco hero__deco--rand"
@@ -112,7 +112,7 @@
 
 	<div class="hero__inner">
 		<button class="hero__logo-btn" type="button" aria-label="Reproducir intro" onclick={playOverlay}>
-			<img class="hero__logo" src="{base}/assets/brand/logo.png" alt="Cali Capital Fest" />
+			<img class="hero__logo" src="{base}/assets/brand/logo.webp" alt="Cali Capital Fest" width="1240" height="698" fetchpriority="high" />
 		</button>
 
 		<div class="hero__lineups">

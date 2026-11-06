@@ -1,33 +1,19 @@
 /**
- * Images the intro overlay waits on before it reveals the page, so nothing
- * visible above the fold (hero art, section icons) pops in after the fade.
- * Keep this in sync with the icon props used in +page.svelte (served from
- * assets/brand/trimmed), the Line Up characters and the art in Hero.svelte.
+ * Images the intro overlay waits on before it reveals the page: only what is
+ * visible on the first screen (hero logo, deco, line-up stickers). Everything
+ * further down (section icons, flashcard decorations) is lazy-loaded by the
+ * browser as the visitor scrolls, so the intro doesn't wait for it.
+ * Keep this in sync with the art in Hero.svelte and lineup.ts.
  */
 export const PRELOAD_ASSETS = [
-	"/assets/brand/logo.png",
-	"/assets/brand/deco-star.png",
-	// hero line-up stickers (lineup.ts)
-	"/assets/lineup/latrice-kabamba.png",
-	"/assets/lineup/josh-price.png",
-	"/assets/lineup/clay-boonthanakit.png",
-	"/assets/brand/trimmed/icon-mic.png",
-	"/assets/brand/trimmed/icon-calendar.png",
-	"/assets/brand/trimmed/deco-asterisk.png",
-	"/assets/brand/trimmed/icon-notes.png",
-	"/assets/brand/trimmed/deco-splat.png",
-	"/assets/brand/trimmed/deco-star.png",
-	"/assets/brand/trimmed/deco-squiggle.png",
+	"/assets/brand/logo.webp",
+	"/assets/brand/deco-star.webp",
+	// hero line-up stickers (lineup.ts): the international artists, and the first national one
+	"/assets/lineup/latrice-kabamba.webp",
+	"/assets/lineup/josh-price.webp",
+	"/assets/lineup/clay-boonthanakit.webp",
+	"/assets/lineup/erwin-peinado.webp",
 	// hero random deco (Hero.svelte picks one)
-	"/assets/brand/deco-asterisk.png",
-	"/assets/brand/deco-splat.png",
-	// flashcard decorations (CardDeco.svelte)
-	"/assets/brand/flat-star.svg",
-	"/assets/brand/flat-spiral.svg",
-	"/assets/brand/flat-zigzag.svg",
-	"/assets/brand/flat-squiggle.svg",
-	"/assets/brand/flat-asterisk.svg",
-	"/assets/brand/flat-flower.svg",
-	"/assets/brand/flat-cross.svg",
-	"/assets/brand/flat-circle.svg"
+	"/assets/brand/deco-asterisk.webp",
+	"/assets/brand/deco-splat.webp"
 ];

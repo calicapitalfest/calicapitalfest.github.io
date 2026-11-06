@@ -31,7 +31,7 @@
 		aria-expanded={open}
 		onclick={() => (open = !open)}
 	>
-		<img src="{base}/assets/brand/sun-face.png" alt="Cali Capital Fest" />
+		<img src="{base}/assets/brand/sun-face.webp" alt="Cali Capital Fest" />
 	</button>
 	<span class="nav__bubble" class:is-on={bubble.on && !open} aria-hidden="true">MENU!</span>
 

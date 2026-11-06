@@ -2,16 +2,16 @@
     import { onMount } from "svelte";
 
     const sponsors = [
-        { name: "The Giants Co", img: "the-giants-co.png" },
-        { name: "Artes para la paz", img: "artes-para-la-paz.png" },
-        { name: "Culturas", img: "culturas.png" },
-        { name: "Skacepop", img: "skacepop.png" },
-        { name: "Palmeto", img: "palmeto.png" },
-        { name: "Gobernación", img: "gobernacion.png" },
-        { name: "Cacumen", img: "cacumen.png" },
-        { name: "2HAN", img: "2han.png" },
-        { name: "Comfandi", img: "comfandi.png" },
-        { name: "Liga de Porrismo", img: "liga-de-porrismo.png" }
+        { name: "The Giants Co", img: "the-giants-co.webp" },
+        { name: "Artes para la paz", img: "artes-para-la-paz.webp" },
+        { name: "Culturas", img: "culturas.webp" },
+        { name: "Skacepop", img: "skacepop.webp" },
+        { name: "Palmeto", img: "palmeto.webp" },
+        { name: "Gobernación", img: "gobernacion.webp" },
+        { name: "Cacumen", img: "cacumen.webp" },
+        { name: "2HAN", img: "2han.webp" },
+        { name: "Comfandi", img: "comfandi.webp" },
+        { name: "Liga de Porrismo", img: "liga-de-porrismo.webp" }
     ];
 
     let currentIndex = 0;
@@ -77,6 +77,8 @@
                             <img
                                 src="/assets/2025/sponsors/{sponsor.img}"
                                 alt={sponsor.name}
+                                loading="lazy"
+                                decoding="async"
                                 class="max-w-full max-h-48 object-contain"
                             />
                         </div>

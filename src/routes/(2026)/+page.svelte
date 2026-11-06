@@ -351,7 +351,7 @@
 	id="acerca"
 	kicker="Acerca del"
 	title="Festival"
-	icon="icon-mic.png"
+	icon="icon-mic.webp"
 	bgColor="#ff1f5f"
 	iconSize={0.68}
 	iconRotate={0}
@@ -394,7 +394,7 @@
 	id="paquetes"
 	kicker="Boletería"
 	title="Paquetes"
-	icon="icon-notes.png"
+	icon="icon-notes.webp"
 	bgColor="#acff00"
 	accentFg="#000101"
 	iconSize={0.99}
@@ -527,7 +527,7 @@
 	id="league"
 	kicker="Competencia"
 	title="League of Giants"
-	icon="deco-asterisk.png"
+	icon="deco-asterisk.webp"
 	bgColor="#fed000"
 	accentFg="#000101"
 	iconSize={0.8}
@@ -572,7 +572,7 @@
 	id="battles"
 	kicker="Competencia"
 	title="Battles of Giants"
-	icon="deco-splat.png"
+	icon="deco-splat.webp"
 	bgColor="#ff46d4"
 	accentFg="#000101"
 	iconSize={0.88}
@@ -629,7 +629,7 @@
 	id="cronograma"
 	kicker="Programación"
 	title="Agenda"
-	icon="icon-calendar.png"
+	icon="icon-calendar.webp"
 	bgColor="#00e7ff"
 	accentFg="#000101"
 	iconSize={0.7}
@@ -671,7 +671,7 @@
 	id="apoyan"
 	kicker="Aliados"
 	title="Apoyan"
-	icon="deco-squiggle.png"
+	icon="deco-squiggle.webp"
 	bgColor="#ff1f5f"
 	iconSize={1.1}
 	iconRotate={0}

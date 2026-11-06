@@ -20,7 +20,7 @@
 	let shown = $state(false); // logo opacity gate (set once positioning is known)
 	let entering = $state(false); // first-load slide-up
 	let pinned = $state(false); // matched to the real hero logo's rect
-	let dur = $state(550);
+	let dur = $state(400);
 	let progress = $state(0); // 0..1, share of PRELOAD_ASSETS decoded so far
 	let showBar = $state(false);
 
@@ -110,8 +110,8 @@
 
 		showBar = firstLoad;
 
-		const minHold = firstLoad ? 1150 : reduced ? 250 : 400;
-		const maxHold = 4000; // hard cap so a slow/broken asset can't stall the page
+		const minHold = firstLoad ? 800 : reduced ? 150 : 250; // first load: lets the slide-up (0.85s) land
+		const maxHold = 2000; // hard cap so a slow/broken asset can't stall the page
 
 		let cancelled = false;
 		const assets = PRELOAD_ASSETS.map((p) => `${base}${p}`);
