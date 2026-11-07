@@ -19,7 +19,7 @@
 
 	// ---- tuning ------------------------------------------------------------
 	/** Strength of the effect: how far (px) the page drops on the first bounce. */
-	const AMPLITUDE = 45;
+	const AMPLITUDE = 0; // 0 = no page bounce
 	/** Bounces per round, each one DAMPING times the height of the previous. */
 	const BOUNCES = 3;
 	const DAMPING = 0.55;
@@ -54,7 +54,6 @@
 	let startTimer = 0;
 
 	const buttonsShown = $derived(started && atTop);
-	const arrowsShown = $derived(buttonsShown && !settled);
 
 	// The site scrolls <body>, not the window (app.css: html, body { height: 100% }).
 	function scroller(): HTMLElement {
@@ -170,22 +169,6 @@
 		};
 	});
 </script>
-
-{#snippet chevrons()}
-	<span class="shint-more__flow" aria-hidden="true">
-		{#each [0, 1, 2] as i}
-			<svg viewBox="0 0 24 14" style:--i={i}><path d="M3 3l9 8 9-8" /></svg>
-		{/each}
-	</span>
-{/snippet}
-
-{#if arrowsShown}
-	<p class="shint-more" in:fade={{ duration: 450 }} out:fade={{ duration: 400 }}>
-		{@render chevrons()}
-		<span class="shint-more__text">Desliza para ver más</span>
-		{@render chevrons()}
-	</p>
-{/if}
 
 {#if buttonsShown}
 	<div class="shint" style:--arrow="{ARROW_BOB}px" in:fly={{ y: 40, duration: 450 }} out:fade={{ duration: 250 }}>

@@ -3,7 +3,7 @@
 	import { playOverlay } from "./overlay";
 	import { flashBubble } from "./flashBubble.svelte";
 	import Countdown from "./Countdown.svelte";
-	import { invitados, nacionales } from "./lineup";
+	import { invitados, nacionales, regionales } from "./lineup";
 
 	// opening day, Colombia time; the countdown renders nothing once it's past
 	const EVENT_START = "2026-11-17T00:00:00-05:00";
@@ -14,12 +14,15 @@
 	const SHOW_MS = 3000;
 	let artist = $state(0);
 	let nacional = $state(0);
+	let regional = $state(0);
 	let autoplay = false;
 	// The national stickers run on their own timer, with a random wait of
 	// 1.9–2.1s between swaps and a different float speed for each sticker.
 	const bobs = nacionales.map((_, i) => 3 + ((i * 1.7) % 3.1));
+	const regBobs = regionales.map((_, i) => 3.4 + ((i * 1.3) % 2.9));
 	let showTimer: ReturnType<typeof setTimeout>;
 	let nacTimer: ReturnType<typeof setTimeout>;
+	let regTimer: ReturnType<typeof setTimeout>;
 	function nextArtist() {
 		artist = (artist + 1) % invitados.length;
 		scheduleNext();
@@ -27,6 +30,13 @@
 	function nextNacional() {
 		nacional = (nacional + 1) % nacionales.length;
 		scheduleNac();
+	}
+	function nextRegional() {
+		regional = (regional + 1) % regionales.length;
+		scheduleReg();
+	}
+	function clickRegional() {
+		nextRegional();
 	}
 	function clickInternacional() {
 		nextArtist();
@@ -42,13 +52,114 @@
 		clearTimeout(nacTimer);
 		if (autoplay) nacTimer = setTimeout(nextNacional, 1900 + Math.random() * 200);
 	}
+	function scheduleReg() {
+		clearTimeout(regTimer);
+		if (autoplay) regTimer = setTimeout(nextRegional, 1900 + Math.random() * 200);
+	}
 	$effect(() => {
 		autoplay = !matchMedia("(prefers-reduced-motion: reduce)").matches;
 		scheduleNext();
 		scheduleNac();
+		scheduleReg();
 		return () => {
 			clearTimeout(showTimer);
 			clearTimeout(nacTimer);
+			clearTimeout(regTimer);
+		};
+	});
+
+	// Narrow screens: the three stages sit in a horizontal wheel (5 copies of
+	// Internacional → Nacional → Regional, so it loops) that drifts on its own.
+	// A manual scroll or touch pauses the drift for 3s.
+	const WHEEL_SPEED = 35; // px per second
+	const WHEEL_PAUSE = 3000;
+	let wheel = $state<HTMLDivElement>();
+	$effect(() => {
+		const el = wheel;
+		if (!el) return;
+		const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+		let raf = 0;
+		let last = 0;
+		let pos = 0;
+		let assigned = 0;
+		let resumeAt = 0;
+		let held = false;
+		let visible = true;
+		let W = 0; // one full turn (3 stages)
+		let S0 = 0; // scrollLeft that centres Internacional in the middle copy
+		let placed = false;
+
+		function measure() {
+			const it = el!.querySelectorAll<HTMLElement>(".hero__lineup");
+			if (!el!.clientWidth || it.length < 9) {
+				W = 0;
+				placed = false;
+				return;
+			}
+			W = it[3].offsetLeft - it[0].offsetLeft;
+			const c = it[6];
+			S0 = c.offsetLeft - (el!.clientWidth - c.offsetWidth) / 2;
+			if (!placed) {
+				el!.scrollLeft = S0;
+				pos = assigned = el!.scrollLeft;
+				placed = true;
+			}
+		}
+		function wrap() {
+			if (!W) return;
+			if (el!.scrollLeft > S0 + W) el!.scrollLeft -= W;
+			else if (el!.scrollLeft < S0 - W) el!.scrollLeft += W;
+			pos = assigned = el!.scrollLeft;
+		}
+		function pause() {
+			resumeAt = performance.now() + WHEEL_PAUSE;
+		}
+		function onScroll() {
+			if (Math.abs(el!.scrollLeft - assigned) > 2) {
+				pause();
+				wrap();
+				pos = assigned = el!.scrollLeft;
+			}
+		}
+		const hold = () => (held = true);
+		const release = () => {
+			held = false;
+			pause();
+		};
+		function tick(t: number) {
+			raf = requestAnimationFrame(tick);
+			const dt = Math.min(t - last, 50);
+			last = t;
+			if (!W || !visible || reduce || held || t < resumeAt) {
+				if (W) pos = el!.scrollLeft;
+				return;
+			}
+			pos += (WHEEL_SPEED * dt) / 1000;
+			if (pos > S0 + W) pos -= W;
+			el!.scrollLeft = Math.round(pos);
+			assigned = el!.scrollLeft;
+		}
+
+		const ro = new ResizeObserver(measure);
+		ro.observe(el);
+		const io = new IntersectionObserver((e) => (visible = e[0].isIntersecting));
+		io.observe(el);
+		el.addEventListener("scroll", onScroll, { passive: true });
+		el.addEventListener("wheel", pause, { passive: true });
+		el.addEventListener("touchstart", hold, { passive: true });
+		el.addEventListener("touchend", release, { passive: true });
+		el.addEventListener("touchcancel", release, { passive: true });
+		measure();
+		raf = requestAnimationFrame(tick);
+		return () => {
+			cancelAnimationFrame(raf);
+			ro.disconnect();
+			io.disconnect();
+			el.removeEventListener("scroll", onScroll);
+			el.removeEventListener("wheel", pause);
+			el.removeEventListener("touchstart", hold);
+			el.removeEventListener("touchend", release);
+			el.removeEventListener("touchcancel", release);
 		};
 	});
 
@@ -72,13 +183,13 @@
 	});
 </script>
 
-{#snippet stage(title: string, id: string, list: typeof invitados, i: number, onclick: () => void, bubbleOn: boolean, bobDur?: number)}
-	<div class="hero__lineup">
-	<h2 {id} class="hero__lineup-title">{title}</h2>
+{#snippet stage(title: string, id: string, list: typeof invitados, i: number, onclick: () => void, bubbleOn: boolean, bobDur?: number, hidden = false)}
+	<div class="hero__lineup" aria-hidden={hidden || undefined}>
+	<h2 id={id || undefined} class="hero__lineup-title">{title}</h2>
 	<p class="hero__lineup-sub">Line Up</p>
 
 	<div class="hero__stage">
-		<button class="hero__sun" type="button" aria-label="Siguiente artista" {onclick} style:animation-duration={bobDur ? `${bobDur}s` : undefined}>
+		<button class="hero__sun" type="button" aria-label="Siguiente artista" tabindex={hidden ? -1 : undefined} {onclick} style:animation-duration={bobDur ? `${bobDur}s` : undefined}>
 			{#key i}
 				<img
 					class="hero__sun-img"
@@ -116,8 +227,17 @@
 		</button>
 
 		<div class="hero__lineups">
+		{@render stage("Regional", "lineup-regional", regionales, regional, clickRegional, false, regBobs[regional])}
 		{@render stage("Internacional", "lineup", invitados, artist, clickInternacional, true)}
 		{@render stage("Nacional", "lineup-nacional", nacionales, nacional, clickNacional, false, bobs[nacional])}
+		</div>
+
+		<div class="hero__wheel" bind:this={wheel}>
+			{#each [0, 1, 2, 3, 4] as copy}
+				{@render stage("Internacional", "", invitados, artist, clickInternacional, true, undefined, copy !== 2)}
+				{@render stage("Nacional", "", nacionales, nacional, clickNacional, false, bobs[nacional], copy !== 2)}
+				{@render stage("Regional", "", regionales, regional, clickRegional, false, regBobs[regional], copy !== 2)}
+			{/each}
 		</div>
 
 		<p class="hero__kicker">Festival Internacional de Danza Urbana</p>
@@ -189,13 +309,45 @@
 		height: auto;
 	}
 
+	/* Wide screens: Regional | Internacional | Nacional in a row. Anything
+	   narrower swaps it for the looping wheel below. */
 	.hero__lineups {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: flex-start;
+		width: min(1100px, 96vw);
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		justify-items: center;
+		align-items: start;
 		gap: 1rem 2.5rem;
 	}
+	.hero__wheel {
+		display: none;
+	}
+	@media (max-width: 1099px) {
+		.hero__lineups {
+			display: none;
+		}
+		.hero__wheel {
+			display: flex;
+			position: relative;
+			width: 100vw;
+			max-width: 100vw;
+			align-items: flex-start;
+			overflow-x: auto;
+			overflow-y: hidden;
+			overscroll-behavior-x: contain;
+			scrollbar-width: none;
+			/* fade the edges so it reads as a wheel */
+			mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+		}
+		.hero__wheel::-webkit-scrollbar {
+			display: none;
+		}
+		.hero__wheel > :global(.hero__lineup) {
+			flex: 0 0 auto;
+			margin-inline: 0.5rem;
+		}
+	}
+
 	.hero__lineup {
 		display: flex;
 		flex-direction: column;

@@ -216,6 +216,10 @@
 		name: "Espacio 10-60",
 		href: "https://www.google.com/maps/place/Espacio+10-60/@3.4469788,-76.534555,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a663dc084f97:0xd1742e76d804b37e!8m2!3d3.4469734!4d-76.5319747!16s%2Fg%2F11c5g81n40"
 	};
+	const COLISEO2: Venue = {
+		name: "Coliseo 2 | Universidad ICESI",
+		href: "https://www.google.com/maps/place/Coliseo+2/@3.3403097,-76.5314088,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a1fa58f5ec67:0x502ed16cfbbbf792!8m2!3d3.3403043!4d-76.5288285!16s%2Fg%2F11sd77xdsb"
+	};
 	const TBC: Venue = { name: "Espacio por confirmar" };
 	const cronograma: { day: string; venue?: Venue; groups: { heading?: string; venue?: Venue; items: Item[] }[] }[] = [
 		{
@@ -271,7 +275,7 @@
 		},
 		{
 			day: "Sábado 21",
-			venue: TBC,
+			venue: COLISEO2,
 			groups: [
 				{
 					items: [
@@ -289,7 +293,7 @@
 			groups: [
 				{
 					heading: "The Biggest Workshop (Internacionales)",
-					venue: TBC,
+					venue: COLISEO2,
 					items: [
 						{ time: "9:00 a.m.", label: "Tallerista internacional", artists: "Clay Boonthanakit (IDL)" },
 						{ time: "10:30 a.m.", label: "Tallerista internacional", artists: "Josh Price (Jam Republic)" },
