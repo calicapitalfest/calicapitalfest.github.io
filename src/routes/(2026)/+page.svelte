@@ -608,10 +608,11 @@
 				{/each}
 			</div>
 			<!-- Reglamento button hidden for now; the page stays at /battles/reglamento
-			<div class="dc__btns">
 				<a class="dc__btn" href="{base}/battles/reglamento">Reglamento</a>
-			</div>
 			-->
+			<div class="dc__btns">
+				<a class="dc__btn" href="https://forms.gle/g1XiwtKLpjkFhUq49" target="_blank" rel="noopener">Registro</a>
+			</div>
 		</div>
 	</article>
 
