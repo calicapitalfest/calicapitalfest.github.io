@@ -611,7 +611,7 @@
 				<a class="dc__btn" href="{base}/battles/reglamento">Reglamento</a>
 			-->
 			<div class="dc__btns">
-				<a class="dc__btn" href="https://forms.gle/g1XiwtKLpjkFhUq49" target="_blank" rel="noopener">Registro</a>
+				<a class="dc__btn" href="https://forms.gle/g1XiwtKLpjkFhUq49" target="_blank" rel="noopener">Registro y Pago</a>
 			</div>
 		</div>
 	</article>
