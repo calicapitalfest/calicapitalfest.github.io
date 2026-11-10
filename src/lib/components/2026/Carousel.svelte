@@ -14,6 +14,7 @@
 		children
 	}: { label?: string; autoplay?: number; children?: import("svelte").Snippet } = $props();
 	let held = false;
+	let inView = false;
 
 	let track: HTMLDivElement | undefined = $state();
 
@@ -27,13 +28,19 @@
 	$effect(() => {
 		if (!autoplay || !track) return;
 		const el = track;
+		// only starts once the carousel is on screen, and pauses when it leaves
+		const io = new IntersectionObserver(([e]) => (inView = e.isIntersecting), { threshold: 0.5 });
+		io.observe(el);
 		const id = setInterval(() => {
-			if (held || document.hidden) return;
+			if (held || !inView || document.hidden) return;
 			const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
 			if (atEnd) el.scrollTo({ left: 0, behavior: "smooth" });
 			else scrollByCard(1);
 		}, autoplay);
-		return () => clearInterval(id);
+		return () => {
+			clearInterval(id);
+			io.disconnect();
+		};
 	});
 </script>
 

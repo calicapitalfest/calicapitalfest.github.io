@@ -83,7 +83,18 @@
 		fg: string;
 	}[] = [
 		{
-			name: "Local Pass",
+			name: "Faith Pass",
+			lead: "Todas las clases del evento (12)",
+			sub: "No incluye ingresos a\ncompetencias ni batallas",
+			price: "$374.500 COP",
+			until: FAITH_ENDS,
+			promo: true,
+			href: "https://checkout.bold.co/payment/LNK_PTN3EH3VWM",
+			bg: BRAND.magenta.bg,
+			fg: "#ffffe8"
+		},
+		{
+			name: "Regional Pass",
 			lead: "4 Clases Pro-Collab",
 			sub: "Con maestros Regionales",
 			price: "$90.950 COP",
@@ -124,17 +135,6 @@
 			opens: "2026-11-05T00:00:00-05:00",
 			href: "https://checkout.bold.co/payment/LNK_ER08M9G9UY",
 			bg: BRAND.yellow.bg,
-			fg: "#000101"
-		},
-		{
-			name: "Faith Pass",
-			lead: "Todas las clases del evento (12)",
-			sub: "No incluye ingresos a\ncompetencias ni batallas",
-			price: "$374.500 COP",
-			until: FAITH_ENDS,
-			promo: true,
-			href: "https://checkout.bold.co/payment/LNK_PTN3EH3VWM",
-			bg: BRAND.lime.bg,
 			fg: "#000101"
 		}
 	];
