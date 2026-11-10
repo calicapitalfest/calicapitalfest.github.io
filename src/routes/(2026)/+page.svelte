@@ -407,6 +407,17 @@
 	iconY={0}
 >
 	<Carousel>
+		<!-- Clase de Apertura: free, first card; registration is a form -->
+		<article class="dc dc--pass" style:--accent={BRAND.cyan.bg} style:--accent-fg="#ffffe8" data-track-card="Clase de Apertura">
+			<div class="dc__in">
+				{@render cardTitle("Clase de\nApertura")}
+				<p class="dc__lead"><strong>Apertura Cali Capital 2026 (Grande)</strong><span>Martes 17 | 5 pm<br />Palmetto Plaza</span></p>
+				<p class="dc__price">¡GRATIS!</p>
+				<p class="dc__when">Grandes</p>
+				<p class="dc__fine">6 pm | Valoyes x ValenKillah<br />7:30 pm | Diego Casas</p>
+				<a class="dc__buy" href="https://forms.gle/z6yz6X8SRuZsgM1a8" target="_blank" rel="noopener" data-track="Registro Clase de Apertura">¡Regístrate Aquí!</a>
+			</div>
+		</article>
 		{#each pases as p}
 			{@const sale = saleState(p, now)}
 			<article class="dc dc--pass" style:--accent={p.bg} style:--accent-fg={p.fg} data-track-card={p.name}>
