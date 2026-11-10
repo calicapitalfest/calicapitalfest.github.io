@@ -411,8 +411,11 @@
 		<article class="dc dc--pass dc--apertura" style:--accent={BRAND.lime.bg} style:--accent-fg="#000101" data-track-card="Clase de Apertura">
 			<div class="dc__in">
 				{@render cardTitle("Clase de\nApertura")}
-				<p class="dc__lead"><strong>Apertura Cali Capital 2026</strong><span>Martes 17 | 5 pm<br />Palmetto Plaza</span></p>
+				<p class="dc__lead"><strong>Apertura Cali Capital 2026</strong></p>
 				<p class="dc__price">¡GRATIS!</p>
+				<div class="dc__sched">
+				<p class="dc__group">Martes</p>
+				<p class="dc__venue"><a href={PALMETTO.href} target="_blank" rel="noopener">📍 {PALMETTO.name}</a></p>
 				<ul class="dc__agenda">
 					<li>
 						<span class="dc__time">6:00 p.m.</span>
@@ -423,6 +426,7 @@
 						<span>Taller de apertura 2 (Gratis)<small class="dc__artists">Diego Casas</small></span>
 					</li>
 				</ul>
+				</div>
 				<a class="dc__buy" href="https://forms.gle/z6yz6X8SRuZsgM1a8" target="_blank" rel="noopener" data-track="Registro Clase de Apertura">¡Regístrate Aquí!</a>
 			</div>
 		</article>

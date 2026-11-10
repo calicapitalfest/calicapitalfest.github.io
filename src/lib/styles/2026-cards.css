@@ -660,24 +660,29 @@
 	left: calc((129cqi - 77.74cqi) / 2);
 }
 
-/* Clase de Apertura: GRATIS above a full-width button, then the schedule
-   rows (same .dc__agenda design as Cronograma) */
+/* Clase de Apertura: GRATIS and the button share one line, then the
+   schedule block (day, venue link, rows: same designs as Cronograma) */
 .site-2026 .dc--apertura .dc__price {
-	top: 66cqi;
+	top: 70cqi;
 }
 .site-2026 .dc--apertura .dc__buy {
-	top: 74cqi;
-	left: 18.5cqi;
-	width: 63cqi;
-	font-size: 4cqi;
+	top: 64.2cqi;
+	left: 45cqi;
+	width: 46.8cqi;
+	font-size: 3.2cqi;
 	white-space: nowrap;
 }
-.site-2026 .dc--apertura .dc__agenda {
+.site-2026 .dc--apertura .dc__sched {
 	position: absolute;
 	left: 8.2cqi;
 	right: 8.2cqi;
-	top: 91cqi;
-	margin: 0;
+	top: 82cqi;
+}
+.site-2026 .dc--apertura .dc__group {
+	margin-top: 0;
+}
+.site-2026 .dc--apertura .dc__agenda {
+	margin: 3cqi 0 0;
 	gap: 3cqi;
 }
 .site-2026 .dc--apertura .dc__agenda li {
