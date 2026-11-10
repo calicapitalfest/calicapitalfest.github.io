@@ -659,3 +659,20 @@
 .site-2026 .dc--wide .dc__pill {
 	left: calc((129cqi - 77.74cqi) / 2);
 }
+
+/* Clase de Apertura: wider button so the label fits, two-line times box */
+.site-2026 .dc--apertura .dc__buy {
+	left: 18.5cqi;
+	width: 63cqi;
+	font-size: 4cqi;
+	white-space: nowrap;
+}
+.site-2026 .dc--apertura .dc__pill {
+	font-size: 3.6cqi;
+	line-height: 1.4;
+	text-align: center;
+	white-space: nowrap;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
