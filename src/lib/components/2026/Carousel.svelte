@@ -5,7 +5,15 @@
 	row as the arrows, vertically centred with them.
 -->
 <script lang="ts">
-	let { label = "", children }: { label?: string; children?: import("svelte").Snippet } = $props();
+	// `autoplay`: ms between automatic one-card steps (0 = off). It loops back
+	// to the first card after the last, and holds while the pointer is over the
+	// carousel or a finger is on it.
+	let {
+		label = "",
+		autoplay = 0,
+		children
+	}: { label?: string; autoplay?: number; children?: import("svelte").Snippet } = $props();
+	let held = false;
 
 	let track: HTMLDivElement | undefined = $state();
 
@@ -15,9 +23,28 @@
 		const step = card ? card.getBoundingClientRect().width + 16 : track.clientWidth * 0.8;
 		track.scrollBy({ left: dir * step, behavior: "smooth" });
 	}
+
+	$effect(() => {
+		if (!autoplay || !track) return;
+		const el = track;
+		const id = setInterval(() => {
+			if (held || document.hidden) return;
+			const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+			if (atEnd) el.scrollTo({ left: 0, behavior: "smooth" });
+			else scrollByCard(1);
+		}, autoplay);
+		return () => clearInterval(id);
+	});
 </script>
 
-<div class="carousel">
+<div
+	class="carousel"
+	role="group"
+	onmouseenter={() => (held = true)}
+	onmouseleave={() => (held = false)}
+	ontouchstart={() => (held = true)}
+	ontouchend={() => setTimeout(() => (held = false), autoplay)}
+>
 	<div class="carousel__nav">
 		{#if label}<p class="u-label carousel__label">{label}</p>{/if}
 		<button type="button" class="carousel__btn" aria-label="Anterior" onclick={() => scrollByCard(-1)}>‹</button>

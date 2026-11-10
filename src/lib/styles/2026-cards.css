@@ -676,10 +676,12 @@
 	position: absolute;
 	left: 8.2cqi;
 	right: 8.2cqi;
-	top: 82cqi;
+	top: 79.5cqi;
 }
 .site-2026 .dc--apertura .dc__group {
 	margin-top: 0;
+	font-size: 8cqi;
+	line-height: 1;
 }
 .site-2026 .dc--apertura .dc__agenda {
 	margin: 3cqi 0 0;
@@ -688,4 +690,13 @@
 .site-2026 .dc--apertura .dc__agenda li {
 	grid-template-columns: 22cqi 1fr;
 	font-size: 4.2cqi;
+}
+.site-2026 .dc--apertura .dc__dayline {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	column-gap: 3cqi;
+}
+.site-2026 .dc--apertura .dc__dayline .dc__venue {
+	margin: 0;
 }

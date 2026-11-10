@@ -229,8 +229,8 @@
 				{
 					items: [
 						{ time: "5:30 p.m.", label: "Apertura" },
-						{ time: "6:00 p.m.", label: "Taller de apertura (Free)", artists: "Valoyes x Valen Killa" },
-						{ time: "7:30 p.m.", label: "Taller de apertura 2 (Free)", artists: "Diego Casas" }
+						{ time: "6:00 p.m.", label: "Taller de apertura (Gratis)", artists: "Valoyes x Valen Killa" },
+						{ time: "7:30 p.m.", label: "Taller de apertura 2 (Gratis)", artists: "Diego Casas" }
 					]
 				}
 			]
@@ -406,7 +406,7 @@
 	iconX={0}
 	iconY={0}
 >
-	<Carousel>
+	<Carousel autoplay={3000}>
 		<!-- Clase de Apertura: free, first card; registration is a form -->
 		<article class="dc dc--pass dc--apertura" style:--accent={BRAND.lime.bg} style:--accent-fg="#000101" data-track-card="Clase de Apertura">
 			<div class="dc__in">
@@ -414,8 +414,10 @@
 				<p class="dc__lead"><strong>Apertura Cali Capital 2026</strong></p>
 				<p class="dc__price">¡GRATIS!</p>
 				<div class="dc__sched">
-				<p class="dc__group">Martes</p>
-				<p class="dc__venue"><a href={PALMETTO.href} target="_blank" rel="noopener">📍 {PALMETTO.name}</a></p>
+				<div class="dc__dayline">
+					<p class="dc__group">Martes</p>
+					<p class="dc__venue"><a href={PALMETTO.href} target="_blank" rel="noopener">📍 {PALMETTO.name}</a></p>
+				</div>
 				<ul class="dc__agenda">
 					<li>
 						<span class="dc__time">6:00 p.m.</span>
