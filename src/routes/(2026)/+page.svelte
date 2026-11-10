@@ -411,9 +411,18 @@
 		<article class="dc dc--pass dc--apertura" style:--accent={BRAND.lime.bg} style:--accent-fg="#000101" data-track-card="Clase de Apertura">
 			<div class="dc__in">
 				{@render cardTitle("Clase de\nApertura")}
-				<p class="dc__lead"><strong>Apertura Cali Capital 2026 (Grande)</strong><span>Martes 17 | 5 pm<br />Palmetto Plaza</span></p>
+				<p class="dc__lead"><strong>Apertura Cali Capital 2026</strong><span>Martes 17 | 5 pm<br />Palmetto Plaza</span></p>
 				<p class="dc__price">¡GRATIS!</p>
-				<div class="dc__pill">6 pm | Valoyes x ValenKillah<br />7:30 pm | Diego Casas</div>
+				<ul class="dc__agenda">
+					<li>
+						<span class="dc__time">6:00 p.m.</span>
+						<span>Taller de apertura (Gratis)<small class="dc__artists">Valoyes x Valen Killa</small></span>
+					</li>
+					<li>
+						<span class="dc__time">7:30 p.m.</span>
+						<span>Taller de apertura 2 (Gratis)<small class="dc__artists">Diego Casas</small></span>
+					</li>
+				</ul>
 				<a class="dc__buy" href="https://forms.gle/z6yz6X8SRuZsgM1a8" target="_blank" rel="noopener" data-track="Registro Clase de Apertura">¡Regístrate Aquí!</a>
 			</div>
 		</article>
