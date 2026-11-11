@@ -68,7 +68,7 @@
 	//
 	// Sale window (Colombia time, ISO): before `opens` the COMPRAR button is
 	// covered by "No Disponible Aún", after `until` by "No disponible".
-	const FAITH_ENDS = "2026-11-10T23:59:59-05:00";
+	const FAITH_ENDS = "2026-11-15T23:59:59-05:00";
 	const pases: {
 		name: string;
 		lead: string;
