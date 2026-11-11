@@ -7,13 +7,19 @@
 <script lang="ts">
 	// `autoplay`: ms between automatic one-card steps (0 = off). It loops back
 	// to the first card after the last, and holds while the pointer is over the
-	// carousel or a finger is on it.
+	// carousel or a finger is on it. Once the visitor scrolls it by hand
+	// (swipe, sideways wheel, drag, arrows or keys) it stops for good.
 	let {
 		label = "",
 		autoplay = 0,
 		children
 	}: { label?: string; autoplay?: number; children?: import("svelte").Snippet } = $props();
 	let held = false;
+	let stopped = false;
+	const stop = () => (stopped = true);
+	const onWheel = (e: WheelEvent) => {
+		if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) stop();
+	};
 	let inView = false;
 
 	let track: HTMLDivElement | undefined = $state();
@@ -32,7 +38,7 @@
 		const io = new IntersectionObserver(([e]) => (inView = e.isIntersecting), { threshold: 0.5 });
 		io.observe(el);
 		const id = setInterval(() => {
-			if (held || !inView || document.hidden) return;
+			if (stopped || held || !inView || document.hidden) return;
 			const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
 			if (atEnd) el.scrollTo({ left: 0, behavior: "smooth" });
 			else scrollByCard(1);
@@ -54,10 +60,17 @@
 >
 	<div class="carousel__nav">
 		{#if label}<p class="u-label carousel__label">{label}</p>{/if}
-		<button type="button" class="carousel__btn" aria-label="Anterior" onclick={() => scrollByCard(-1)}>‹</button>
-		<button type="button" class="carousel__btn" aria-label="Siguiente" onclick={() => scrollByCard(1)}>›</button>
+		<button type="button" class="carousel__btn" aria-label="Anterior" onclick={() => (stop(), scrollByCard(-1))}>‹</button>
+		<button type="button" class="carousel__btn" aria-label="Siguiente" onclick={() => (stop(), scrollByCard(1))}>›</button>
 	</div>
-	<div class="carousel__track" bind:this={track}>
+	<div
+		class="carousel__track"
+		bind:this={track}
+		ontouchstart={stop}
+		onpointerdown={stop}
+		onwheel={onWheel}
+		onkeydown={stop}
+	>
 		{#if children}
 			{@render children()}
 		{/if}

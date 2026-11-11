@@ -1,170 +1,12 @@
 <script lang="ts">
 	import { base } from "$app/paths";
 	import { playOverlay } from "./overlay";
-	import { flashBubble } from "./flashBubble.svelte";
 	import Countdown from "./Countdown.svelte";
-	import { invitados, nacionales, regionales } from "./lineup";
+	import LineupSphere from "./LineupSphere.svelte";
+	import { invitados, nacionales, regionales, staff } from "./lineup";
 
 	// opening day, Colombia time; the countdown renders nothing once it's past
 	const EVENT_START = "2026-11-17T00:00:00-05:00";
-
-	// The international artists take turns in the hero: a new one every
-	// SHOW_MS, and a click jumps to the next one and restarts the wait.
-	// No autoplay with reduced motion; clicking still works.
-	const SHOW_MS = 3000;
-	let artist = $state(0);
-	let nacional = $state(0);
-	let regional = $state(0);
-	let autoplay = false;
-	// The national stickers run on their own timer, with a random wait of
-	// 1.9–2.1s between swaps and a different float speed for each sticker.
-	const bobs = nacionales.map((_, i) => 3 + ((i * 1.7) % 3.1));
-	const regBobs = regionales.map((_, i) => 3.4 + ((i * 1.3) % 2.9));
-	let showTimer: ReturnType<typeof setTimeout>;
-	let nacTimer: ReturnType<typeof setTimeout>;
-	let regTimer: ReturnType<typeof setTimeout>;
-	function nextArtist() {
-		artist = (artist + 1) % invitados.length;
-		scheduleNext();
-	}
-	function nextNacional() {
-		nacional = (nacional + 1) % nacionales.length;
-		scheduleNac();
-	}
-	function nextRegional() {
-		regional = (regional + 1) % regionales.length;
-		scheduleReg();
-	}
-	function clickRegional() {
-		nextRegional();
-	}
-	function clickInternacional() {
-		nextArtist();
-	}
-	function clickNacional() {
-		nextNacional();
-	}
-	function scheduleNext() {
-		clearTimeout(showTimer);
-		if (autoplay) showTimer = setTimeout(nextArtist, SHOW_MS);
-	}
-	function scheduleNac() {
-		clearTimeout(nacTimer);
-		if (autoplay) nacTimer = setTimeout(nextNacional, 1900 + Math.random() * 200);
-	}
-	function scheduleReg() {
-		clearTimeout(regTimer);
-		if (autoplay) regTimer = setTimeout(nextRegional, 1900 + Math.random() * 200);
-	}
-	$effect(() => {
-		autoplay = !matchMedia("(prefers-reduced-motion: reduce)").matches;
-		scheduleNext();
-		scheduleNac();
-		scheduleReg();
-		return () => {
-			clearTimeout(showTimer);
-			clearTimeout(nacTimer);
-			clearTimeout(regTimer);
-		};
-	});
-
-	// Narrow screens: the three stages sit in a horizontal wheel (5 copies of
-	// Internacional → Nacional → Regional, so it loops) that drifts on its own.
-	// A manual scroll or touch pauses the drift for 3s.
-	const WHEEL_SPEED = 35; // px per second
-	const WHEEL_PAUSE = 3000;
-	let wheel = $state<HTMLDivElement>();
-	$effect(() => {
-		const el = wheel;
-		if (!el) return;
-		const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-		let raf = 0;
-		let last = 0;
-		let pos = 0;
-		let assigned = 0;
-		let resumeAt = 0;
-		let held = false;
-		let visible = true;
-		let W = 0; // one full turn (3 stages)
-		let S0 = 0; // scrollLeft that centres Internacional in the middle copy
-		let placed = false;
-
-		function measure() {
-			const it = el!.querySelectorAll<HTMLElement>(".hero__lineup");
-			if (!el!.clientWidth || it.length < 9) {
-				W = 0;
-				placed = false;
-				return;
-			}
-			W = it[3].offsetLeft - it[0].offsetLeft;
-			const c = it[6];
-			S0 = c.offsetLeft - (el!.clientWidth - c.offsetWidth) / 2;
-			if (!placed) {
-				el!.scrollLeft = S0;
-				pos = assigned = el!.scrollLeft;
-				placed = true;
-			}
-		}
-		function wrap() {
-			if (!W) return;
-			if (el!.scrollLeft > S0 + W) el!.scrollLeft -= W;
-			else if (el!.scrollLeft < S0 - W) el!.scrollLeft += W;
-			pos = assigned = el!.scrollLeft;
-		}
-		function pause() {
-			resumeAt = performance.now() + WHEEL_PAUSE;
-		}
-		function onScroll() {
-			if (Math.abs(el!.scrollLeft - assigned) > 2) {
-				pause();
-				wrap();
-				pos = assigned = el!.scrollLeft;
-			}
-		}
-		const hold = () => (held = true);
-		const release = () => {
-			held = false;
-			pause();
-		};
-		function tick(t: number) {
-			raf = requestAnimationFrame(tick);
-			const dt = Math.min(t - last, 50);
-			last = t;
-			if (!W || !visible || reduce || held || t < resumeAt) {
-				if (W) pos = el!.scrollLeft;
-				return;
-			}
-			pos += (WHEEL_SPEED * dt) / 1000;
-			if (pos > S0 + W) pos -= W;
-			el!.scrollLeft = Math.round(pos);
-			assigned = el!.scrollLeft;
-		}
-
-		const ro = new ResizeObserver(measure);
-		ro.observe(el);
-		const io = new IntersectionObserver((e) => (visible = e[0].isIntersecting));
-		io.observe(el);
-		el.addEventListener("scroll", onScroll, { passive: true });
-		el.addEventListener("wheel", pause, { passive: true });
-		el.addEventListener("touchstart", hold, { passive: true });
-		el.addEventListener("touchend", release, { passive: true });
-		el.addEventListener("touchcancel", release, { passive: true });
-		measure();
-		raf = requestAnimationFrame(tick);
-		return () => {
-			cancelAnimationFrame(raf);
-			ro.disconnect();
-			io.disconnect();
-			el.removeEventListener("scroll", onScroll);
-			el.removeEventListener("wheel", pause);
-			el.removeEventListener("touchstart", hold);
-			el.removeEventListener("touchend", release);
-			el.removeEventListener("touchcancel", release);
-		};
-	});
-
-	// "Click me!" hint: first 5s after load, then for 2s every 10–15s
-	const bubble = flashBubble(5000);
 
 	// Two extra spinning decorations, placed at random on each visit: one in
 	// the left margin, one in the right (below the fixed top-right star), so
@@ -182,30 +24,6 @@
 		];
 	});
 </script>
-
-{#snippet stage(title: string, id: string, list: typeof invitados, i: number, onclick: () => void, bubbleOn: boolean, bobDur?: number, hidden = false)}
-	<div class="hero__lineup" aria-hidden={hidden || undefined}>
-	<h2 id={id || undefined} class="hero__lineup-title">{title}</h2>
-	<p class="hero__lineup-sub">Line Up</p>
-
-	<div class="hero__stage">
-		<button class="hero__sun" type="button" aria-label="Siguiente artista" tabindex={hidden ? -1 : undefined} {onclick} style:animation-duration={bobDur ? `${bobDur}s` : undefined}>
-			{#key i}
-				<img
-					class="hero__sun-img"
-					src="{base}/assets/lineup/{list[i].src}"
-					alt={list[i].name}
-					width="724"
-					height="658"
-					style:--tilt="{list[i].tilt}deg"
-					style:--size={list[i].size}
-				/>
-			{/key}
-		</button>
-		{#if bubbleOn}<span class="hero__bubble" class:is-on={bubble.on} aria-hidden="true">Click me!</span>{/if}
-	</div>
-	</div>
-{/snippet}
 
 <section id="top" class="hero">
 	<img class="hero__deco hero__deco--star" src="{base}/assets/brand/deco-star.webp" alt="" />
@@ -226,18 +44,14 @@
 			<img class="hero__logo" src="{base}/assets/brand/logo.webp" alt="Cali Capital Fest" width="1240" height="698" fetchpriority="high" />
 		</button>
 
-		<div class="hero__lineups">
-		{@render stage("Regional", "lineup-regional", regionales, regional, clickRegional, false, regBobs[regional])}
-		{@render stage("Internacional", "lineup", invitados, artist, clickInternacional, true)}
-		{@render stage("Nacional", "lineup-nacional", nacionales, nacional, clickNacional, false, bobs[nacional])}
-		</div>
-
-		<div class="hero__wheel" bind:this={wheel}>
-			{#each [0, 1, 2, 3, 4] as copy}
-				{@render stage("Internacional", "", invitados, artist, clickInternacional, true, undefined, copy !== 2)}
-				{@render stage("Nacional", "", nacionales, nacional, clickNacional, false, bobs[nacional], copy !== 2)}
-				{@render stage("Regional", "", regionales, regional, clickRegional, false, regBobs[regional], copy !== 2)}
-			{/each}
+		<!-- line-up: names for screen readers, the drifting stickers for the eye -->
+		<h2 id="lineup" class="hero__sr">Line Up</h2>
+		<ul class="hero__sr">
+			{#each [...invitados, ...nacionales, ...regionales] as a}<li>{a.name}</li>{/each}
+			{#each staff as g}{#each g.list as a}<li>{a.name} ({g.title}, {g.sub})</li>{/each}{/each}
+		</ul>
+		<div class="hero__sphere">
+			<LineupSphere />
 		</div>
 
 		<p class="hero__kicker">Festival Internacional de Danza Urbana</p>
@@ -282,6 +96,7 @@
 	}
 
 	.hero__inner {
+		--logo-w: min(82vw, 620px);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -304,167 +119,34 @@
 	.hero__logo-btn:active {
 		transform: scale(0.98);
 	}
+	/* logo.webp has transparent margins: 10.7% of its height above the
+	   artwork, 13% below (the height is 0.563 × the width) */
+	.hero__logo-btn {
+		/* half the visible space under the header: half the 2rem padding and
+		   half the top margin (0.107 × 0.563 / 2 ≈ 0.0302 of the width) */
+		margin-top: calc(-1rem - var(--logo-w) * 0.0302);
+	}
 	.hero__logo {
-		width: min(82vw, 620px);
+		width: var(--logo-w);
 		height: auto;
 	}
 
-	/* Wide screens: Regional | Internacional | Nacional in a row. Anything
-	   narrower swaps it for the looping wheel below. */
-	.hero__lineups {
-		width: min(1100px, 96vw);
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		justify-items: center;
-		align-items: start;
-		gap: 1rem 2.5rem;
+	/* the line-up runs the full screen width */
+	.hero__sphere {
+		width: 100vw;
+		max-width: 100vw;
+		/* starts right at the bottom of the logo artwork: no column gap, and
+		   over the logo's transparent bottom margin (0.13 × 0.563 ≈ 0.0734 of
+		   its width), so the stickers shrink away before reaching the logo */
+		margin-top: calc(-1.25rem - var(--logo-w) * 0.0734);
 	}
-	.hero__wheel {
-		display: none;
-	}
-	@media (max-width: 1099px) {
-		.hero__lineups {
-			display: none;
-		}
-		.hero__wheel {
-			display: flex;
-			position: relative;
-			width: 100vw;
-			max-width: 100vw;
-			align-items: flex-start;
-			overflow-x: auto;
-			overflow-y: hidden;
-			overscroll-behavior-x: contain;
-			scrollbar-width: none;
-			/* fade the edges so it reads as a wheel */
-			mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
-		}
-		.hero__wheel::-webkit-scrollbar {
-			display: none;
-		}
-		.hero__wheel > :global(.hero__lineup) {
-			flex: 0 0 auto;
-			margin-inline: 0.5rem;
-		}
-	}
-
-	.hero__lineup {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	.hero__stage {
-		/* the artist sticker's height derives from this base */
-		--stage-base: min(38.4vw, 176px); /* 80% of the original min(48vw, 220px) */
-		--sun-h: calc(var(--stage-base) * 1.82);
-		position: relative;
-		/* Fixed box, so the layout doesn't jump between stickers. They are
-		   wider than this box and spill out of it. */
-		width: calc(var(--stage-base) * 1.82);
-		height: var(--sun-h);
-		display: flex;
-		justify-content: center;
-		overflow: visible;
-	}
-
-	/* "Internacional" (Polymath bold) with "Line Up" (Guttery, fucsia) under it, over the artists */
-	.hero__lineup-title {
-		/* same size and weight as the "Cali Col" line (.hero__meta) */
-		font-size: clamp(1.4rem, 5vw, 2.4rem);
-		font-family: var(--font-display);
-		font-weight: 950;
-		letter-spacing: 0.02em;
-		text-transform: uppercase;
-		line-height: 1;
-		color: var(--c-text);
-		margin-top: clamp(0.5rem, 2vw, 1.5rem);
-		/* subtitle tucked tight under the title */
-		margin-bottom: -0.35rem;
-	}
-	.hero__lineup-sub {
-		font-family: var(--font-subtitle);
-		/* 70% of the earlier clamp(1.8rem, 5.4vw, 2.9rem), rounded up */
-		font-size: clamp(1.3rem, 3.8vw, 2.05rem);
-		letter-spacing: 0.02em;
-		line-height: 1;
-		color: var(--c-pink);
-		/* pulled toward the sticker; the images have transparent margins */
-		margin-bottom: -0.75rem;
-	}
-
-	.hero__bubble {
+	.hero__sr {
 		position: absolute;
-		/* on the sticker's top-right corner, clear of the titles above */
-		left: 82%;
-		bottom: calc(100% - 3rem);
-		translate: -50% 0;
-		z-index: 2;
-		padding: 0.45rem 0.9rem;
-		border-radius: 999px;
-		background: var(--c-yellow);
-		color: #000101;
-		font-family: var(--font-subtitle);
-		font-size: clamp(1.02rem, 3vw, 1.22rem);
-		letter-spacing: 0.06em;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
 		white-space: nowrap;
-		pointer-events: none;
-		opacity: 0;
-		transition: opacity 0.25s ease, translate 0.25s ease;
-	}
-	/* the tail */
-	.hero__bubble::after {
-		content: "";
-		position: absolute;
-		top: 100%;
-		left: 50%;
-		translate: -50% 0;
-		border: 7px solid transparent;
-		border-top-color: var(--c-yellow);
-		border-bottom: 0;
-	}
-	.hero__bubble.is-on,
-	.hero__sun:focus-visible ~ .hero__bubble {
-		opacity: 1;
-		translate: -50% -4px;
-	}
-
-	.hero__sun {
-		position: relative;
-		z-index: 1;
-		height: 100%;
-		padding: 0;
-		border: 0;
-		background: none;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		animation: bob 4s ease-in-out infinite;
-		transition: transform 0.15s ease;
-	}
-	.hero__sun-img {
-		/* per-artist size; the stage box stays fixed and the sticker sits centred */
-		height: calc(100% * var(--size, 1));
-		width: auto;
-		/* Tailwind preflight's img{max-width:100%} would squash the sticker
-		   to the stage width; cap it at the screen instead */
-		max-width: calc(75vw * var(--size, 1));
-		object-fit: contain;
-		display: block;
-		rotate: var(--tilt, 0deg);
-		filter: drop-shadow(0 0.6rem 1.2rem rgb(0 0 0 / 0.45));
-		animation: sun-swap 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-	}
-	.hero__sun:hover {
-		transform: scale(1.06);
-	}
-	.hero__sun:active {
-		transform: scale(0.95);
-	}
-
-	@keyframes sun-swap {
-		from { transform: rotate(-12deg) scale(0.5); opacity: 0; }
-		to { transform: rotate(0deg) scale(1); opacity: 1; }
 	}
 
 	/* styled here rather than via .u-kicker so this DM Sans cut wins
@@ -618,6 +300,6 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.hero__sun, .hero__sun-img, .hero__deco--star, .hero__deco--rand, .hero__scroll { animation: none; }
+		.hero__deco--star, .hero__deco--rand, .hero__scroll { animation: none; }
 	}
 </style>

@@ -1,5 +1,5 @@
 <!--
-	Scroll invitation, shortly after the intro overlay has faded:
+	Scroll invitation, 1s after the page loads:
 
 	- at the bottom, two shortcut buttons, PRECIOS and CRONOGRAMA, in their sections'
 	  colours. They show whenever the visitor is at the top of the page: they
@@ -14,7 +14,6 @@
 	import { onMount } from "svelte";
 	import { base } from "$app/paths";
 	import { fly, fade } from "svelte/transition";
-	import { introDone } from "./overlay";
 	import { setSyntheticScroll } from "$lib/analytics/tracker";
 
 	// ---- tuning ------------------------------------------------------------
@@ -25,8 +24,8 @@
 	const DAMPING = 0.55;
 	/** Length of one bounce, down and back up (ms). */
 	const BOUNCE_MS = 240;
-	/** Seconds after the intro overlay before everything appears. */
-	const DELAY_S = 2;
+	/** Seconds after the page loads before everything appears. */
+	const DELAY_S = 1;
 	/** Seconds from the start of one round of bounces to the next; 0 = a single round. */
 	const REPEAT_S = 5;
 	/** How far (px) the buttons' arrows bob. */
@@ -41,7 +40,7 @@
 		{ label: "Cronograma", href: `${base}/#cronograma`, bg: "var(--c-cyan)", fg: "#000101" }
 	];
 
-	/** the delay after the intro has passed */
+	/** the delay after loading has passed */
 	let started = $state(false);
 	let atTop = $state(true);
 	/** the visitor has scrolled (or tapped during a bounce): no more bouncing or arrows */
@@ -121,6 +120,8 @@
 	}
 
 	async function start() {
+		// show the buttons in their own font, not the fallback (at most 1s more)
+		await Promise.race([document.fonts.load('900 1rem "Polymath"'), wait(1000)]).catch(() => {});
 		started = true;
 		if (settled) return;
 		// let the buttons land before the page moves
@@ -153,15 +154,8 @@
 		document.addEventListener("scroll", onScroll, opts);
 		onScroll();
 
-		let scheduled = false;
-		const unsub = introDone.subscribe((done) => {
-			if (done && !scheduled) {
-				scheduled = true;
-				startTimer = window.setTimeout(start, DELAY_S * 1000);
-			}
-		});
+		startTimer = window.setTimeout(start, DELAY_S * 1000);
 		return () => {
-			unsub();
 			clearTimeout(startTimer);
 			settle();
 			for (const ev of events) removeEventListener(ev, onUserInput, opts);

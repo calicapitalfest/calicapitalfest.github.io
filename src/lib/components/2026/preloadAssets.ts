@@ -8,11 +8,10 @@
 export const PRELOAD_ASSETS = [
 	"/assets/brand/logo.webp",
 	"/assets/brand/deco-star.webp",
-	// hero line-up stickers (lineup.ts): the international artists, and the first national one
-	"/assets/lineup/latrice-kabamba.webp",
-	"/assets/lineup/josh-price.webp",
-	"/assets/lineup/clay-boonthanakit.webp",
-	"/assets/lineup/erwin-peinado.webp",
+	// hero line-up (LineupSphere): the international clump it opens on
+	"/assets/lineup/trim/latrice-kabamba.webp",
+	"/assets/lineup/trim/josh-price.webp",
+	"/assets/lineup/trim/clay-boonthanakit.webp",
 	// hero random deco (Hero.svelte picks one)
 	"/assets/brand/deco-asterisk.webp",
 	"/assets/brand/deco-splat.webp"

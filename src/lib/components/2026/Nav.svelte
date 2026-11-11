@@ -17,8 +17,7 @@
 
 	let open = $state(false);
 
-	// "MENU!" hint next to the sun: first 2s after load, then for 2s every
-	// 10–15s, independently of the hero's "Click me!"
+	// "MENU!" hint next to the sun: from 2s after load, on 2s, off 2s
 	const bubble = flashBubble(2000);
 </script>
 

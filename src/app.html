@@ -21,6 +21,30 @@
 	<link rel="preload" href="%sveltekit.assets%/fonts/polymath-super.woff2" as="font" type="font/woff2" crossorigin />
 	<link rel="preload" href="%sveltekit.assets%/fonts/guttery.woff2" as="font" type="font/woff2" crossorigin />
 	<link rel="preload" href="%sveltekit.assets%/fonts/dmsans-medium.woff2" as="font" type="font/woff2" crossorigin />
+	<!-- Polymath black: the PRECIOS / CRONOGRAMA buttons -->
+	<link rel="preload" href="%sveltekit.assets%/fonts/polymath-black.woff2" as="font" type="font/woff2" crossorigin />
+
+	<!-- The loading screen's colours: one of the flat-logo colourways at random,
+	     picked before the first paint so it never flashes another colour.
+	     Same list and order as LOGO_COMBOS in src/lib/components/2026/flatLogo.ts. -->
+	<script>
+		(function () {
+			var c = [
+				["#000101", "#fed000", "#ffffe9"],
+				["#fed000", "#ffffe9", "#000101"],
+				["#ffffe9", "#ff1f5f", "#000101"],
+				["#ffffe9", "#000101", "#ff1f5f"],
+				["#ff1f5f", "#000101", "#ffffe9"],
+				["#000101", "#ff1f5f", "#ffffe9"]
+			];
+			var i = Math.floor(Math.random() * c.length);
+			var r = document.documentElement;
+			r.style.setProperty("--pre-bg", c[i][0]);
+			r.style.setProperty("--pre-cali", c[i][1]);
+			r.style.setProperty("--pre-capital", c[i][2]);
+			r.dataset.combo = String(i);
+		})();
+	</script>
 	%sveltekit.head%
 </head>
 
