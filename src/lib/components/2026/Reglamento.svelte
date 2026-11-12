@@ -8,11 +8,13 @@
 <script lang="ts">
 	let {
 		back,
+		kicker = "Reglamento oficial de competencia",
 		title,
 		subs = [],
 		children
 	}: {
 		back: { href: string; label: string };
+		kicker?: string;
 		title: string;
 		subs?: string[];
 		children: import("svelte").Snippet;
@@ -24,7 +26,7 @@
 
 	<article class="doc">
 		<header class="doc__head">
-			<p class="doc__kicker">Reglamento oficial de competencia</p>
+			<p class="doc__kicker">{kicker}</p>
 			<h1 class="font-display doc__title">{title}</h1>
 			{#each subs as sub}<p class="doc__sub">{sub}</p>{/each}
 		</header>
@@ -260,6 +262,19 @@
 	}
 	.doc :global(.box .alpha) {
 		margin: 0;
+	}
+
+	/* plain bullet lists */
+	.doc :global(.dots) {
+		list-style: disc;
+		margin: -0.4em 0 1.2em;
+		padding: 0 0 0 1.6em;
+	}
+	.doc :global(.dots li) {
+		margin-bottom: 0.45em;
+	}
+	.doc :global(.dots li::marker) {
+		color: var(--mark);
 	}
 
 	/* 15.2: numbered tie-break steps */
