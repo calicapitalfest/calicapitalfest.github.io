@@ -39,7 +39,7 @@
 		["battles", "Battles of Giants"],
 		["cronograma", "Agenda"],
 		["ubicaciones", "Ubicaciones"],
-		["patrocinadores", "Patrocinadores"],
+		["patrocinadores", "Aliados"],
 		["apoyan", "Apoyan (antes)"]
 	];
 	const SECTION_LABEL: Record<string, string> = {

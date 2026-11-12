@@ -781,11 +781,11 @@
 	</div>
 </Section>
 
-<!-- Apartado 7 · Patrocinadores -->
+<!-- Apartado 7 · Apoyan / Aliados (sponsor logos) -->
 <Section
 	id="patrocinadores"
-	kicker="Aliados"
-	title="Patrocinadores"
+	kicker="Apoyan"
+	title="Aliados"
 	icon="deco-squiggle.webp"
 	bgColor="#ff1f5f"
 	iconSize={1.1}

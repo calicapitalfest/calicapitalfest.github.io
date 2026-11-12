@@ -13,7 +13,7 @@
 		{ href: `${base}/#battles`, label: "Battles of Giants" },
 		{ href: `${base}/#cronograma`, label: "Agenda" },
 		{ href: `${base}/#ubicaciones`, label: "Ubicaciones" },
-		{ href: `${base}/#patrocinadores`, label: "Patrocinadores" }
+		{ href: `${base}/#patrocinadores`, label: "Aliados" }
 	];
 
 	let open = $state(false);
