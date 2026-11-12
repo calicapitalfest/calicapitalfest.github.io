@@ -7,6 +7,7 @@
 	import Countdown from "$lib/components/2026/Countdown.svelte";
 	import DisplayText from "$lib/components/2026/DisplayText.svelte";
 	import ScrollHint from "$lib/components/2026/ScrollHint.svelte";
+	import LogoCarousel from "$lib/components/2026/LogoCarousel.svelte";
 	import { BRAND, pick, type BrandColor } from "$lib/components/2026/palette";
 
 	// Content and section order follow temp/Cali_Capital_2026_Contenido_Web.docx
@@ -15,7 +16,8 @@
 	// and are styled by $lib/styles/2026-cards.css. Cronograma days cycle
 	// through their own brand colours.
 	const COLORS: Record<string, BrandColor[]> = {
-		cronograma: ["cyan", "purple", "yellow", "pink", "lime", "magenta"]
+		cronograma: ["cyan", "purple", "yellow", "pink", "lime", "magenta"],
+		ubicaciones: ["purple", "pink", "cyan", "yellow", "magenta"]
 	};
 
 	// Descripción cards. `lead` is the bold opening phrase, `prize` the bold
@@ -216,9 +218,13 @@
 		name: "Espacio 10-60",
 		href: "https://www.google.com/maps/place/Espacio+10-60/@3.4469788,-76.534555,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a663dc084f97:0xd1742e76d804b37e!8m2!3d3.4469734!4d-76.5319747!16s%2Fg%2F11c5g81n40"
 	};
-	const COLISEO2: Venue = {
-		name: "Coliseo 2 | Universidad ICESI",
-		href: "https://www.google.com/maps/place/Coliseo+2/@3.3403097,-76.5314088,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a1fa58f5ec67:0x502ed16cfbbbf792!8m2!3d3.3403043!4d-76.5288285!16s%2Fg%2F11sd77xdsb"
+	const TEATRO_CALIMA: Venue = {
+		name: "Teatro Calima",
+		href: "https://www.google.com/maps/place/Teatro+Calima/@3.4562521,-76.5336518,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a66efd021f17:0xbfd82484bdec72c9!8m2!3d3.4562521!4d-76.5336518!16s%2Fg%2F11g9qj7mkk"
+	};
+	const LA_LICORERA: Venue = {
+		name: "La Licorera",
+		href: "https://www.google.com/maps/place/La+Licorera,+Centro+de+Danza+y+Coreograf%C3%ADa/@3.4621041,-76.5217029,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a7fcc0a2ee49:0x64ea6777fca4ecab!8m2!3d3.4620987!4d-76.5191226!16s%2Fg%2F11h9jqc5pf"
 	};
 	const TBC: Venue = { name: "Espacio por confirmar" };
 	const cronograma: { day: string; venue?: Venue; groups: { heading?: string; venue?: Venue; items: Item[] }[] }[] = [
@@ -275,7 +281,7 @@
 		},
 		{
 			day: "Sábado 21",
-			venue: COLISEO2,
+			venue: TEATRO_CALIMA,
 			groups: [
 				{
 					items: [
@@ -293,7 +299,7 @@
 			groups: [
 				{
 					heading: "The Biggest Workshop (Internacionales)",
-					venue: COLISEO2,
+					venue: LA_LICORERA,
 					items: [
 						{ time: "9:00 a.m.", label: "Tallerista internacional", artists: "Clay Boonthanakit (IDL)" },
 						{ time: "10:30 a.m.", label: "Tallerista internacional", artists: "Josh Price (Jam Republic)" },
@@ -315,6 +321,37 @@
 				}
 			]
 		}
+	];
+
+	// Ubicaciones: every venue in the schedule, in order of first use, with
+	// the events held there grouped by day. The map pin comes from the
+	// place's coordinates in its Google Maps link (!3d<lat>!4d<lng>).
+	type Ubicacion = { venue: Venue; map: string; days: { day: string; items: Item[] }[] };
+	const ubicaciones: Ubicacion[] = [];
+	for (const d of cronograma) {
+		for (const g of d.groups) {
+			const v = g.venue ?? d.venue;
+			const at = v?.href?.match(/!3d(-?[\d.]+)!4d(-?[\d.]+)/);
+			if (!v || !at) continue;
+			let u = ubicaciones.find((x) => x.venue.name === v.name);
+			if (!u) {
+				u = { venue: v, map: `https://maps.google.com/maps?q=${at[1]},${at[2]}&z=16&hl=es&output=embed`, days: [] };
+				ubicaciones.push(u);
+			}
+			let day = u.days.find((x) => x.day === d.day);
+			if (!day) u.days.push((day = { day: d.day, items: [] }));
+			day.items.push(...(g.heading ? g.items.map((it) => ({ ...it, label: `${g.heading}: ${it.label}` })) : g.items));
+		}
+	}
+
+	// Patrocinadores, in the order of the shared Drive folder
+	const patrocinadores = [
+		{ name: "The Giants Community", src: "/assets/sponsors/productor.webp" },
+		{ name: "Comfandi", src: "/assets/sponsors/comfandi.webp" },
+		{ name: "Palmetto Plaza", src: "/assets/sponsors/palmetto.webp" },
+		{ name: "Espacio 10-60", src: "/assets/sponsors/10-60.webp" },
+		{ name: "Casa Nara", src: "/assets/sponsors/casa-nara.webp" },
+		{ name: "TaQui", src: "/assets/sponsors/taqui.webp" }
 	];
 </script>
 
@@ -696,18 +733,68 @@
 	</div>
 </Section>
 
-<!-- Apartado 7 · Apoyan (logos de aliados y patrocinadores) -->
+<!-- Ubicaciones: one card per venue, with its map and its events -->
 <Section
-	id="apoyan"
+	id="ubicaciones"
+	kicker="Mapa Interactivo"
+	title="Ubicaciones"
+	icon="deco-star.webp"
+	bgColor="#acff00"
+	accentFg="#000101"
+	iconSize={1}
+	iconRotate={0}
+	iconX={0}
+	iconY={0}
+>
+	<div class="ubicaciones">
+		{#each ubicaciones as u, i}
+			{@const c = pick(COLORS.ubicaciones, i)}
+			<article class="dc dc--day dc--place" style:--accent={c.bg} style:--accent-fg={c.fg}>
+				<div class="dc__in">
+					<h3 class="ub__title"><DisplayText text={u.venue.name} /></h3>
+					<iframe
+						class="ub__map"
+						src={u.map}
+						title="Mapa: {u.venue.name}"
+						loading="lazy"
+						referrerpolicy="no-referrer-when-downgrade"
+						allowfullscreen
+					></iframe>
+					<a class="ub__open" href={u.venue.href} target="_blank" rel="noopener">📍 Abrir en Google Maps</a>
+					<details class="ub__events">
+						<summary><span class="ub__tri" aria-hidden="true">▶</span> Lista de eventos en este lugar</summary>
+						{#each u.days as d}
+							<p class="dc__group">{d.day} de noviembre</p>
+							<ul class="dc__agenda">
+								{#each d.items as it}
+									<li>
+										<span class="dc__time">{it.time}</span>
+										<span>{it.label}</span>
+									</li>
+								{/each}
+							</ul>
+						{/each}
+					</details>
+				</div>
+			</article>
+		{/each}
+	</div>
+</Section>
+
+<!-- Apartado 7 · Patrocinadores -->
+<Section
+	id="patrocinadores"
 	kicker="Aliados"
-	title="Apoyan"
+	title="Patrocinadores"
 	icon="deco-squiggle.webp"
 	bgColor="#ff1f5f"
 	iconSize={1.1}
 	iconRotate={0}
 	iconX={0}
 	iconY={0}
-/>
+>
+	<LogoCarousel logos={patrocinadores} every={2000} />
+</Section>
 
 <style>
 	/* no slider for the schedule in the document: every day is visible at
@@ -726,6 +813,65 @@
 		font-weight: 400;
 		white-space: pre-line;
 		opacity: 0.85;
+	}
+	/* Ubicaciones: day-card look, a map, then the events behind a toggle */
+	.ubicaciones {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 1rem;
+		align-items: start;
+	}
+	.ub__title {
+		font-family: var(--font-display);
+		font-weight: 950;
+		font-size: 9cqi;
+		line-height: 1.05;
+		text-transform: uppercase;
+		color: inherit;
+	}
+	.ub__map {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		margin-top: 5cqi;
+		border: 0;
+		border-radius: 5cqi;
+		background: rgba(0, 0, 0, 0.15);
+	}
+	.ub__open {
+		display: inline-block;
+		margin-top: 3cqi;
+		font-size: 4.4cqi;
+		font-weight: 700;
+		text-decoration: underline;
+	}
+	.ub__events {
+		margin-top: 5cqi;
+	}
+	.ub__events summary {
+		display: flex;
+		align-items: center;
+		gap: 3cqi;
+		padding: 3.5cqi 4.5cqi;
+		border: 0.6cqi solid currentColor;
+		border-radius: 4cqi;
+		font-family: var(--font-card);
+		font-weight: 800;
+		font-size: 4.8cqi;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+	.ub__events summary::-webkit-details-marker {
+		display: none;
+	}
+	.ub__tri {
+		display: inline-block;
+		font-size: 0.75em;
+		transition: rotate 0.2s ease;
+	}
+	.ub__events[open] .ub__tri {
+		rotate: 90deg;
 	}
 	.cronograma {
 		display: grid;

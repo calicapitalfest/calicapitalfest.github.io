@@ -12,7 +12,8 @@
 		{ href: `${base}/#league`, label: "League of Giants" },
 		{ href: `${base}/#battles`, label: "Battles of Giants" },
 		{ href: `${base}/#cronograma`, label: "Agenda" },
-		{ href: `${base}/#apoyan`, label: "Apoyan" }
+		{ href: `${base}/#ubicaciones`, label: "Ubicaciones" },
+		{ href: `${base}/#patrocinadores`, label: "Patrocinadores" }
 	];
 
 	let open = $state(false);

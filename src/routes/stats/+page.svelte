@@ -38,7 +38,9 @@
 		["league", "League of Giants"],
 		["battles", "Battles of Giants"],
 		["cronograma", "Agenda"],
-		["apoyan", "Apoyan"]
+		["ubicaciones", "Ubicaciones"],
+		["patrocinadores", "Patrocinadores"],
+		["apoyan", "Apoyan (antes)"]
 	];
 	const SECTION_LABEL: Record<string, string> = {
 		...Object.fromEntries(SECTIONS),
