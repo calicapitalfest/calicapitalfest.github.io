@@ -204,10 +204,10 @@
 	}
 	let clasesSale = $derived(saleState(clasesSueltas, now));
 
-	type Item = { time: string; label: string; artists?: string };
+	type Item = { time: string; label: string; artists?: string; noMap?: boolean };
 	type Venue = { name: string; href?: string };
 	const LAS_PILAS: Venue = {
-		name: "Centro Comercial Las Pilas",
+		name: "Centro de Convenciones Las Pilas",
 		href: "https://www.google.com/maps/place/Centro+Comercial+Las+Pilas/@3.4061366,-76.5377913,17z/data=!3m1!4b1!4m6!3m5!1s0x8e30a6ad636a707d:0x87a6c7af055faa90!8m2!3d3.4061366!4d-76.5377913!16s%2Fg%2F1tg5d4dh"
 	};
 	const PALMETTO: Venue = {
@@ -314,6 +314,7 @@
 						{
 							time: "4:00 p.m.",
 							label: "Inicio de batallas",
+							noMap: true,
 							artists:
 								"Hosts: Kid Lord x Scarly\nDJs: Brah x DFour x Kid Boneless\nJueces: Geiker Lock, Blady y Sad 69"
 						}
@@ -340,9 +341,34 @@
 			}
 			let day = u.days.find((x) => x.day === d.day);
 			if (!day) u.days.push((day = { day: d.day, items: [] }));
-			day.items.push(...(g.heading ? g.items.map((it) => ({ ...it, label: `${g.heading}: ${it.label}` })) : g.items));
+			const items = g.items.filter((it) => !it.noMap);
+			day.items.push(...(g.heading ? items.map((it) => ({ ...it, label: `${g.heading}: ${it.label}` })) : items));
 		}
 	}
+
+	// Boletería: public entry to each competition day, sold on TaQui
+	const entradas = [
+		{
+			dia: "Día 1",
+			name: "League of Giants",
+			date: "Sábado 21 de noviembre",
+			time: "2:00 p.m.",
+			venue: TEATRO_CALIMA,
+			href: "https://www.taqui-co.com/calicapital2026leagueofgiants",
+			bg: BRAND.magenta.bg,
+			fg: "#ffffe8"
+		},
+		{
+			dia: "Día 2",
+			name: "Battle of Giants",
+			date: "Domingo 22 de noviembre",
+			time: "2:00 p.m.",
+			venue: E1060,
+			href: "https://www.taqui-co.com/calicapital2026battleofgiants",
+			bg: BRAND.purple.bg,
+			fg: "#ffffe8"
+		}
+	];
 
 	// Patrocinadores, in the order of the shared Drive folder
 	const patrocinadores = [
@@ -669,10 +695,8 @@
 					<span class="dc__k">{row.opcion}</span><span class="dc__v">{row.precio}</span>
 				{/each}
 			</div>
-			<!-- Reglamento button hidden for now; the page stays at /battles/reglamento
-				<a class="dc__btn" href="{base}/battles/reglamento">Reglamento</a>
-			-->
 			<div class="dc__btns">
+				<a class="dc__btn" href="{base}/battles/reglamento">Reglamento</a>
 				<a class="dc__btn" href="https://forms.gle/g1XiwtKLpjkFhUq49" target="_blank" rel="noopener">Registro y Pago</a>
 			</div>
 		</div>
@@ -688,6 +712,48 @@
 			<strong>Aclaración:</strong> los estilos funk no pueden participar en 80's Battles, y los
 			estilos de 80's no pueden participar en Soul Train.
 		</p>
+	</div>
+</Section>
+
+<!-- Boletería: public tickets for the two competition days -->
+<Section
+	id="boleteria"
+	kicker="Entrada Público"
+	title="Boletería"
+	icon="icon-notes.webp"
+	bgColor="#fed000"
+	accentFg="#000101"
+	iconSize={0.99}
+	iconRotate={0}
+	iconX={0}
+	iconY={0}
+>
+	<div class="boleteria">
+		{#each entradas as e, i}
+			<article class="dc dc--day dc--ticket" style:--accent={e.bg} style:--accent-fg={e.fg} data-track-card="Entrada {e.name}">
+				<img
+					class="tk__sun tk__sun--{i + 1}"
+					src="{base}/assets/brand/{i === 0 ? 'sun-handstand' : 'sun-face-lg'}.webp"
+					alt=""
+					loading="lazy"
+					decoding="async"
+				/>
+				<div class="dc__in">
+					<p class="tk__dia">{e.dia}</p>
+					{@render cardTitle(e.name)}
+					<p class="dc__group">{e.date}</p>
+					<ul class="dc__agenda">
+						<li><span class="dc__time">{e.time}</span><span>Hora de inicio</span></li>
+					</ul>
+					<p class="dc__venue tk__venue">
+						<a href={e.venue.href} target="_blank" rel="noopener">📍 {e.venue.name}</a>
+					</p>
+					<div class="dc__btns">
+						<a class="dc__btn" href={e.href} target="_blank" rel="noopener" data-track="Comprar entrada">Comprar</a>
+					</div>
+				</div>
+			</article>
+		{/each}
 	</div>
 </Section>
 
@@ -769,7 +835,11 @@
 								{#each d.items as it}
 									<li>
 										<span class="dc__time">{it.time}</span>
-										<span>{it.label}</span>
+										<span
+											>{it.label}{#if it.artists && /taller|class/i.test(it.label)}<small class="dc__artists"
+													>{it.artists}</small
+												>{/if}</span
+										>
 									</li>
 								{/each}
 							</ul>
@@ -872,6 +942,75 @@
 	}
 	.ub__events[open] .ub__tri {
 		rotate: 90deg;
+	}
+	/* Boletería: two ticket cards side by side, a sun peeking over each */
+	.boleteria {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(0.75rem, 3vw, 1.5rem);
+		max-width: 760px;
+		margin: clamp(2.5rem, 8vw, 4rem) auto 0;
+	}
+	/* side by side only where each card stays readable */
+	@media (max-width: 559px) {
+		.boleteria {
+			grid-template-columns: minmax(0, 340px);
+			justify-content: center;
+			row-gap: 4.5rem;
+		}
+	}
+	.dc--ticket {
+		position: relative;
+	}
+	.tk__sun {
+		position: absolute;
+		z-index: 1;
+		top: -24cqi;
+		right: -6cqi;
+		width: 40cqi;
+		height: auto;
+		pointer-events: none;
+		filter: drop-shadow(0 2cqi 3cqi rgb(0 0 0 / 0.25));
+		animation: tk-bob 3.2s ease-in-out infinite;
+	}
+	.tk__sun--2 {
+		top: -18cqi;
+		width: 36cqi;
+		animation-delay: -1.6s;
+	}
+	@keyframes tk-bob {
+		0%,
+		100% {
+			transform: translateY(0) rotate(-4deg);
+		}
+		50% {
+			transform: translateY(-3cqi) rotate(4deg);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.tk__sun {
+			animation: none;
+		}
+	}
+	.tk__dia {
+		position: relative;
+		display: inline-block;
+		margin-bottom: 4cqi !important;
+		padding: 1.6cqi 4cqi;
+		border: 0.6cqi solid currentColor;
+		border-radius: 99px;
+		font-family: var(--font-card);
+		font-weight: 800;
+		font-size: 4.6cqi;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+	}
+	.tk__venue {
+		margin-top: 5cqi !important;
+		font-size: 4.6cqi;
+	}
+	.dc--ticket .dc__btns {
+		margin-top: 7cqi;
 	}
 	.cronograma {
 		display: grid;

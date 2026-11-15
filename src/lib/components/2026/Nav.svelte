@@ -11,6 +11,7 @@
 		{ href: `${base}/#paquetes`, label: "Paquetes" },
 		{ href: `${base}/#league`, label: "League of Giants" },
 		{ href: `${base}/#battles`, label: "Battles of Giants" },
+		{ href: `${base}/#boleteria`, label: "Boletería" },
 		{ href: `${base}/#cronograma`, label: "Agenda" },
 		{ href: `${base}/#ubicaciones`, label: "Ubicaciones" },
 		{ href: `${base}/#patrocinadores`, label: "Aliados" }
