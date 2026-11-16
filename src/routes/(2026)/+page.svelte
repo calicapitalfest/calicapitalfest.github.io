@@ -413,6 +413,48 @@
 	bgColor is the section's accent colour (kicker, tables, buttons, cards).
 -->
 
+<!-- Boletería: public tickets for the two competition days -->
+<Section
+	id="boleteria"
+	kicker="Entrada Público"
+	title="Boletería"
+	icon="icon-notes.webp"
+	bgColor="#fed000"
+	accentFg="#000101"
+	iconSize={0.99}
+	iconRotate={0}
+	iconX={0}
+	iconY={0}
+>
+	<div class="boleteria">
+		{#each entradas as e, i}
+			<article class="dc dc--day dc--ticket" style:--accent={e.bg} style:--accent-fg={e.fg} data-track-card="Entrada {e.name}">
+				<img
+					class="tk__sun tk__sun--{i + 1}"
+					src="{base}/assets/brand/{i === 0 ? 'sun-handstand' : 'sun-face-lg'}.webp"
+					alt=""
+					loading="lazy"
+					decoding="async"
+				/>
+				<div class="dc__in">
+					<p class="tk__dia">{e.dia}</p>
+					{@render cardTitle(e.name)}
+					<p class="dc__group">{e.date}</p>
+					<ul class="dc__agenda">
+						<li><span class="dc__time">{e.time}</span><span>Hora de inicio</span></li>
+					</ul>
+					<p class="dc__venue tk__venue">
+						<a href={e.venue.href} target="_blank" rel="noopener">📍 {e.venue.name}</a>
+					</p>
+					<div class="dc__btns">
+						<a class="dc__btn" href={e.href} target="_blank" rel="noopener" data-track="Comprar entrada">Comprar</a>
+					</div>
+				</div>
+			</article>
+		{/each}
+	</div>
+</Section>
+
 <!-- Apartado 1 · El Festival -->
 <Section
 	id="acerca"
@@ -712,48 +754,6 @@
 			<strong>Aclaración:</strong> los estilos funk no pueden participar en 80's Battles, y los
 			estilos de 80's no pueden participar en Soul Train.
 		</p>
-	</div>
-</Section>
-
-<!-- Boletería: public tickets for the two competition days -->
-<Section
-	id="boleteria"
-	kicker="Entrada Público"
-	title="Boletería"
-	icon="icon-notes.webp"
-	bgColor="#fed000"
-	accentFg="#000101"
-	iconSize={0.99}
-	iconRotate={0}
-	iconX={0}
-	iconY={0}
->
-	<div class="boleteria">
-		{#each entradas as e, i}
-			<article class="dc dc--day dc--ticket" style:--accent={e.bg} style:--accent-fg={e.fg} data-track-card="Entrada {e.name}">
-				<img
-					class="tk__sun tk__sun--{i + 1}"
-					src="{base}/assets/brand/{i === 0 ? 'sun-handstand' : 'sun-face-lg'}.webp"
-					alt=""
-					loading="lazy"
-					decoding="async"
-				/>
-				<div class="dc__in">
-					<p class="tk__dia">{e.dia}</p>
-					{@render cardTitle(e.name)}
-					<p class="dc__group">{e.date}</p>
-					<ul class="dc__agenda">
-						<li><span class="dc__time">{e.time}</span><span>Hora de inicio</span></li>
-					</ul>
-					<p class="dc__venue tk__venue">
-						<a href={e.venue.href} target="_blank" rel="noopener">📍 {e.venue.name}</a>
-					</p>
-					<div class="dc__btns">
-						<a class="dc__btn" href={e.href} target="_blank" rel="noopener" data-track="Comprar entrada">Comprar</a>
-					</div>
-				</div>
-			</article>
-		{/each}
 	</div>
 </Section>
 

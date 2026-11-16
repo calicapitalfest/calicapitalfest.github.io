@@ -6,12 +6,12 @@
 
 	// absolute, so the menu also works from subpages (the League reglamento)
 	const links = [
+		{ href: `${base}/#boleteria`, label: "Boletería" },
 		{ href: `${base}/#acerca`, label: "El Festival" },
 		{ href: `${base}/#lineup`, label: "Line Up" },
 		{ href: `${base}/#paquetes`, label: "Paquetes" },
 		{ href: `${base}/#league`, label: "League of Giants" },
 		{ href: `${base}/#battles`, label: "Battles of Giants" },
-		{ href: `${base}/#boleteria`, label: "Boletería" },
 		{ href: `${base}/#cronograma`, label: "Agenda" },
 		{ href: `${base}/#ubicaciones`, label: "Ubicaciones" },
 		{ href: `${base}/#patrocinadores`, label: "Aliados" }

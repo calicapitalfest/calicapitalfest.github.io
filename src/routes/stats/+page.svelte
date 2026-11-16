@@ -32,12 +32,12 @@
 
 	const SECTIONS: [string, string][] = [
 		["top", "Portada"],
+		["boleteria", "Boletería"],
 		["acerca", "El Festival"],
 		["lineup", "Line Up"],
 		["paquetes", "Paquetes"],
 		["league", "League of Giants"],
 		["battles", "Battles of Giants"],
-		["boleteria", "Boletería"],
 		["cronograma", "Agenda"],
 		["ubicaciones", "Ubicaciones"],
 		["patrocinadores", "Aliados"],
