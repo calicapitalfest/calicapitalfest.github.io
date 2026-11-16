@@ -577,13 +577,16 @@
 	position: relative;
 	display: grid;
 	place-items: center;
-	height: 9.5cqi;
+	min-height: 9.5cqi;
+	padding-block: 1.6cqi;
 	border-radius: 3cqi;
 	color: #000101;
 	font-weight: 800;
 	font-size: 3.9cqi;
+	line-height: 1.15;
 	letter-spacing: -0.01em;
-	white-space: nowrap;
+	text-align: center;
+	white-space: pre-line; /* a "\n" in a time range breaks it inside the chip */
 	text-transform: uppercase;
 }
 

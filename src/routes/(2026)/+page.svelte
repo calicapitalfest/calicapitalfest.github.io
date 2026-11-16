@@ -70,7 +70,7 @@
 	//
 	// Sale window (Colombia time, ISO): before `opens` the COMPRAR button is
 	// covered by "No Disponible Aún", after `until` by "No disponible".
-	const FAITH_ENDS = "2026-11-15T23:59:59-05:00";
+	const FAITH_ENDS = "2026-11-16T23:59:59-05:00";
 	const pases: {
 		name: string;
 		lead: string;
@@ -285,9 +285,10 @@
 			groups: [
 				{
 					items: [
+						{ time: "2:00 – 4:00\np.m.", label: "Marcación de tarima" },
 						{
-							time: "2:00 p.m.",
-							label: "League of Giants",
+							time: "4:00 – 8:00\np.m.",
+							label: "Competencia League of Giants",
 							artists: "Hosts: Kid Lord x Scarly\nHead Judge: Arnold Taborda"
 						}
 					]
@@ -354,6 +355,7 @@
 			date: "Sábado 21 de noviembre",
 			time: "2:00 p.m.",
 			venue: TEATRO_CALIMA,
+			price: "$37.450 COP",
 			href: "https://www.taqui-co.com/calicapital2026leagueofgiants",
 			bg: BRAND.magenta.bg,
 			fg: "#ffffe8"
@@ -364,6 +366,7 @@
 			date: "Domingo 22 de noviembre",
 			time: "2:00 p.m.",
 			venue: E1060,
+			price: "$37.450 COP",
 			href: "https://www.taqui-co.com/calicapital2026battleofgiants",
 			bg: BRAND.purple.bg,
 			fg: "#ffffe8"
@@ -443,6 +446,7 @@
 					<ul class="dc__agenda">
 						<li><span class="dc__time">{e.time}</span><span>Hora de inicio</span></li>
 					</ul>
+					<p class="dc__price tk__price">{e.price}</p>
 					<p class="dc__venue tk__venue">
 						<a href={e.venue.href} target="_blank" rel="noopener">📍 {e.venue.name}</a>
 					</p>
@@ -1004,6 +1008,12 @@
 		font-size: 4.6cqi;
 		text-transform: uppercase;
 		letter-spacing: 0.02em;
+	}
+	.dc--ticket .tk__price {
+		position: static;
+		translate: none;
+		margin-top: 5cqi;
+		font-size: 9cqi;
 	}
 	.tk__venue {
 		margin-top: 5cqi !important;
